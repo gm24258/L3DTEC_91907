@@ -1,0 +1,20 @@
+{
+    "name": "Crude Sword",
+    "id": "default",
+    "title": {"color": [191, 191, 191]},
+    "description": "Default sword. Made of flimsy wood which is barely enough to cut your enemies.",
+    "inShop": false,
+    "levelRequirement": 0,
+    "abilities": [
+        {
+            "name": "SLASH",
+            "title": {"style": "bold", "color": "white"},
+            "description": "Basic guaranteed attack that deals 1-5 damage.",
+            "minDamage": 1,
+            "maxDamage": 5,
+            "critMulti": 0,
+            "hitChance": 100,
+            "cooldown": 0
+        }
+    ]
+}

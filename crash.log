@@ -1,0 +1,299 @@
+2025-03-16 11:58:53,077 - ERROR - Error caught while running game.py: cannot access free variable 'current_weapon' where it is not associated with a value in enclosing scope
+2025-03-16 11:58:54,775 - ERROR - Error caught while running game.py: cannot access free variable 'current_weapon' where it is not associated with a value in enclosing scope
+2025-03-16 11:59:14,285 - ERROR - Error caught while running game.py: cannot access free variable 'current_weapon' where it is not associated with a value in enclosing scope
+2025-03-16 11:59:16,494 - ERROR - Error caught while running game.py: cannot access free variable 'current_weapon' where it is not associated with a value in enclosing scope
+2025-03-16 12:02:17,710 - ERROR - Error caught while running game.py: cannot access free variable 'current_weapon' where it is not associated with a value in enclosing scope
+2025-03-16 12:02:20,657 - ERROR - Error caught while running game.py: cannot access free variable 'current_weapon' where it is not associated with a value in enclosing scope
+2025-03-16 12:06:58,536 - ERROR - Error caught while running game.py: cannot access free variable 'current_weapon' where it is not associated with a value in enclosing scope
+2025-03-16 12:09:19,510 - ERROR - Error caught while running game.py: string indices must be integers, not 'str'
+2025-03-16 12:12:29,314 - ERROR - Error caught while running game.py: string indices must be integers, not 'str'
+2025-03-16 12:12:46,980 - ERROR - Error caught while running game.py: string indices must be integers, not 'str'
+2025-03-16 12:13:00,004 - ERROR - Error caught while running game.py: string indices must be integers, not 'str'
+2025-03-16 12:14:43,014 - ERROR - Error caught while running game.py: string indices must be integers, not 'str'
+2025-03-16 14:57:33,674 - ERROR - Error caught while running game.py: isinstance() arg 2 must be a type, a tuple of types, or a union
+2025-03-16 15:00:44,716 - ERROR - Error caught while running game.py: isinstance() arg 2 must be a type, a tuple of types, or a union
+2025-03-16 15:04:59,558 - ERROR - Error caught while running game.py: cannot access local variable 'display_controls' where it is not associated with a value
+2025-03-16 15:05:04,243 - ERROR - Error caught while running game.py: cannot access local variable 'display_controls' where it is not associated with a value
+2025-03-16 15:05:59,751 - ERROR - Error caught while running game.py: cannot access local variable 'display_controls' where it is not associated with a value
+2025-03-18 12:45:32,241 - ERROR - Error caught while running game.py: readkey() takes 0 positional arguments but 2 were given
+2025-03-18 12:45:35,224 - ERROR - Error caught while running game.py: readkey() takes 0 positional arguments but 2 were given
+2025-03-19 09:25:34,520 - ERROR - Error caught while running game.py: 'TwoStateSetting' object is not subscriptable
+2025-03-19 09:26:55,221 - ERROR - Error caught while running game.py:
+None
+2025-03-19 09:27:32,923 - ERROR - Error caught while running game.py:
+None
+2025-03-19 09:29:05,940 - ERROR - Error caught while running game.py:
+'TwoStateSetting' object is not subscriptable
+Traceback (most recent call last):
+  File "C:\Users\24258\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 601, in <module>
+    main_menu()
+  File "C:\Users\24258\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 88, in main_menu
+    settings_menu()
+  File "C:\Users\24258\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 523, in settings_menu
+    text = option[0]
+           ~~~~~~^^^
+TypeError: 'TwoStateSetting' object is not subscriptable
+
+2025-03-19 09:30:01,947 - ERROR - Error caught while running game.py:
+cannot access local variable 'id' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\24258\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 600, in <module>
+    main_menu()
+  File "C:\Users\24258\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 88, in main_menu
+    settings_menu()
+  File "C:\Users\24258\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 525, in settings_menu
+    setting = settings[id]
+                       ^^
+UnboundLocalError: cannot access local variable 'id' where it is not associated with a value
+
+2025-03-19 09:49:16,571 - ERROR - Error caught while running game.py:
+'TwoStateSetting' object is not subscriptable
+Traceback (most recent call last):
+  File "C:\Users\24258\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 622, in <module>
+    main_menu()
+  File "C:\Users\24258\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 88, in main_menu
+    settings_menu()
+  File "C:\Users\24258\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 540, in settings_menu
+    settings[option.id] = option[4]
+                          ~~~~~~^^^
+TypeError: 'TwoStateSetting' object is not subscriptable
+
+2025-03-19 10:07:01,044 - ERROR - Error caught while running game.py:
+'invSortOrder'
+Traceback (most recent call last):
+  File "C:\Users\24258\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 650, in <module>
+    main_menu()
+  File "C:\Users\24258\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 86, in main_menu
+    inventory_menu()
+  File "C:\Users\24258\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 414, in inventory_menu
+    sort_order = settings['invSortOrder']
+                 ~~~~~~~~^^^^^^^^^^^^^^^^
+KeyError: 'invSortOrder'
+
+2025-03-19 10:52:26,310 - ERROR - Error caught while running game.py:
+list index out of range
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 678, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 107, in main_menu
+    inventory_menu()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 471, in inventory_menu
+    sort_type = keys[keys.index(sort_type) + 1 % len(keys)]
+                ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: list index out of range
+
+2025-03-19 11:07:47,157 - ERROR - Error caught while running game.py:
+'bool' object has no attribute 'error'
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\utils.py", line 148, in save_file_from_directory
+    if debug: debug.debug(f'Successfully saved {file_name}:\n{str(data)}')
+              ^^^^^^^^^^^
+AttributeError: 'bool' object has no attribute 'debug'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 672, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 109, in main_menu
+    settings_menu()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 626, in settings_menu
+    save_player()
+    ~~~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 60, in save_player
+    save_file_from_directory(DATA_DIR, 'save_file', player, debug)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\utils.py", line 150, in save_file_from_directory
+    debug.error(f'Error saving {file_name}: {e}')
+    ^^^^^^^^^^^
+AttributeError: 'bool' object has no attribute 'error'
+
+2025-03-19 11:26:06,887 - ERROR - Error caught while running game.py:
+cannot access local variable 'sort_type' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 672, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 102, in main_menu
+    inventory_menu()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 392, in inventory_menu
+    displayed_inventory = sort_displayed_inventory(sort_type, sort_order, player['inventory'])
+                                                   ^^^^^^^^^
+UnboundLocalError: cannot access local variable 'sort_type' where it is not associated with a value
+
+2025-03-19 11:27:42,502 - ERROR - Error caught while running game.py:
+cannot access local variable 'sort_type' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 674, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 104, in main_menu
+    inventory_menu()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 394, in inventory_menu
+    displayed_inventory = sort_displayed_inventory(sort_type, sort_order, player['inventory'])
+                                                   ^^^^^^^^^
+UnboundLocalError: cannot access local variable 'sort_type' where it is not associated with a value
+
+2025-03-19 11:28:51,603 - ERROR - Error caught while running game.py:
+cannot access local variable 'sort_type' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 674, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 104, in main_menu
+    inventory_menu()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 394, in inventory_menu
+    displayed_inventory = sort_displayed_inventory(sort_type, sort_order, player['inventory'])
+                                                   ^^^^^^^^^
+UnboundLocalError: cannot access local variable 'sort_type' where it is not associated with a value
+
+2025-03-19 11:31:32,397 - ERROR - Error caught while running game.py:
+cannot access local variable 'sort_type' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 675, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 104, in main_menu
+    inventory_menu()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 394, in inventory_menu
+    displayed_inventory = sort_displayed_inventory(sort_type, sort_order, player['inventory'])
+                                                   ^^^^^^^^^
+UnboundLocalError: cannot access local variable 'sort_type' where it is not associated with a value
+
+2025-03-19 11:31:38,166 - ERROR - Error caught while running game.py:
+cannot access local variable 'sort_type' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 675, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 104, in main_menu
+    inventory_menu()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 394, in inventory_menu
+    displayed_inventory = sort_displayed_inventory(sort_type, sort_order, player['inventory'])
+                                                   ^^^^^^^^^
+UnboundLocalError: cannot access local variable 'sort_type' where it is not associated with a value
+
+2025-03-19 11:32:12,757 - ERROR - Error caught while running game.py:
+cannot access local variable 'sort_type' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 675, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 104, in main_menu
+    inventory_menu()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 394, in inventory_menu
+    displayed_inventory = sort_displayed_inventory(sort_type, sort_order, player['inventory'])
+                                                   ^^^^^^^^^
+UnboundLocalError: cannot access local variable 'sort_type' where it is not associated with a value
+
+2025-03-19 11:32:23,106 - ERROR - Error caught while running game.py:
+cannot access local variable 'sort_type' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 675, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 104, in main_menu
+    inventory_menu()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 394, in inventory_menu
+    displayed_inventory = sort_displayed_inventory(sort_type, sort_order, player['inventory'])
+                                                   ^^^^^^^^^
+UnboundLocalError: cannot access local variable 'sort_type' where it is not associated with a value
+
+2025-03-19 11:32:26,376 - ERROR - Error caught while running game.py:
+cannot access local variable 'sort_type' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 675, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 104, in main_menu
+    inventory_menu()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 394, in inventory_menu
+    displayed_inventory = sort_displayed_inventory(sort_type, sort_order, player['inventory'])
+                                                   ^^^^^^^^^
+UnboundLocalError: cannot access local variable 'sort_type' where it is not associated with a value
+
+2025-03-19 11:33:24,658 - ERROR - Error caught while running game.py:
+'<' not supported between instances of 'dict' and 'dict'
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 674, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 104, in main_menu
+    inventory_menu()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 408, in inventory_menu
+    displayed_inventory = sort_displayed_inventory(sort_type, sort_order, player['inventory'])
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 70, in sort_displayed_inventory
+    return sorted(displayed_shop_weapons + not_in_shop_weapons, reverse = not order)
+TypeError: '<' not supported between instances of 'dict' and 'dict'
+
+2025-03-19 11:56:12,009 - ERROR - Error caught while running game.py:
+cannot access local variable 'options' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 717, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 116, in main_menu
+    shop_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 228, in shop_menu
+    displayed_shop = sort_displayed_weapons(old_sort_type, old_sort_order, options)
+                                                                           ^^^^^^^
+UnboundLocalError: cannot access local variable 'options' where it is not associated with a value
+
+2025-03-19 11:58:50,968 - ERROR - Error caught while running game.py:
+string indices must be integers, not 'str'
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 717, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 116, in main_menu
+    shop_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 243, in shop_menu
+    weapon = next((item for item in shop_weapons if item['id'] == weapon_id), None)
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 243, in <genexpr>
+    weapon = next((item for item in shop_weapons if item['id'] == weapon_id), None)
+                                                    ~~~~^^^^^^
+TypeError: string indices must be integers, not 'str'
+
+2025-03-19 11:59:11,325 - ERROR - Error caught while running game.py:
+cannot access local variable 'option_text' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 717, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 116, in main_menu
+    shop_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 247, in shop_menu
+    option_text += owned_text
+    ^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'option_text' where it is not associated with a value
+
+2025-03-19 12:00:09,579 - ERROR - Error caught while running game.py:
+string indices must be integers, not 'str'
+Traceback (most recent call last):
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 718, in <module>
+    main_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 116, in main_menu
+    shop_menu()
+    ~~~~~~~~~^^
+  File "C:\Users\Gevreon\OneDrive - Alfriston College\Documents\L3DTEC\91907_L3_Term_1\game.py", line 258, in shop_menu
+    current_weapon_id = current_weapon['id']
+                        ~~~~~~~~~~~~~~^^^^^^
+TypeError: string indices must be integers, not 'str'
+

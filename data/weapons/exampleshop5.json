@@ -1,0 +1,21 @@
+{
+    "name": "Example5 Sword",
+    "id": "example5",
+    "title": {"color": "red"},
+    "description": "Example sword",
+    "inShop": true,
+    "price": 700,
+    "levelRequirement": 25,
+    "abilities": [
+        {
+            "name": "SLASH",
+            "title": {"style": "bold", "color": "white"},
+            "description": "Basic guaranteed attack that deals 1-5 damage.",
+            "minDamage": 1,
+            "maxDamage": 5,
+            "critMulti": 0,
+            "hitChance": 100,
+            "cooldown": 0
+        }
+    ]
+}

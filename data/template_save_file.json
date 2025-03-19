@@ -1,0 +1,20 @@
+{
+    "health": 100,
+    "money": 0,
+    "level": 0,
+    "xp": {
+        "current": 0,
+        "max": 100
+    },
+    "inventory": ["default"],
+    "equipped": "default",
+    "settings": {
+        "shopSortType": "levelRequirement",
+        "shopSortAscending": true,
+        "invSortType": "levelRequirement",
+        "invSortAscending": true,
+        "primarySortKeybind": "z",
+        "secondarySortKeybind": "x",
+        "displayControls": true
+    }
+}
