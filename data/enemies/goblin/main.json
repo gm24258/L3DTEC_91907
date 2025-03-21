@@ -1,0 +1,8 @@
+{
+    "name": "Goblin",
+    "id": "goblin",
+    "title": {"color": [6, 143, 56]},
+    "health": 150,
+    "levelRequirement": 0,
+    "boss": false
+}

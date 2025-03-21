@@ -1,0 +1,35 @@
+{
+    "attacks": [
+        {
+            "name": "Punch",
+            "id": "punch",
+            "title": {"color": "white"},
+            "minDamage": 1,
+            "maxDamage": 3,
+            "critMulti": 1.05,
+            "critChance": 0.1,
+            "attackChance": 50  
+        },
+        {
+            "name": "Kick",
+            "id": "kick",
+            "title": {"color": "white"},
+            "minDamage": 1,
+            "maxDamage": 3,
+            "critMulti": 1.05,
+            "critChance": 0.1,
+            "attackChance": 40  
+        },
+        {
+            "name": "Headbutt",
+            "id": "headbutt",
+            "title": {"color": "white"},
+            "minDamage": 2,
+            "maxDamage": 4,
+            "critMulti": 1.1,
+            "critChance": 0.2,  
+            "hitChance": 100,
+            "attackChance": 10 
+        }
+    ]
+}

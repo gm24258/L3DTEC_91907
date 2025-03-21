@@ -261,7 +261,7 @@ def shop_menu(selected=0):
         if sort_type == 'levelRequirement': displayed_type = "Level"
         elif sort_type == 'price': displayed_type = "Price"
         displayed_order = 'Ascending' if sort_order else "Descending"
-        sort_tooltip = f"Sorted by: {displayed_type}{f" ({sort_type_keybind.upper()})" if display_controls else ''} | {displayed_order}{f" ({sort_order_keybind.upper()})" if display_controls else ''}"
+        sort_tooltip = f"Sorted by: {displayed_type}{f' ({sort_type_keybind.upper()})' if display_controls else ''} | {displayed_order}{f' ({sort_order_keybind.upper()})' if display_controls else ''}"
         
         control_tooltip =  '\nArrow Keys (↑/↓) to navigate items | Arrow Keys (←/→) to navigate pages | ENTER to select | ESC to go back\n' if display_controls else ''
         extra_tooltip = '✅ = Purchased | 🔒 = Locked' if display_extra else ''
@@ -472,7 +472,7 @@ def inventory_menu(selected=0):
         if sort_type == 'levelRequirement': displayed_type = "Level"
         elif sort_type == 'price': displayed_type = "Price"
         displayed_order = 'Ascending' if sort_order else "Descending"
-        sort_tooltip = f"Sorted by: {displayed_type}{f" ({sort_type_keybind.upper()})" if display_controls else ''} | {displayed_order}{f" ({sort_order_keybind.upper()})" if display_controls else ''}"
+        sort_tooltip = f"Sorted by: {displayed_type}{f' ({sort_type_keybind.upper()})' if display_controls else ''} | {displayed_order}{f' ({sort_order_keybind.upper()})' if display_controls else ''}"
         
         control_tooltip = '\nArrow Keys (↑/↓) to navigate items | Arrow Keys (←/→) to navigate pages | ENTER to select | ESC to go back\n' if display_controls else ''
         extra_tooltip = '✅ = Equipped' if display_extra else ''

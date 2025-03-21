@@ -1,0 +1,8 @@
+{
+    "name": "Skeleton",
+    "id": "skeleton",
+    "title": {"style": "bold", "color": "white"},
+    "health": 200,
+    "levelRequirement": 5,
+    "boss": false
+}
