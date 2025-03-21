@@ -1,29 +1,56 @@
 from menus import *
 from utils import *
+from data import *
 
 enemies = []
+def load_enemy_data(enemy_directory):
+    # Loads enemy data (main and attacks) into a single dictionary.
+    
+    # Load main data (stats)
+    main_data = {}
+    attacks_data = []
+
+    main_file_path = os.path.join(enemy_directory, 'main.json')
+    attacks_file_path = os.path.join(enemy_directory, 'attacks.json')
+
+    if os.path.exists(main_file_path):
+        with open(main_file_path, 'r') as main_file:
+            main_data = json.load(main_file)
+
+    if os.path.exists(attacks_file_path):
+        with open(attacks_file_path, 'r') as attacks_file:
+            attacks_data = json.load(attacks_file).get('attacks', [])
+
+    # Merge the attacks data into the main data dictionary
+    main_data['attacks'] = attacks_data
+
+    return main_data
+
 def load_enemies():
-    # Loads enemy data from the ENEMIES_DIR and sorts by level requirement.
     global enemies
-    if not enemies:
-        enemies = load_data_from_directory(ENEMIES_DIR, 'enemy')
-        enemies = merge_sort(enemies, 'levelRequirement')
-        debug.info(f'Loaded {len(enemies)} enemies.')
+    # Loads enemy data from the ENEMIES_DIR and sorts by level requirement.
+    for enemy_folder in os.listdir(ENEMIES_DIR):
+        enemy_path = os.path.join(ENEMIES_DIR, enemy_folder)
+        if os.path.isdir(enemy_path):  # Ensure it's a directory for an enemy
+            enemy_data = load_enemy_data(enemy_path)
+            enemies.append(enemy_data)
+    
+    # Assuming each enemy has a 'main' data containing 'levelRequirement'
+    enemies = merge_sort(enemies, 'levelRequirement')
+    debug.info(f'Loaded {len(enemies)} enemies.')
 
 weapons = []
 shop_weapons = []
 def load_weapons(): 
-    # Loads weapon data from the WEAPONS_DIR and sorts by level requirement.    
     global weapons
-    if not weapons:
-        weapons = load_data_from_directory(WEAPONS_DIR, 'weapon')
-        weapons = merge_sort(weapons, 'levelRequirement')
-        debug.info(f'Loaded {len(weapons)} weapons.')
+    global shop_weapons
+    # Loads weapon data from the WEAPONS_DIR and sorts by level requirement.    
+    weapons = load_data_from_directory(WEAPONS_DIR, 'weapon')
+    weapons = merge_sort(weapons, 'levelRequirement')
+    debug.info(f'Loaded {len(weapons)} weapons.')
 
     # Create a new list of weapons from exisiting weapons list but removes items that are not shop items
-    global shop_weapons
-    if not shop_weapons:
-        shop_weapons = [weapon['id'] for weapon in weapons if weapon['inShop']]
+    shop_weapons = [weapon['id'] for weapon in weapons if weapon['inShop']]
     
 # Tuesday March 11 12:15PM
 # Player data
@@ -41,13 +68,12 @@ def load_player():
     global display_text
     global display_extra
 
-    if not player:
-        player = load_file_from_directory(DATA_DIR, 'save_file', 'template_')
-        settings = player['settings']
-        display_controls = settings['displayControls']
-        display_text = settings['displayTextTooltips']
-        display_extra = settings['displayExtraTooltips']
-        debug.info('Loaded player data:\n' + str(player))
+    player = load_file_from_directory(DATA_DIR, 'save_file', 'template_')
+    settings = player['settings']
+    display_controls = settings['displayControls']
+    display_text = settings['displayTextTooltips']
+    display_extra = settings['displayExtraTooltips']
+    debug.info('Loaded player data:\n' + str(player))
 
 def save_player(debug=True):
     global display_controls
@@ -148,22 +174,32 @@ def exit_confirmation():
 
 def play_selection_menu():
     # Checks list of enemies then puts info in a string to be printed later
+    locked_text = style_text({'style': 'italic'}, ' (Locked)') if display_text else Text(" 🔒")
 
     enemy_info_strings = []
     for enemy in enemies:
         # Create a rich Text object for each part
         enemy_name = style_text(enemy['title'], enemy['name'])
-        health_text = style_text({'style': 'bold'}, ' Health:') + f" {enemy['health']}"
-        level_text = style_text({'style': 'bold'}, ' Level Required:') + f" {enemy['levelRequirement']}"
+        health_text = style_text({'style': 'bold'}, ' Health: ') + style_text({"color":[201, 237, 154]}, f"{enemy['health']}")
+
+        level_requirement = enemy['levelRequirement']
+        correct_level = player['level'] >= level_requirement
+
+        level_info = style_text({'style': 'bold'}, ' Level required: ')
+        level_color = [201, 237, 154] if correct_level else [227, 104, 104] # Green if meeting level requirement else red
+        level_info += style_text({'color': level_color}, f"{level_requirement}")
+        level_info += Text() if correct_level else locked_text
 
         # Append them to the list
-        enemy_info_strings.append(enemy_name + '\n' + health_text + '\n' + level_text)
+        enemy_info_strings.append(enemy_name + '\n' + health_text + '\n' + level_info)
 
     selected = 0
-    
+
     while True:
         current_enemy = enemies[selected]
         current_enemy_name = style_text(current_enemy['title'], current_enemy['name'])
+        level_requirement = current_enemy['levelRequirement']
+        correct_level = player['level'] >= level_requirement
 
         # Checks if there's previous enemy
         prev_enemy = enemies[selected - 1] if selected > 0 else None
@@ -177,6 +213,7 @@ def play_selection_menu():
                 enemy_title['style'] = 'italic'
 
             prev_enemy_name = style_text(enemy_title, prev_enemy['name'])
+            prev_enemy_name += Text() if player['level'] >= prev_enemy['levelRequirement'] else locked_text
 
         # Checks if there's next enemy
         next_enemy = enemies[selected + 1] if selected < len(enemies) - 1 else None
@@ -190,8 +227,10 @@ def play_selection_menu():
                 enemy_title['style'] = 'italic'
 
             next_enemy_name = style_text(enemy_title, next_enemy['name'])
+            next_enemy_name += Text() if player['level'] >= next_enemy['levelRequirement'] else locked_text
 
-        tooltip = style_text({'style':'italic'}, prev_enemy_name, ' ← | → ', next_enemy_name, '\nArrow Keys (←/→) to navigate | ENTER to select | ESC to go back' if display_controls else '')
+        enter_string = f'{'' if display_text else '⚔️  ' }{'ENTER to ' if display_controls else ''}Fight' if correct_level else style_text({'style': 'bold italic'}, 'You cannot fight this enemy yet!')
+        tooltip = style_text({'style':'italic'}, enter_string,  ' | ', prev_enemy_name, ' ← | → ', next_enemy_name, '\nArrow Keys (←/→) to navigate | ESC to go back' if display_controls else '')
 
         print_horizontal_menu(style_text({'style': 'bold'}, 'Play'), enemy_info_strings[selected], tooltip)
         key = readchar.readkey()
@@ -261,7 +300,7 @@ def shop_menu(selected=0):
         if sort_type == 'levelRequirement': displayed_type = "Level"
         elif sort_type == 'price': displayed_type = "Price"
         displayed_order = 'Ascending' if sort_order else "Descending"
-        sort_tooltip = f"Sorted by: {displayed_type}{f" ({sort_type_keybind.upper()})" if display_controls else ''} | {displayed_order}{f" ({sort_order_keybind.upper()})" if display_controls else ''}"
+        sort_tooltip = f"Sorted by: {displayed_type}{f' ({sort_type_keybind.upper()})' if display_controls else ''} | {displayed_order}{f' ({sort_order_keybind.upper()})' if display_controls else ''}"
         
         control_tooltip =  '\nArrow Keys (↑/↓) to navigate items | Arrow Keys (←/→) to navigate pages | ENTER to select | ESC to go back\n' if display_controls else ''
         extra_tooltip = '✅ = Purchased | 🔒 = Locked' if display_extra else ''
@@ -333,26 +372,26 @@ def shop_view_weapon(weapon, weapon_name, weapon_id, old_selected):
         owned = weapon_id in player['inventory'] # If player has weapon in their inventory
 
         # Price
-        price_info = style_text({'style': 'bold'}, ' Price: ')
+        price_info = style_text({'style': 'bold'}, '  Price: ')
         price_color = [201, 237, 154] if afford else [227, 104, 104] # Green if afford else red
         price_info += style_text({'color': price_color}, f"${price}\n")
 
         # Level
-        level_info = style_text({'style': 'bold'}, ' Level required: ')
+        level_info = style_text({'style': 'bold'}, '  Level required: ')
         level_color = [201, 237, 154] if correct_level else [227, 104, 104] # Green if meeting level requirement else red
         level_info += style_text({'color': level_color}, f"{level_requirement}")
         locked_text = style_text({'style': 'italic'}, ' (Locked)') if display_text else Text(" 🔒")
         level_info += Text() if correct_level else locked_text
 
-        weapon_info = weapon_name + Text(f"\n {weapon['description']}\n") + price_info + level_info
+        weapon_info = weapon_name + Text(f"\n  {weapon['description']}\n") + price_info + level_info
 
         # Abilities
         abilities = weapon['abilities']
         ability = abilities[selected] # Selected ability
 
-        true_title = style_text({'style': 'bold'}, 'Inspeacting Weapon | Shop (Balance: ', style_text({'color':[201, 237, 154]}, f"${player['money']}"), ')\n') # Actual title at the top
-        title = true_title + weapon_info + Text(f'\n == ABILITIES ({selected + 1}/{len(abilities)}) ==') # All the information stored in "title" to not conflict with actual options
-        ability_info = style_text(ability['title'], f" {ability['name']}\n  ") + Text(ability['description'])
+        true_title = style_text({'style': 'bold'}, 'Inspeacting Weapon | Shop (Balance: ', style_text({'color':[201, 237, 154]}, f"${player['money']}"), ')\n ') # Actual title at the top
+        title = true_title + weapon_info + Text(f'\n  == ABILITIES ({selected + 1}/{len(abilities)}) ==') # All the information stored in "title" to not conflict with actual options
+        ability_info = style_text(ability['title'], f"   {ability['name']}\n   ") + Text(ability['description'])
         
         enter_string = '' 
         if owned:
@@ -364,8 +403,8 @@ def shop_view_weapon(weapon, weapon_name, weapon_id, old_selected):
         else:
             enter_string = 'ENTER to purchase' if display_controls else ''
 
-        ability_tooltip = 'Arrow Keys (←/→) to navigate abilities' if len(abilities) > 1 and display_controls else ''
-        tooltip =  style_text({'style':'italic'}, ability_tooltip, '\n' + enter_string, ' | ESC to go back' if display_controls else '')
+        ability_tooltip = 'Arrow Keys (←/→) to navigate abilities\n' if len(abilities) > 1 and display_controls else ''
+        tooltip =  style_text({'style':'italic'}, ability_tooltip, enter_string, ' | ESC to go back' if display_controls else '')
         print_horizontal_menu(title, ability_info, tooltip)
 
         key = readchar.readkey()
@@ -472,7 +511,7 @@ def inventory_menu(selected=0):
         if sort_type == 'levelRequirement': displayed_type = "Level"
         elif sort_type == 'price': displayed_type = "Price"
         displayed_order = 'Ascending' if sort_order else "Descending"
-        sort_tooltip = f"Sorted by: {displayed_type}{f" ({sort_type_keybind.upper()})" if display_controls else ''} | {displayed_order}{f" ({sort_order_keybind.upper()})" if display_controls else ''}"
+        sort_tooltip = f"Sorted by: {displayed_type}{f' ({sort_type_keybind.upper()})' if display_controls else ''} | {displayed_order}{f' ({sort_order_keybind.upper()})' if display_controls else ''}"
         
         control_tooltip = '\nArrow Keys (↑/↓) to navigate items | Arrow Keys (←/→) to navigate pages | ENTER to select | ESC to go back\n' if display_controls else ''
         extra_tooltip = '✅ = Equipped' if display_extra else ''
@@ -549,25 +588,25 @@ def inv_view_weapon(weapon, weapon_name, weapon_id, old_selected):
         price_info = Text()
         if weapon.get('price'):
             price = weapon['price']
-            price_info = style_text({'style': 'bold'}, ' Price from shop: ') + style_text({'color': [201, 237, 154]}, f"${price}\n")
+            price_info = style_text({'style': 'bold'}, '  Price from shop: ') + style_text({'color': [201, 237, 154]}, f"${price}\n")
 
         # Level
-        level_info = style_text({'style': 'bold'}, ' Level required: ')
+        level_info = style_text({'style': 'bold'}, '  Level required: ')
         level_color = [201, 237, 154] if correct_level else [227, 104, 104] # Green if meeting level requirement else red
         level_info += style_text({'color': level_color}, f"{level_requirement}")
         locked_text = style_text({'style': 'italic'}, ' (Locked)') if display_text else Text(" 🔒")
         level_info += Text() if correct_level else locked_text
 
 
-        weapon_info = weapon_name + equipped_string + Text(f"\n {weapon['description']}\n") + price_info + level_info
+        weapon_info = weapon_name + equipped_string + Text(f"\n  {weapon['description']}\n") + price_info + level_info
 
         # Abilities
         abilities = weapon['abilities']
         ability = abilities[selected] # Selected ability
 
-        true_title = style_text({'style': 'bold'}, 'Inspeacting Weapon | Inventory\n') # Actual title at the top
-        title = true_title + weapon_info + Text(f'\n == ABILITIES ({selected + 1}/{len(abilities)}) ==') # All the information stored in "title" to not conflict with actual options
-        ability_info = style_text(ability['title'], f" {ability['name']}\n  ") + Text(ability['description'])
+        true_title = style_text({'style': 'bold'}, 'Inspeacting Weapon | Inventory\n ') # Actual title at the top
+        title = true_title + weapon_info + Text(f'\n  == ABILITIES ({selected + 1}/{len(abilities)}) ==') # All the information stored in "title" to not conflict with actual options
+        ability_info = style_text(ability['title'], f"  {ability['name']}\n   ") + Text(ability['description'])
         
         enter_string = '' 
         if equipped:
@@ -609,8 +648,8 @@ def settings_menu():
         TwoStateSetting(style_text({'style': 'bold italic'}, 'Show keyboard controls on tooltips:'), 'displayControls'),
         TwoStateSetting(style_text({'style': 'bold italic'}, 'Show text instead of symbols for labels:'), 'displayTextTooltips'),
         TwoStateSetting(style_text({'style': 'bold italic'}, 'Show additional tooltips for symbols:'), 'displayExtraTooltips', None, {'displayTextTooltips': False}, False),
-        KeyBindSetting(style_text({'style': 'bold italic'}, 'Set keybind for sort key:'), 'primarySortKeybind'),
-        KeyBindSetting(style_text({'style': 'bold italic'}, 'Set keybind for sort order:'), 'secondarySortKeybind'),
+        KeyBindSetting(style_text({'style': 'bold italic'}, 'Set keybind for sort key:'), 'primarySortKeybind', ['secondarySortKeybind']),
+        KeyBindSetting(style_text({'style': 'bold italic'}, 'Set keybind for sort order:'), 'secondarySortKeybind', ['primarySortKeybind']),
     ]
 
     selected = 0
@@ -620,7 +659,7 @@ def settings_menu():
         for option in options:
             text = option.text
             id = option.id
-            setting = settings[id] or 'Unassigned'
+            setting = settings[id] or None
             
             # Checks if user prefers text than symbols to indicate something
 
@@ -647,6 +686,7 @@ def settings_menu():
                     states[1] = style_text({'style': 'italic'}, 'On')
                 displayed_options.append(text + Text(f" {states[1] if setting is True else states[0]}"))
             elif isinstance(option, KeyBindSetting):
+                setting = 'Unassigned' if setting is None else setting
                 displayed_options.append(text + Text(f" {setting.upper()}"))
             # Placeholder for settings with more than 3 options 
             # else:
@@ -683,11 +723,15 @@ def settings_menu():
                         if blacklisted_keybind:
                             console.print(style_text({'style':'bold italic'}, 'You cannot set your keybind to that'))
                         keybind = readchar.readkey()
-
+                        debug.info(selected_option.dependencies)
                         # Keys in this list are required to navigate through menus, so these keys should not be used when setting keybinds
                         if keybind in [readchar.key.ENTER, readchar.key.UP, readchar.key.DOWN, readchar.key.LEFT, readchar.key.RIGHT]:
                             blacklisted_keybind = keybind
                             continue
+                        elif keybind in [settings[other_keybind] for other_keybind in selected_option.dependencies or []if other_keybind in settings]:
+                            blacklisted_keybind = keybind
+                            continue
+                        elif keybind == readchar.key.ESC: break
                         elif keybind in settings_keybinds.values():
                             settings[id] = next((k for k, v in settings_keybinds.items() if v == keybind), None)
                             player['settings'] = settings

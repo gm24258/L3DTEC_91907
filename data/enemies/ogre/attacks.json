@@ -1,0 +1,48 @@
+{
+    "attacks": [
+        {
+            "name": "Bat Swing",
+            "id": "bat_swing",
+            "title": {"color": "white"},
+            "minDamage": 30,
+            "maxDamage": 45,
+            "critMulti": 2,
+            "critChance": 0.1,
+            "hitChance": 85,
+            "attackChance": 70
+        },
+        {
+            "name": "Heavy Smash",
+            "id": "heavy_smash",
+            "title": {"color": "white"},
+            "minDamage": 40,
+            "maxDamage": 60,
+            "critMulti": 1.8,
+            "critChance": 0.15,
+            "hitChance": 85,
+            "attackChance": 60
+        },
+        {
+            "name": "Bat Jab",
+            "id": "bat_jab",
+            "title": {"color": "white"},
+            "minDamage": 25,
+            "maxDamage": 40,
+            "critMulti": 1.7,
+            "critChance": 0.2,
+            "hitChance": 80,
+            "attackChance": 50
+        },
+        {
+            "name": "Bat Slam",
+            "id": "bat_slam",
+            "title": {"color": "white"},
+            "minDamage": 35,
+            "maxDamage": 55,
+            "critMulti": 1.9,
+            "critChance": 0.15,
+            "hitChance": 80,
+            "attackChance": 50
+        }
+    ]
+}

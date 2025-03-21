@@ -1,0 +1,44 @@
+{
+    "attacks": [
+        {
+            "name": "Fire Breath",
+            "id": "fire_breath",
+            "title": {"color": [255, 191, 82]},
+            "minDamage": 150,
+            "maxDamage": 250,
+            "critMulti": 2,
+            "critChance": 0.2,
+            "attackChance": 20
+        },
+        {
+            "name": "Claw Swipe",
+            "id": "claw_swipe",
+            "title": {"color": [255, 150, 0]},
+            "minDamage": 120,
+            "maxDamage": 200,
+            "critMulti": 1.5,
+            "critChance": 0.15,
+            "attackChance": 30
+        },
+        {
+            "name": "Tail Whip",
+            "id": "tail_whip",
+            "title": {"color": [255, 120, 0]},
+            "minDamage": 80,
+            "maxDamage": 120,
+            "critMulti": 1.3,
+            "critChance": 0.1,
+            "attackChance": 40
+        },
+        {
+            "name": "Ground Stomp",
+            "id": "ground_stomp",
+            "title": {"color": [255, 82, 82]},
+            "minDamage": 60,
+            "maxDamage": 100,
+            "critMulti": 1.05,
+            "critChance": 0.05,
+            "attackChance": 80
+        }
+    ]
+}
