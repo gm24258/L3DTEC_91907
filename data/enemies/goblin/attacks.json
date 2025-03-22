@@ -7,7 +7,7 @@
             "minDamage": 1,
             "maxDamage": 3,
             "critMulti": 1.05,
-            "critChance": 0.1,
+            "critChance": 0.05,
             "attackChance": 50  
         },
         {
@@ -17,7 +17,7 @@
             "minDamage": 1,
             "maxDamage": 3,
             "critMulti": 1.05,
-            "critChance": 0.1,
+            "critChance": 0.05,
             "attackChance": 40  
         },
         {
@@ -27,7 +27,7 @@
             "minDamage": 2,
             "maxDamage": 4,
             "critMulti": 1.1,
-            "critChance": 0.2,  
+            "critChance": 0.075,  
             "hitChance": 100,
             "attackChance": 10 
         }

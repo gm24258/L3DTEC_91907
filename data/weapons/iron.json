@@ -1,0 +1,31 @@
+{
+    "name": "Iron Sword",
+    "id": "iron",
+    "title": {"color": [158, 151, 141]},
+    "description": "A sword forged from solid iron, built for reliable strikes.",
+    "inShop": true,
+    "price": 500,
+    "levelRequirement": 5,
+    "abilities": [
+        {
+            "name": "SLASH",
+            "title": {"style": "bold", "color": "white"},
+            "description": "Basic guaranteed attack that deals 8-11 damage.",
+            "minDamage": 8,
+            "maxDamage": 11,
+            "critMulti": 0.1,
+            "hitChance": 100,
+            "cooldown": 0
+        },
+        {
+            "name": "METAL SWING",
+            "title": {"style": "bold", "color": "white"},
+            "description": "Heavy attack that deals 20-30 damage but has a chance to miss.",
+            "minDamage": 20,
+            "maxDamage": 30,
+            "critMulti": 0.2,
+            "hitChance": 70,
+            "cooldown": 5
+        }
+    ]
+}

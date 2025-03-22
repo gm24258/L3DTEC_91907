@@ -1,4 +1,5 @@
 from libraries import *
+from rich.logging import RichHandler
 
 # Constants
 DATA_DIR = './data'

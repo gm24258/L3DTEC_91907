@@ -2,22 +2,21 @@
 
 from formatting import *
 
-def print_basic_menu(title, options, tooltip, selected):
+def print_basic_menu(options, selected, title=None, tooltip=None, clear=True):
     # Displays a vertical menu with options that can be navigated using UP/DOWN arrow keys.
     
     # Parameters:
     # title (str): Title of the menu.
     # options (list): List of menu options.
     # selected (int): Index of the currently selected option.
-    clear_terminal()
-    console.print(title)
+    if clear is True: clear_terminal()
+    if title: console.print(title)
     for i, option in enumerate(options):
         prefix = '> ' if i == selected else '  '
         console.print(Text(prefix) + option)
-    if len(tooltip) > 0:
-        console.print(Text('\n') + tooltip)
+    if tooltip: console.print(Text('\n') + tooltip)
 
-def print_horizontal_menu(title, info, tooltip):
+def print_horizontal_menu(info, title=None, tooltip=None):
     # Displays a horizontal menu, where the player can navigate between previous and next options.
     
     # Parameters:
@@ -32,7 +31,7 @@ def print_horizontal_menu(title, info, tooltip):
     if len(tooltip) > 0:
         console.print(Text('\n') + tooltip)
 
-def print_paged_menu(title, options, tooltip, selected, page_size=5):
+def print_paged_menu(options, selected, title=None, tooltip=None, page_size=5):
     # Displays a vertical paged menu, where options can be navigated using UP/DOWN keys.
     # Pages can be navigated using LEFT/RIGHT keys.
     
@@ -64,7 +63,6 @@ def print_paged_menu(title, options, tooltip, selected, page_size=5):
     next_string = ' | Next →' if current_page < total_pages - 1 else ' |       '
 
     console.print(style_text({'style':'italic'}, f'\n{previous_string}Page {current_page + 1}/{total_pages}{next_string}'))
-    if len(tooltip) > 0:
-        console.print(tooltip)
+    if tooltip: console.print(tooltip)
 
     return current_page, total_pages, start_index

@@ -12,20 +12,20 @@
             "title": {"style": "bold", "color": "white"},
             "description": "Basic guaranteed attack that deals 3-8 damage.",
             "minDamage": 3,
-            "maxDamage": 5,
+            "maxDamage": 8,
             "critMulti": 0.05,
             "hitChance": 100,
             "cooldown": 0
         },
         {
-            "name": "HEAVY SWING",
+            "name": "METAL SWING",
             "title": {"style": "bold", "color": "white"},
             "description": "Heavy attack that deals 10-15 damage but has a chance to miss.",
             "minDamage": 10,
             "maxDamage": 15,
             "critMulti": 0.1,
             "hitChance": 65,
-            "cooldown": 3
+            "cooldown": 5
         }
     ]
 }
