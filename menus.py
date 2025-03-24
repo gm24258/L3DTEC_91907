@@ -2,7 +2,7 @@
 
 from formatting import *
 
-def print_basic_menu(options, selected, title=None, tooltip=None, clear=True):
+def print_basic_menu(options, selected, title=None, info=None, tooltip=None, clear=True):
     # Displays a vertical menu with options that can be navigated using UP/DOWN arrow keys.
     
     # Parameters:
@@ -11,6 +11,7 @@ def print_basic_menu(options, selected, title=None, tooltip=None, clear=True):
     # selected (int): Index of the currently selected option.
     if clear is True: clear_terminal()
     if title: console.print(title)
+    if info: console.print(info)
     for i, option in enumerate(options):
         prefix = '> ' if i == selected else '  '
         console.print(Text(prefix) + option)

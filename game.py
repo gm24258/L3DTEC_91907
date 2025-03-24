@@ -40,10 +40,15 @@ def load_enemies():
     globals.enemies = merge_sort(globals.enemies, 'levelRequirement')
     debug.info(f'Loaded {len(globals.enemies)} enemies.')
 
+def load_attacks(): 
+    # Loads weapon data from the WEAPONS_DIR and sorts by level requirement.    
+    globals.attacks = load_data_from_directory(ATTACKS_DIR, 'attack')
+
 def load_weapons(): 
     # Loads weapon data from the WEAPONS_DIR and sorts by level requirement.    
     globals.weapons = load_data_from_directory(WEAPONS_DIR, 'weapon')
     globals.weapons = merge_sort(globals.weapons, 'levelRequirement')
+    load_attacks()
     debug.info(f'Loaded {len(globals.weapons)} weapons.')
 
     # Create a new list of globals.weapons from exisiting globals.weapons list but removes items that are not shop items
@@ -253,6 +258,7 @@ def play_confirm_fight(enemy, enemy_name, enemy_id):
             elif selected == 1: 
                 debug.info(Text(f"Fighting ") + enemy_name)
                 battle(enemy, enemy_name, enemy_id)
+                break
         elif key == readchar.key.ESC:
             debug.debug("Pressed ESC key")
             return
@@ -280,6 +286,7 @@ def shop_menu(selected=0):
             displayed_shop = sort_displayed_weapons(sort_type, sort_order, globals.shop_weapons)
 
         options = []
+            
         for weapon_id in displayed_shop:
             weapon = next((item for item in globals.weapons if item['id'] == weapon_id), None)
             if weapon:

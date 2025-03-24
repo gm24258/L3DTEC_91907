@@ -7,12 +7,11 @@
     "levelRequirement": 0,
     "abilities": [
         {
-            "name": "SLASH",
-            "title": {"style": "bold", "color": "white"},
-            "description": "Basic guaranteed attack that deals 1-5 damage.",
+            "id": "slash",
             "minDamage": 1,
             "maxDamage": 5,
-            "critMulti": 0,
+            "critMulti": 0.01,
+            "critChance": 5,
             "hitChance": 100,
             "cooldown": 0
         }

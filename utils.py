@@ -1,10 +1,20 @@
 from libraries import *
-from rich.logging import RichHandler
 
 # Constants
 DATA_DIR = './data'
 ENEMIES_DIR = f'{DATA_DIR}/enemies'
 WEAPONS_DIR = f'{DATA_DIR}/weapons'
+ATTACKS_DIR = f'{WEAPONS_DIR}/attacks'
+
+def int_key(key):
+    try:
+        integer = int(str(key))
+        return integer
+    except:
+        return None
+    
+def roll_chance(chance):
+    return random.randint(0, 100) <= chance
 
 # Merge sort algorithm
 def merge_sort(arr, key, ascending = True):
@@ -60,6 +70,12 @@ crash_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(me
 crash = logging.getLogger("crash")
 crash.setLevel(logging.ERROR)
 crash.addHandler(crash_handler)
+
+def is_terminal_in_focus():
+    """Check if the terminal window is in focus."""
+    active_window = gw.getActiveWindow()
+    terminal_titles = ['Command Prompt', 'Terminal', 'Visual Studio Code']
+    return active_window and any(t in active_window.title for t in terminal_titles)
 
 def load_data_from_directory(directory, data_type):
     # Loads data from JSON files in a given directory.

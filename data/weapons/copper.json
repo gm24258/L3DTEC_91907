@@ -8,21 +8,19 @@
     "levelRequirement": 5,
     "abilities": [
         {
-            "name": "SLASH",
-            "title": {"style": "bold", "color": "white"},
-            "description": "Basic guaranteed attack that deals 3-8 damage.",
+            "id": "slash",
             "minDamage": 3,
             "maxDamage": 8,
             "critMulti": 0.05,
+            "critChance": 5,
             "hitChance": 100,
             "cooldown": 0
         },
         {
-            "name": "METAL SWING",
-            "title": {"style": "bold", "color": "white"},
-            "description": "Heavy attack that deals 10-15 damage but has a chance to miss.",
+            "id": "swing",
             "minDamage": 10,
             "maxDamage": 15,
+            "critChance": 10,
             "critMulti": 0.1,
             "hitChance": 65,
             "cooldown": 5

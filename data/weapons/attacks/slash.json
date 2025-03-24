@@ -1,0 +1,31 @@
+{
+    "name": "SLASH",
+    "id": "slash",
+    "title": {"style": "bold", "color": "white"},
+    "description": "Basic guaranteed attack that deals 3-8 damage.",
+    "messages": {
+        "start": [
+            "You take a deep breath and prepare to strike with {attack_name}.",
+            "With a quick motion, you prepare your {attack_name}.",
+            "You ready your weapon and focus on your target, preparing a {attack_name}.",
+            "You steady your stance and get ready to unleash a {attack_name}.",
+            "With a determined look, you raise your weapon to deliver a {attack_name}.",
+            "You brace yourself and get ready to unleash your {attack_name}."
+        ],
+        "hit": [
+            "You unleash a fierce {attack_name} dealing {damage} damage!",
+            "With a battle cry, you strike with {attack_name}, landing a hit for {damage} damage!",
+            "You swing your weapon with all your might, performing a {attack_name} for {damage} damage!",
+            "You charge forward and deliver a devastating {attack_name}, dealing {damage} damage!",
+            "With unwavering determination, you attack with {attack_name}, striking for {damage} damage!",
+            "You focus your energy and deliver a powerful {attack_name}, causing {damage} damage!"
+        ],
+        "crit": [
+            "It was a critical strike, dealing massive damage!",
+            "The blow was devastating, a perfect critical hit for {damage} damage!",
+            "You land a perfect blow! It's a critical strike for {damage} damage!",
+            "Your strike hits with incredible force! A critical hit, causing {damage} damage!",
+            "A powerful critical strike lands, dealing massive damage of {damage}!"
+        ]
+    }
+}

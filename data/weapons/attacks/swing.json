@@ -1,0 +1,36 @@
+{
+    "name": "METAL SWING",
+    "id": "swing",
+    "title": {"style": "bold", "color": "white"},
+    "description": "Heavy attack that deals 10-15 damage but has a chance to miss.",
+    "messages": {
+        "start": [
+            "You raise your heavy weapon and prepare to strike with {attack_name}.",
+            "With a mighty swing, you ready your {attack_name} for a powerful attack.",
+            "You focus all your strength as you prepare to deliver a crushing {attack_name}.",
+            "The weight of your weapon is immense as you charge up your {attack_name}.",
+            "You grip your weapon tightly, preparing to unleash the full force of your {attack_name}."
+        ],
+        "hit": [
+            "You swing your heavy weapon with force, landing a {attack_name} for {damage} damage!",
+            "With a mighty swing, you strike with {attack_name}, landing a solid blow for {damage} damage!",
+            "You charge your attack and deliver a crushing {attack_name}, dealing {damage} damage!",
+            "Your weapon arcs through the air as you land a powerful {attack_name}, causing {damage} damage!",
+            "You unleash a strong {attack_name}, feeling the power in your muscles as it deals {damage} damage!"
+        ],
+        "crit": [
+            "It was a critical strike, dealing massive damage of {damage}!",
+            "The blow lands with immense force, a perfect critical hit for {damage} damage!",
+            "You land a devastating blow with your {attack_name}, it's a critical hit for {damage} damage!",
+            "Your {attack_name} strikes true with overwhelming power, it's a critical hit causing {damage} damage!",
+            "The force of the {attack_name} is unstoppable, a critical strike dealing {damage} damage!"
+        ],
+        "miss": [
+            "It missed!",
+            "Your heavy swing is avoided by the {enemy_name}, narrowly dodging your attack!",
+            "You misjudged your swing, and the attack misses the {enemy_name} entirely!",
+            "The {enemy_name} ducks under your swing, narrowly avoiding the attack!",
+            "The attack misses as the {enemy_name} dodges your wild swing!"
+        ]
+    }
+}

@@ -3,6 +3,7 @@ from utils import *
 # Data loaded from game
 enemies = []
 weapons = []
+attacks = []
 shop_weapons = []
 
 # Player data
