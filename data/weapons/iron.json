@@ -22,7 +22,7 @@
             "maxDamage": 30,
             "critMulti": 0.2,
             "critChance": 10,
-            "hitChance": 70,
+            "hitChance": 60,
             "cooldown": 5
         }
     ]

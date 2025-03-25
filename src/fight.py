@@ -186,7 +186,7 @@ def player_turn(enemy, enemy_name):
         if index == 10: index = 0  # Number key list from 1-9 and then 0 so index becomes 0
         elif index > 10: break  # Weapon should not have more than 10 attacks, it will skip those extra ones if it does
         options.append(Text(f'[{index}]: ') + style_text(attack['title'], attack['name']))
-    options.append(f'{'[ESC]: ' if globals.display_controls else ''}Flee')
+    options.append(f"{'[ESC]: ' if globals.display_controls else ''}Flee")
 
     selected = 0
     ignore_input = False  # Flag to ignore input during sleep

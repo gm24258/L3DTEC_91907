@@ -2,7 +2,7 @@
     "name": "METAL SWING",
     "id": "swing",
     "title": {"style": "bold", "color": "white"},
-    "description": "Heavy attack that deals 10-15 damage but has a chance to miss.",
+    "description": "Heavy attack that deals {minDamage}-{maxDamage} damage but has a {hitChance}% chance to miss.",
     "messages": {
         "start": [
             "You raise your heavy weapon and prepare to strike with {attack_name}.",

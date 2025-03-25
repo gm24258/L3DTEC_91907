@@ -2,7 +2,7 @@
     "name": "SLASH",
     "id": "slash",
     "title": {"style": "bold", "color": "white"},
-    "description": "Basic guaranteed attack that deals 3-8 damage.",
+    "description": "Basic guaranteed attack that deals {minDamage}-{maxDamage} damage.",
     "messages": {
         "start": [
             "You take a deep breath and prepare to strike with {attack_name}.",

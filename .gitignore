@@ -4,3 +4,4 @@ save_file.json
 save_file.json.bak
 __pycache__/
 .archived/
+src/logs/

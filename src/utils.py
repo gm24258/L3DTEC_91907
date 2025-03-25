@@ -1,10 +1,30 @@
 from libraries import *
 
 # Constants
-DATA_DIR = './data'
-ENEMIES_DIR = f'{DATA_DIR}/enemies'
-WEAPONS_DIR = f'{DATA_DIR}/weapons'
-ATTACKS_DIR = f'{WEAPONS_DIR}/attacks'
+ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
+SRC_DIR = os.path.join(ROOT, 'src')
+DATA_DIR = os.path.join(ROOT, 'data')
+ENEMIES_DIR = os.path.join(DATA_DIR, 'enemies')
+WEAPONS_DIR = os.path.join(DATA_DIR, 'weapons')
+ATTACKS_DIR = os.path.join(WEAPONS_DIR, 'attacks')
+LOGS_DIR = os.path.join(SRC_DIR, 'logs')
+
+# Ensure directories exist
+os.makedirs(LOGS_DIR, exist_ok=True)
+
+# Set up logging for better debugging and monitoring
+# To debug, open up a powershell terminal then type "Clear-Host; Get-Content ./src/logs/debug.log -Wait" and press enter
+debug_handler = logging.FileHandler(os.path.join(LOGS_DIR, 'debug.log'), mode='w', encoding='utf-8')
+debug_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+debug = logging.getLogger("debug")
+debug.setLevel(logging.DEBUG)
+debug.addHandler(debug_handler)
+
+crash_handler = logging.FileHandler(os.path.join(LOGS_DIR, 'crash.log'), mode='a', encoding='utf-8')
+crash_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+crash = logging.getLogger("crash")
+crash.setLevel(logging.ERROR)
+crash.addHandler(crash_handler)
 
 def int_key(key):
     try:
@@ -55,21 +75,6 @@ def merge(left, right, key, ascending):
     sorted_array.extend(right[j:])
 
     return sorted_array
-
-# Set up logging for better debugging and monitoring
-# To debug, open up a powershell terminal then type "Clear-Host; Get-Content debug.log -Wait" and press enter
-debug_handler = logging.FileHandler('debug.log', mode='w')
-debug_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
-debug = logging.getLogger("debug")
-debug.setLevel(logging.DEBUG)
-debug.addHandler(debug_handler)
-
-# Set up logging for crashes
-crash_handler = logging.FileHandler('crash.log', mode='a')
-crash_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
-crash = logging.getLogger("crash")
-crash.setLevel(logging.ERROR)
-crash.addHandler(crash_handler)
 
 def is_terminal_in_focus():
     """Check if the terminal window is in focus."""

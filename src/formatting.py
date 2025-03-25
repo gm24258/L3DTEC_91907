@@ -1,7 +1,6 @@
 from libraries import *
 from rich.console import Console
 from rich.text import Text
-from rich.live import Live
 
 # Initialize Console for rich text
 global console
