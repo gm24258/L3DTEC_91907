@@ -28,7 +28,6 @@
             "maxDamage": 4,
             "critMulti": 1.1,
             "critChance": 0.075,  
-            "hitChance": 100,
             "attackChance": 10 
         }
     ]

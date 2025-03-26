@@ -1,5 +1,5 @@
-# terminal rpg game
-*A generic Python RPG game intended to be played on the terminal. Made for a school project.*
+# generic terminal rpg
+*A random Python RPG game intended to be played on the terminal. Made for a school project.*
 
 ## Features
 - Menu system: Navigate through game options and menus using
@@ -12,8 +12,8 @@
 - Recommended to use Python 3.11+
 - Recommmended to use VSC
 ### Dependencies
-- keyboard: `0.13.5`
 - PyGetWindow: `0.0.9`
+- pynput: `1.8.1`
 - rich: `13.9.4`
 - Run the following command to install required libraries: `pip install -r requirements.txt`
 

@@ -1,6 +1,7 @@
 from menus import *
 from utils import *
-from fight import *
+from fight import initiate_fight
+from keyboard_manager import keyboard_manager
 from globals import save_player
 import globals
 
@@ -97,12 +98,12 @@ class MenuState:
     def __init__(self):
         self.current_menu = None
         self.should_exit = False
-        self.last_key = None  # Track the last key pressed
 
         self.selected = 0
         self.options = []
         self.title = None
         self.info = None  # Used for horizontal menus
+        self.tooltip_before = None
         self.tooltip = None
         self.menu_type = 'basic'  # Can be 'basic', 'horizontal', or 'paged'
 
@@ -116,6 +117,23 @@ class MenuState:
 
 # Initialize global state
 menu_state = MenuState()
+
+def crash_handling(e):
+    globals.crashed = True
+    keyboard_manager.stop()
+    
+    # Log the crash
+    crash_log_path = os.path.join(LOGS_DIR, 'crash.log')
+    debug.error(f"An error was caught and crashed the game. Please check {crash_log_path}")
+    crash.error(f"Error caught while running the game:\n{e}\n{traceback.format_exc()}")
+
+    clear_terminal()
+    print("The game unexpectedly crashed! Restarting in a second...")
+    time.sleep(2)
+
+    globals.crashed = False
+    menu_state.should_exit = False
+    keyboard_manager.start()  # Start keyboard listener
 
 # ========================
 #       MENU FUNCTIONS
@@ -142,7 +160,8 @@ def main_menu(selected=0):
             handle_enter()
 
     def handle_enter():
-        menu_state.last_key = None
+        """Handle menu item selection"""
+        
         if menu_state.selected == 0:  # Play
             play_selection_menu(old_selected=0)
         elif menu_state.selected == 1:  # Shop
@@ -154,8 +173,8 @@ def main_menu(selected=0):
         elif menu_state.selected == 4:  # Exit
             exit_confirmation(4)
 
-    # Set the current menu handler
-    menu_state.current_menu = on_press
+    # Register the keyboard handler
+    keyboard_manager.set_handler(on_press)
     redraw_menu()
 
 def exit_confirmation(old_selected):
@@ -175,7 +194,6 @@ def exit_confirmation(old_selected):
             menu_state.selected = 1
             redraw_menu()
         elif key == 'enter':  # Enter key
-            menu_state.last_key = None
             if menu_state.selected == 0:
                 # Go back to main menu with the old_selected value
                 main_menu(old_selected)
@@ -184,12 +202,11 @@ def exit_confirmation(old_selected):
                 print('\nExiting game...')
                 menu_state.should_exit = True
         elif key == 'esc':  # ESC key
-            menu_state.last_key = None
             # Go back to main menu with the old_selected value
             main_menu(old_selected)
 
     # Set the current menu handler
-    menu_state.current_menu = on_press
+    keyboard_manager.set_handler(on_press)
     redraw_menu()
 
 def play_selection_menu(selected=0, old_selected=0):
@@ -201,15 +218,14 @@ def play_selection_menu(selected=0, old_selected=0):
     menu_state.info = None  # Will be updated dynamically
 
     def on_press(key):
-        if key == 'left':  # Left arrow
+        if key == 'left':
             update_selection(-1)
-        elif key == 'right':  # Right arrow
+        elif key == 'right':
             update_selection(1)
-        elif key == 'enter':  # Enter key
+        elif key == 'enter':
             handle_enter()
-        elif key == 'esc':  # ESC key
-            menu_state.last_key = None
-            main_menu(old_selected)  # Go back to the main menu
+        elif key == 'esc':
+            handle_escape()
 
     def update_selection(delta):
         # Update the selected enemy index
@@ -220,11 +236,19 @@ def play_selection_menu(selected=0, old_selected=0):
             redraw_menu()
 
     def handle_enter():
-        # Check if the selected enemy can be fought
+        """Handle enemy selection for combat"""
         current_enemy = globals.enemies[menu_state.selected]
         if globals.player['level'] >= current_enemy['levelRequirement']:
-            menu_state.last_key = None
-            play_confirm_fight(current_enemy, style_text(current_enemy['title'], current_enemy['name']), current_enemy['id'], old_selected=menu_state.selected)
+            play_confirm_fight(
+                current_enemy,
+                style_text(current_enemy['title'], current_enemy['name']),
+                current_enemy['id'],
+                old_selected=menu_state.selected
+            )
+
+    def handle_escape():
+        """Return to main menu"""
+        main_menu(old_selected)
 
     def update_menu_info():
         # Update the info and tooltip based on the selected enemy
@@ -252,10 +276,10 @@ def play_selection_menu(selected=0, old_selected=0):
 
         enter_string = f"{'' if globals.display_text else '⚔️  ' }{'ENTER to ' if globals.display_controls else ''}Fight" if correct_level else style_text({'style': 'bold italic'}, 'You cannot fight this enemy yet!')
         menu_state.tooltip = style_text({'style': 'italic'}, enter_string, ' | ', prev_enemy_name, ' ← | → ', next_enemy_name, '\nArrow Keys ←/→ to navigate | ESC to go back' if globals.display_controls else '')
-
-    # Set the current menu handler
-    menu_state.current_menu = on_press
-    update_menu_info()  # Initialize the info and tooltip
+    
+    # Register the keyboard handler
+    keyboard_manager.set_handler(on_press)
+    update_menu_info()
     redraw_menu()
 
 def play_confirm_fight(enemy, enemy_name, enemy_id, old_selected=0):
@@ -265,7 +289,7 @@ def play_confirm_fight(enemy, enemy_name, enemy_id, old_selected=0):
     player_level_info = style_text({'style': 'bold'}, '\n Your health: ') + style_text({'color': [201, 237, 154]}, str(globals.player['health']))
     player_level_info = style_text({'style': 'bold'}, '\n Your level: ') + style_text({'color': [201, 237, 154]}, str(globals.player['level']))
 
-    # Set up the menu state for the play confirm fight menu
+    # Set up the menu state
     menu_state.options = [style_text({'style': 'bold'}, 'No'), style_text({'style': 'bold'}, 'Yes')]
     menu_state.menu_type = 'basic'
     menu_state.selected = 0 
@@ -273,29 +297,46 @@ def play_confirm_fight(enemy, enemy_name, enemy_id, old_selected=0):
     menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select | ESC to go back' if globals.display_controls else '')
     menu_state.info = health_info + enemy_level_info + player_level_info
 
-    def on_press(key):
-        if key == 'up':  # Up arrow
-            menu_state.selected = 0
-            redraw_menu()
-        elif key == 'down':  # Down arrow
-            menu_state.selected = 1
-            redraw_menu()
-        elif key == 'enter':  # Enter key
-            menu_state.last_key = None
-            if menu_state.selected == 0:
-                # Go back to play selection menu with the old_selected value
-                debug.info(Text(f"Did not fight ") + enemy_name)
-                play_selection_menu(selected=old_selected)
-            elif menu_state.selected == 1: 
-                debug.info(Text(f"Fighting ") + enemy_name)
-                battle(enemy, enemy_name, enemy_id)
-        elif key == 'esc':  # ESC key
-            # Go back to play selection menu with the old_selected value
-            menu_state.last_key = None
-            play_selection_menu(selected=old_selected)
+    def handle_selection_change(new_selection):
+        """Update selection and redraw menu"""
+        menu_state.selected = new_selection
+        redraw_menu()
 
-    # Set the current menu handler
-    menu_state.current_menu = on_press
+    def handle_no():
+        """Return to selection menu without fighting"""
+        debug.info(Text(f"Did not fight ") + enemy_name)
+        play_selection_menu(selected=old_selected)
+
+    async def handle_yes():
+        """Initiate combat sequence"""
+        debug.info(Text(f"Fighting ") + enemy_name)
+        globals.in_combat = True
+        try:
+            await initiate_fight(enemy, enemy_name, enemy_id)
+        except Exception as e:
+            crash_handling(e)
+        finally:
+            play_selection_menu(selected=old_selected)
+            
+    def handle_escape():
+        """Return to selection menu"""
+        play_selection_menu(selected=old_selected)
+
+    def on_press(key):
+        if key == 'up':
+            handle_selection_change(0)
+        elif key == 'down':
+            handle_selection_change(1)
+        elif key == 'enter':
+            if menu_state.selected == 0:
+                handle_no()
+            else:
+                asyncio.run(handle_yes())
+        elif key == 'esc':
+            handle_escape()
+            
+    # Register the keyboard handler
+    keyboard_manager.set_handler(on_press)
     redraw_menu()
 
 def shop_menu(selected=0, old_selected=0):
@@ -334,16 +375,13 @@ def shop_menu(selected=0, old_selected=0):
             redraw_menu()
         elif key == 'enter':  # Enter key
             if current_option:
-                menu_state.last_key = None
                 current_weapon_id = current_option[0]
                 current_weapon = current_option[1]
                 current_weapon_name = style_text(current_weapon['title'], current_weapon['name'])
                 shop_view_weapon(current_weapon, current_weapon_name, current_weapon_id, old_selected=menu_state.selected)
         elif key == 'esc':  # ESC key
-            menu_state.last_key = None
             main_menu(old_selected)  # Go back to the main menu
         elif key == sort_type_keybind:
-            menu_state.last_key = None
             keys = ['levelRequirement', 'price']
             menu_state.sort_type = keys[(keys.index(menu_state.sort_type) + 1) % len(keys)]
             update_menu_info() 
@@ -352,7 +390,6 @@ def shop_menu(selected=0, old_selected=0):
             globals.player['settings'] = globals.settings
             save_player(debug=False)
         elif key == sort_order_keybind:
-            menu_state.last_key = None
             menu_state.sort_order = not menu_state.sort_order
             globals.settings['shopSortAscending'] = menu_state.sort_order
             globals.player['settings'] = globals.settings
@@ -415,7 +452,7 @@ def shop_menu(selected=0, old_selected=0):
         menu_state.options = [option[2] for option in options]
 
     # Set the current menu handler
-    menu_state.current_menu = on_press
+    keyboard_manager.set_handler(on_press)
     update_menu_info() 
     redraw_menu()
 
@@ -451,10 +488,8 @@ def shop_view_weapon(weapon, weapon_name, weapon_id, selected=0, old_selected=0)
             update_selection(1)
         elif key == 'enter':  # Enter key
             if afford and correct_level and not owned:
-                menu_state.last_key = None
                 shop_buy_weapon(weapon, weapon_name, weapon_id, price, menu_state.selected)
         elif key == 'esc':  # ESC key
-            menu_state.last_key = None
             shop_menu(old_selected)  # Go back to the main menu
 
     def update_selection(delta):
@@ -519,7 +554,7 @@ def shop_view_weapon(weapon, weapon_name, weapon_id, selected=0, old_selected=0)
         menu_state.tooltip =  style_text({'style':'italic'}, ability_tooltip, enter_string, ' | ESC to go back' if globals.display_controls else '')
 
     # Set the current menu handler
-    menu_state.current_menu = on_press
+    keyboard_manager.set_handler(on_press)
     update_menu_info() 
     redraw_menu()
 
@@ -539,7 +574,6 @@ def shop_buy_weapon(weapon, weapon_name, weapon_id, price, old_selected=0):
             menu_state.selected = 1
             redraw_menu()
         elif key == 'enter':  # Enter key
-            menu_state.last_key = None
             if menu_state.selected == 0:
                 debug.info(f"Did not purchase {weapon_name}")
             elif menu_state.selected == 1: 
@@ -550,12 +584,11 @@ def shop_buy_weapon(weapon, weapon_name, weapon_id, price, old_selected=0):
             # Go back to shop weapon inspection with the old_selected value
             shop_view_weapon(weapon, weapon_name, weapon_id, old_selected)
         elif key == 'esc':  # ESC key
-            menu_state.last_key = None
             # Go back to shop weapon inspection with the old_selected value
             shop_view_weapon(weapon, weapon_name, weapon_id, old_selected)
 
     # Set the current menu handler
-    menu_state.current_menu = on_press
+    keyboard_manager.set_handler(on_press)
     redraw_menu()
 
 def inventory_menu(selected=0, old_selected=0):
@@ -599,16 +632,13 @@ def inventory_menu(selected=0, old_selected=0):
             redraw_menu()
         elif key == 'enter':  # Enter key
             if current_option:
-                menu_state.last_key = None
                 current_weapon_id = current_option[0]
                 current_weapon = current_option[1]
                 current_weapon_name = style_text(current_weapon['title'], current_weapon['name'])
                 inv_view_weapon(current_weapon, current_weapon_name, current_weapon_id, menu_state.selected)
         elif key == 'esc':  # ESC key
-            menu_state.last_key = None
             main_menu(old_selected)  # Go back to the main menu
         elif key == sort_type_keybind:
-            menu_state.last_key = None
             keys = ['levelRequirement', 'price']
             menu_state.sort_type = keys[(keys.index(menu_state.sort_type) + 1) % len(keys)]
             update_menu_info() 
@@ -617,7 +647,6 @@ def inventory_menu(selected=0, old_selected=0):
             globals.player['settings'] = globals.settings
             save_player(debug=False)
         elif key == sort_order_keybind:
-            menu_state.last_key = None
             menu_state.sort_order = not menu_state.sort_order
             globals.settings['shopSortAscending'] = menu_state.sort_order
             globals.player['settings'] = globals.settings
@@ -679,7 +708,7 @@ def inventory_menu(selected=0, old_selected=0):
         menu_state.options = [option[2] for option in options]
 
     # Set the current menu handler
-    menu_state.current_menu = on_press
+    keyboard_manager.set_handler(on_press)
     update_menu_info() 
     redraw_menu()
 
@@ -710,7 +739,6 @@ def inv_view_weapon(weapon, weapon_name, weapon_id, old_selected=0):
             update_selection(1)
         elif key == 'enter':  # Enter key
             if not equipped and correct_level:
-                menu_state.last_key = None
 
                 globals.player['equipped'] = weapon_id
                 save_player(debug=False)
@@ -720,7 +748,6 @@ def inv_view_weapon(weapon, weapon_name, weapon_id, old_selected=0):
                 update_menu_info() 
                 redraw_menu()
         elif key == 'esc':  # ESC key
-            menu_state.last_key = None
             inventory_menu(selected=old_selected)  # Go back to the main menu
 
     def update_selection(delta):
@@ -787,7 +814,7 @@ def inv_view_weapon(weapon, weapon_name, weapon_id, old_selected=0):
         menu_state.tooltip =  style_text({'style':'italic'}, ability_tooltip, enter_string, ' | ESC to go back' if globals.display_controls else '')
 
     # Set the current menu handler
-    menu_state.current_menu = on_press
+    keyboard_manager.set_handler(on_press)
     update_menu_info() 
     redraw_menu()
 
@@ -824,7 +851,6 @@ def settings_menu(selected=0, old_selected=0):
         elif key == 'enter':  # Enter key
             handle_enter()
         elif key == 'esc':  # ESC key
-            menu_state.last_key = None
             main_menu(old_selected)  # Go back to the main menu
 
     def update_selection(delta):
@@ -908,7 +934,7 @@ def settings_menu(selected=0, old_selected=0):
         menu_state.options = displayed_options
 
     # Set the current menu handler
-    menu_state.current_menu = on_press
+    keyboard_manager.set_handler(on_press)
     update_menu_info() 
     redraw_menu()
 
@@ -927,7 +953,6 @@ def set_keybind_menu(selected_option, old_selected):
             blacklisted_keybind = key
             update_menu()
         elif key == 'esc':  # ESC key
-            menu_state.last_key = None
             settings_menu(old_selected)  # Go back to settings menu
         # Set keybind to key if no conflicts
         else:
@@ -935,7 +960,6 @@ def set_keybind_menu(selected_option, old_selected):
             globals.player['settings'] = globals.settings
             save_player(debug=False)
 
-            menu_state.last_key = None
             settings_menu(old_selected)  # Go back to settings menu
 
 
@@ -949,21 +973,22 @@ def set_keybind_menu(selected_option, old_selected):
         if blacklisted_keybind:
             console.print(style_text({'style':'bold italic'}, f'You cannot set your keybind to {blacklisted_keybind}!'))
     
-    menu_state.current_menu = on_press
+    keyboard_manager.set_handler(on_press)
     update_menu() 
 
 # ========================
 #       REDRAW LOGIC
 # ========================
-def redraw_menu():
+def redraw_menu(clear=True):
     """Redraw the menu."""
-    clear_terminal()
+    if clear: clear_terminal()
     if menu_state.menu_type == 'basic':
         print_basic_menu(
             menu_state.options,
             menu_state.selected,
             menu_state.title,
             menu_state.info,
+            menu_state.tooltip_before,
             menu_state.tooltip
         )
     elif menu_state.menu_type == 'horizontal':
@@ -985,34 +1010,6 @@ def redraw_menu():
         menu_state.current_page = current_page
         menu_state.total_pages = total_pages
         menu_state.start_index = start_index
-# ========================
-#       MAIN LOOP
-# ========================
-def main_loop():
-    # Initialize the main menu
-    main_menu()
-    pressed_keys = set()
-    hook = None
-
-    def on_key_event(event):
-        if is_terminal_in_focus():
-            if event.event_type == keyboard.KEY_DOWN and event.name not in pressed_keys:
-                pressed_keys.add(event.name)
-                debug.debug(f"Pressed {event.name.upper()}")
-                menu_state.current_menu(event.name)
-            elif event.event_type == keyboard.KEY_UP:
-                pressed_keys.remove(event.name)
-
-    hook = keyboard.hook(on_key_event) 
-
-    while not menu_state.should_exit:
-        if globals.in_combat and hook:
-            keyboard.unhook(on_key_event) 
-            hook = None
-        time.sleep(0.01) 
-    if hook:
-            keyboard.unhook(on_key_event) 
-            hook = None   
 
 # Load data
 def load_game_data():
@@ -1020,15 +1017,22 @@ def load_game_data():
     load_weapons()
     load_player()
 
-# Set up crash log path
-crash_log_path = os.path.join(LOGS_DIR, 'crash.log')
+def main_loop():
+    main_menu()
+    
+    # Keep the game running until exit is selected
+    while not menu_state.should_exit:
+        time.sleep(0.1)  # Prevent CPU overload
 
 # Main game loop with crash handling and restart
+keyboard_manager.start()  # Start keyboard listener
 while True:
     try:
+        globals.in_combat = False
+
         # Load game data
         load_game_data()
-
+        
         # Start the game
         main_loop()
 
@@ -1036,16 +1040,7 @@ while True:
         break
 
     except Exception as e:
-        # Log the crash
-        debug.error(f"An error was caught and crashed the game. Please check {crash_log_path}")
-        crash.error(f"Error caught while running the game:\n{e}\n{traceback.format_exc()}")
-
-        clear_terminal()
-        print("The game unexpectedly crashed! Restarting in a second...")
-        time.sleep(2)
-
-        # Reset game state if necessary
-        menu_state.should_exit = False  # Reset the exit flag
+        crash_handling(e)
         # Reset data in globals to reload them
         ## Data loaded from game
         globals.enemies = []

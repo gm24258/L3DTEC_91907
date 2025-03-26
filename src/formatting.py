@@ -7,9 +7,12 @@ global console
 console = Console()
 
 def clear_terminal():
-    print("\033c", end="")
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        # Use ANSI escape code for full clear
+        print("\033[2J\033[H", end="", flush=True)
     console.clear()
-    os.system("cls" if os.name == "nt" else "clear")
 
 def style_text(styles, *substrings):
     # Apply styles and colors to multiple substrings using `rich`.

@@ -7,6 +7,8 @@ import json
 import shutil
 import random
 import time
+import asyncio
+import threading
 
 # Auto install modules if user doesn't have it already
 import sys
@@ -36,8 +38,8 @@ def auto_install_module(module_name, package_name=None):
 
 # Third-party module used to read arrow keys
 # Insert license
-auto_install_module("keyboard")
-import keyboard
+auto_install_module("pynput")
+import pynput
 
 # Third-party module used to check if window is active for keyboard input
 # Insert license

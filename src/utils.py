@@ -26,9 +26,10 @@ crash = logging.getLogger("crash")
 crash.setLevel(logging.ERROR)
 crash.addHandler(crash_handler)
 
-def int_key(key):
+# Convert string to integer without error
+def int_str(string):
     try:
-        integer = int(str(key))
+        integer = int(string)
         return integer
     except:
         return None

@@ -14,6 +14,7 @@ display_extra = True
 display_text = False
 
 in_combat = False
+crashed = False
 
 def save_player(debug=True):
     global display_controls

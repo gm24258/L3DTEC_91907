@@ -2,19 +2,19 @@
 
 from formatting import *
 
-def print_basic_menu(options, selected, title=None, info=None, tooltip=None, clear=True):
+def print_basic_menu(options, selected, title=None, info=None, tooltip_before=None, tooltip=None):
     # Displays a vertical menu with options that can be navigated using UP/DOWN arrow keys.
     
     # Parameters:
     # title (str): Title of the menu.
     # options (list): List of menu options.
     # selected (int): Index of the currently selected option.
-    if clear is True: clear_terminal()
     if title: console.print(title)
     if info: console.print(info)
     for i, option in enumerate(options):
         prefix = '> ' if i == selected else '  '
         console.print(Text(prefix) + option)
+    if tooltip_before: console.print(Text('\n') + tooltip_before, end='\r') 
     if tooltip: console.print(Text('\n') + tooltip)
 
 def print_horizontal_menu(info, title=None, tooltip=None):
@@ -25,8 +25,6 @@ def print_horizontal_menu(info, title=None, tooltip=None):
     # info (str): Information about the selected item.
     # prev (str): Name of the previous option.
     # next (str): Name of the next option.
-
-    clear_terminal()
     console.print(title)
     console.print(info)
     if len(tooltip) > 0:
@@ -40,8 +38,6 @@ def print_paged_menu(options, selected, title=None, tooltip=None, page_size=5):
     # title (str): Title of the menu.
     # options (list): List of menu options.
     # selected (int): Index of the currently selected option.
-
-    clear_terminal()
 
     total_pages = (len(options) + page_size - 1) // page_size
     current_page = selected // page_size
