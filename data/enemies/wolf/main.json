@@ -2,7 +2,13 @@
     "name": "Wolf",
     "id": "wolf",
     "title": {"color": [188, 226, 227]},
-    "health": 250,
-    "levelRequirement": 10,
-    "boss": false
+    "health": 700,
+    "level": 10,
+    "boss": false,
+    "rewards": {
+        "minMoney": 100,
+        "maxMoney": 250,
+        "minXp": 20,
+        "maxXp": 50
+    }
 }

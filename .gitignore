@@ -5,3 +5,5 @@ save_file.json.bak
 __pycache__/
 .archived/
 src/logs/
+test.py
+one_shot.json

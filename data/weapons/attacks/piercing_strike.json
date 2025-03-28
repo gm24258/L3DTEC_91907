@@ -1,0 +1,36 @@
+{
+    "name": "PIERCING STRIKE",
+    "id": "piercing_strike",
+    "title": {"style": "bold", "color": [139, 173, 201]},
+    "description": "Deliver a powerful strike to your enemies and deal {minDamage}-{maxDamage} damage. Has a {missChance}% chance to miss.",
+    "messages": {
+        "start": [
+            "With a firm grip, you prepare to unleash the full force of your {attack_name}.",
+            "You wind up your {attack_name}, ready to deliver a heavy blow that strikes with precision.",
+            "A sense of power surges through you as you raise your {attack_name}, preparing for a crushing strike.",
+            "Your muscles tense as you ready your {attack_name}, focusing all your strength into this mighty attack.",
+            "The air is thick with anticipation as you prepare to unleash a devastating {attack_name}."
+        ],
+        "hit": [
+            "Your {attack_name} connects with force, dealing {damage} damage!",
+            "With a mighty swing, your {attack_name} lands, inflicting {damage} damage!",
+            "You strike with power, your {attack_name} landing with a heavy blow for {damage} damage!",
+            "The force of your {attack_name} lands with a thundering impact, causing {damage} damage!",
+            "Your {attack_name} crashes down, dealing {damage} damage with overwhelming force!"
+        ],
+        "crit": [
+            "A critical hit! Your {attack_name} lands with devastating impact, dealing {damage} damage!",
+            "The blow lands with immense force, your {attack_name} causing {damage} damage in a critical strike!",
+            "You unleash a powerful critical blow, your {attack_name} dealing {damage} damage!",
+            "Your {attack_name} strikes with unrelenting force, landing a critical hit for {damage} damage!",
+            "With unstoppable power, your {attack_name} lands a critical hit, causing {damage} damage!"
+        ],
+        "miss": [
+            "Your {attack_name} misses, the {enemy_name} narrowly avoiding your strike!",
+            "You swing too wide, and your {attack_name} fails to connect, missing the {enemy_name} entirely!",
+            "Your strike goes off target, and the {enemy_name} ducks under your {attack_name}!",
+            "The {enemy_name} sidesteps your {attack_name}, and it misses its mark!",
+            "Your swing falters, and the {enemy_name} evades your {attack_name}!"
+        ]
+    }
+}

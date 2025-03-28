@@ -9,6 +9,7 @@ import random
 import time
 import asyncio
 import threading
+import math
 
 # Auto install modules if user doesn't have it already
 import sys

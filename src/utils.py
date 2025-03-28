@@ -106,69 +106,75 @@ def load_data_from_directory(directory, data_type):
         debug.warning(f'Directory {directory} does not exist.')
     return data
 
-def load_file_from_directory(directory, name, template_prefix=None):
-    # Loads data from JSON files in a given directory.
+def load_file_from_directory(directory, name, extension='.json', backup=False):
+    # Loads data from JSON (or other files) files in a given directory.
     
     # Parameters:
     # directory (str): Path to the directory containing the JSON files.
-    # name (str): Name of data.
-    # template_prefix (str): 
+    # name (str): Name of file.
+    # extension (str): Extension of file, default is .json.
+    # backup (bool): If a backup of a file is allowed to be saved after load
     
     # Returns:
     # dict: Dictionary consisting of data
     data = {}
     if os.path.exists(directory):
-        file_name = f'{name}.json' if not name.endswith('.json') else name
+        file_name = f'{name}{extension}' if not name.endswith(extension) else name
         file_path = os.path.join(directory, file_name)
         try:
-            with open(file_path, 'r') as file:
-                data = json.load(file)
-                debug.debug(f'Successfully loaded {file_name}')
+            if extension == '.json':
+                with open(file_path, 'r') as file:
+                    data = json.load(file)
+                    debug.debug(f'Successfully loaded {file_name}')
+            save_backup(file_path, file_name)
         except FileNotFoundError:
             debug.warning(f'File {file_name} does not exist.')
-
-            # If this save file has a template file, it will attempt to get the data from that template file and make it the new file
-            if template_prefix:
-                template_file = os.path.join(directory, template_prefix + file_name)
-                try:
-                    with open(template_file, 'r') as file:
-                        data = json.load(file)
-                        debug.debug(f'Successfully created new file from {template_prefix}{file_name}')
-                        save_file_from_directory(directory, file_name, data)
-                except Exception as e:
-                    debug.error(f'Error loading {template_prefix}{file_name}: {e}')
+            return None
         except Exception as e:
             debug.error(f'Error loading {file_name}: {e}')
+            return None
     else:
         debug.error(f'Directory {directory} does not exist.')
     return data
 
-def save_file_from_directory(directory, name, data, debugging):
+def save_backup(file_path, file_name):
+    allow_backup = True
+    if os.path.exists(file_path) and os.stat(file_path).st_size > 0:
+        if file_path.endswith('.json'):
+            try:
+                with open(file_path, 'r') as file:
+                    data = json.load(file)
+                    if not data: backup = False # If current data is empty then it shouldn't save a backup of that empty file
+            except Exception as e:
+                allow_backup = False
+                debug.error(f'Error saving backup of {file_name}: {e}')
+
+        if allow_backup: 
+            backup_file_path = file_path + '.bak'
+            try: shutil.copy(file_path, backup_file_path)
+            except Exception as e: debug.error(f'Error saving backup of {file_name}: {e}')
+
+def save_file_from_directory(directory, name, data, extension='.json', backup = True, debugging=True):
     # Saves data to JSON files from a given directory.
     
     # Parameters:
     # directory (str): Path to the directory containing the JSON files.
     # name (str): Name of data.
     # data (anything): Content of the data
+    # extension (str): Extension of file, default is .json.
+    # backup (bool): If a backup of a file is allowed to be saved
+    # debugging (bool): If it should print debug logs
+
+
     if os.path.exists(directory):
-        file_name = f'{name}.json' if not name.endswith('.json') else name
+        file_name = f'{name}{extension}' if not name.endswith(extension) else name
         file_path = os.path.join(directory, file_name)
         try:
-            backup = True
-            # Check if file exists and it isn't empty, otherwise don't backup
-            if os.path.exists(file_path) and os.stat(file_path).st_size > 0:
-                # Checks if file is JSON and isn't empty/correct, otherwise don't backup
-                if file_path.endswith('.json'):
-                    with open(file_path, 'r') as file:
-                        backup_data = json.load(file) 
-                        if not backup_data: backup+ False
-
-                backup_file_path = file_path + ".bak"
-                if backup: shutil.copy(file_path, backup_file_path)
-            # Saving
-            with open(file_path, 'w') as file:
-                json.dump(data, file, indent=4)
-                if debugging: debug.debug(f'Successfully saved {file_name}:\n{str(data)}')
+            if backup: save_backup(file_path, file_name)
+            if extension == '.json':
+                with open(file_path, 'w') as file:
+                    json.dump(data, file, indent=4)
+            if debugging: debug.debug(f'Successfully saved {file_name}:\n{str(data)}')
         except Exception as e:
             debug.error(f'Error saving {file_name}: {e}')
     else:

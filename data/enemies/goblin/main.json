@@ -2,7 +2,13 @@
     "name": "Goblin",
     "id": "goblin",
     "title": {"color": [6, 143, 56]},
-    "health": 150,
-    "levelRequirement": 0,
-    "boss": false
+    "health": 95,
+    "level": 0,
+    "boss": false,
+    "rewards": {
+        "minMoney": 10,
+        "maxMoney": 20,
+        "minXp": 50,
+        "maxXp": 80
+    }
 }

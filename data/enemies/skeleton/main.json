@@ -3,6 +3,12 @@
     "id": "skeleton",
     "title": {"style": "bold", "color": "white"},
     "health": 200,
-    "levelRequirement": 5,
-    "boss": false
+    "level": 5,
+    "boss": false,
+    "rewards": {
+        "minMoney": 30,
+        "maxMoney": 50,
+        "minXp": 50,
+        "maxXp": 80
+    }
 }

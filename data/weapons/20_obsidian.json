@@ -1,0 +1,38 @@
+{
+    "name": "Obsidian Dagger",
+    "id": "dagger",
+    "title": {"color": [174, 196, 173]},
+    "description": "Molded from volcanic lava, then scraped to the shape of a blade. Capable of delivering swift and sharp strikes.",
+    "inShop": true,
+    "price": 800,
+    "levelRequirement": 20,
+    "abilities": [
+        {
+            "id": "swifter_slashes",
+            "minDamage": 30,
+            "maxDamage": 40,
+            "critMulti": 0.3,
+            "critChance": 20,
+            "hitChance": 100,
+            "cooldown": 0
+        },
+        {
+            "id": "shatter",
+            "minDamage": 50,
+            "maxDamage": 60,
+            "critMulti": 0.4,
+            "critChance": 25,
+            "hitChance": 90,
+            "cooldown": 5
+        },
+        {
+            "id": "eruption",
+            "minDamage": 80,
+            "maxDamage": 90,
+            "critMulti": 0.3,
+            "critChance": 30,
+            "hitChance": 25,
+            "cooldown": 6
+        }
+    ]
+}

@@ -2,7 +2,7 @@ from menus import *
 from utils import *
 from fight import initiate_fight
 from keyboard_manager import keyboard_manager
-from globals import save_player
+from globals import player
 import globals
 
 def load_enemy_data(enemy_directory):
@@ -36,8 +36,8 @@ def load_enemies():
             enemy_data = load_enemy_data(enemy_path)
             globals.enemies.append(enemy_data)
     
-    # Assuming each enemy has a 'main' data containing 'levelRequirement'
-    globals.enemies = merge_sort(globals.enemies, 'levelRequirement')
+    # Assuming each enemy has a 'main' data containing 'level'
+    globals.enemies = merge_sort(globals.enemies, 'level')
     debug.info(f'Loaded {len(globals.enemies)} enemies.')
 
 def load_attacks(): 
@@ -53,15 +53,6 @@ def load_weapons():
 
     # Create a new list of globals.weapons from exisiting globals.weapons list but removes items that are not shop items
     globals.shop_weapons = [weapon['id'] for weapon in globals.weapons if weapon['inShop']]
-    
-# Player data
-def load_player():
-    globals.player = load_file_from_directory(DATA_DIR, 'save_file', 'template_')
-    globals.settings = globals.player['settings']
-    globals.display_controls = globals.settings['displayControls']
-    globals.display_text = globals.settings['displayTextTooltips']
-    globals.display_extra = globals.settings['displayExtraTooltips']
-    debug.info('Loaded globals.player data:\n' + str(globals.player))
 
 def sort_displayed_weapons(key, order, weapons_list):
     if key == 'price':
@@ -142,9 +133,9 @@ def main_menu(selected=0):
     menu_state.options = ['Play', 'Shop', 'Inventory', 'Settings', 'Exit']
     menu_state.menu_type = 'basic'
     menu_state.selected = selected
-    menu_state.title = style_text({'style': 'bold'}, 'Main Menu')
+    menu_state.title = style_text({'style': 'bold'}, f'Main Menu | Lvl. ') + Text(str(player.level)) + style_text({'style': 'italic'}, f' ({player.xp}/{player.xp_goal})')
     menu_state.info = None
-    menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select') if globals.display_controls else None
+    menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select') if player.display_controls else None
 
     def update_selection(delta):
         """Update the selected option and redraw the menu."""
@@ -184,7 +175,7 @@ def exit_confirmation(old_selected):
     menu_state.selected = 0
     menu_state.title = style_text({'style': 'bold'}, 'Are you sure you want to exit?')
     menu_state.info = None
-    menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select') if globals.display_controls else None
+    menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select') if player.display_controls else None
 
     def on_press(key):
         if key == 'up':  # Up arrow
@@ -198,7 +189,7 @@ def exit_confirmation(old_selected):
                 # Go back to main menu with the old_selected value
                 main_menu(old_selected)
             elif menu_state.selected == 1: 
-                save_player()
+                player.save()
                 print('\nExiting game...')
                 menu_state.should_exit = True
         elif key == 'esc':  # ESC key
@@ -213,7 +204,7 @@ def play_selection_menu(selected=0, old_selected=0):
     # Set up the menu state for the play selection menu
     menu_state.menu_type = 'horizontal'
     menu_state.selected = selected  # Start with the first enemy selected
-    menu_state.title = "Play"
+    menu_state.title = style_text({'style': 'bold'}, f'Play | Lvl. ') + Text(str(player.level)) + style_text({'style': 'italic'}, f' ({player.xp}/{player.xp_goal})')
     menu_state.tooltip = None  # Will be updated dynamically
     menu_state.info = None  # Will be updated dynamically
 
@@ -238,7 +229,7 @@ def play_selection_menu(selected=0, old_selected=0):
     def handle_enter():
         """Handle enemy selection for combat"""
         current_enemy = globals.enemies[menu_state.selected]
-        if globals.player['level'] >= current_enemy['levelRequirement']:
+        if player.level >= current_enemy['level']:
             play_confirm_fight(
                 current_enemy,
                 style_text(current_enemy['title'], current_enemy['name']),
@@ -253,8 +244,8 @@ def play_selection_menu(selected=0, old_selected=0):
     def update_menu_info():
         # Update the info and tooltip based on the selected enemy
         current_enemy = globals.enemies[menu_state.selected]
-        level_requirement = current_enemy['levelRequirement']
-        correct_level = globals.player['level'] >= level_requirement
+        level_requirement = current_enemy['level']
+        correct_level = player.level >= level_requirement
 
         # Enemy info
         enemy_name = style_text(current_enemy['title'], current_enemy['name'])
@@ -262,7 +253,7 @@ def play_selection_menu(selected=0, old_selected=0):
         level_info = style_text({'style': 'bold'}, ' Level required: ')
         level_color = [201, 237, 154] if correct_level else [227, 104, 104]  # Green if meeting level requirement, else red
         level_info += style_text({'color': level_color}, f"{level_requirement}")
-        locked_text = style_text({'style': 'italic'}, ' (Locked)') if globals.display_text else Text(" 🔒")
+        locked_text = style_text({'style': 'italic'}, ' (Locked)') if player.display_text else Text(" 🔒")
         level_info += Text() if correct_level else locked_text
 
         menu_state.info = enemy_name + '\n' + health_text + '\n' + level_info
@@ -274,8 +265,8 @@ def play_selection_menu(selected=0, old_selected=0):
         prev_enemy_name = style_text(prev_enemy['title'], prev_enemy['name']) if prev_enemy else Text('NONE')
         next_enemy_name = style_text(next_enemy['title'], next_enemy['name']) if next_enemy else Text('NONE')
 
-        enter_string = f"{'' if globals.display_text else '⚔️  ' }{'ENTER to ' if globals.display_controls else ''}Fight" if correct_level else style_text({'style': 'bold italic'}, 'You cannot fight this enemy yet!')
-        menu_state.tooltip = style_text({'style': 'italic'}, enter_string, ' | ', prev_enemy_name, ' ← | → ', next_enemy_name, '\nArrow Keys ←/→ to navigate | ESC to go back' if globals.display_controls else '')
+        enter_string = f"{'' if player.display_text else '⚔️  ' }{'ENTER to ' if player.display_controls else ''}Fight" if correct_level else style_text({'style': 'bold italic'}, 'You cannot fight this enemy yet!')
+        menu_state.tooltip = style_text({'style': 'italic'}, enter_string, ' | ', prev_enemy_name, ' ← | → ', next_enemy_name, '\nArrow Keys ←/→ to navigate | ESC to go back' if player.display_controls else '')
     
     # Register the keyboard handler
     keyboard_manager.set_handler(on_press)
@@ -285,16 +276,16 @@ def play_selection_menu(selected=0, old_selected=0):
 def play_confirm_fight(enemy, enemy_name, enemy_id, old_selected=0):
     # Set up info
     health_info = style_text({'style': 'bold'}, ' Health: ') + style_text({'color': [201, 237, 154]}, str(enemy['health']))
-    enemy_level_info = style_text({'style': 'bold'}, '\n Level requirement: ') + style_text({'color': [201, 237, 154]}, str(enemy['levelRequirement']))
-    player_level_info = style_text({'style': 'bold'}, '\n Your health: ') + style_text({'color': [201, 237, 154]}, str(globals.player['health']))
-    player_level_info = style_text({'style': 'bold'}, '\n Your level: ') + style_text({'color': [201, 237, 154]}, str(globals.player['level']))
+    enemy_level_info = style_text({'style': 'bold'}, '\n Level requirement: ') + style_text({'color': [201, 237, 154]}, str(enemy['level']))
+    player_level_info = style_text({'style': 'bold'}, '\n Your health: ') + style_text({'color': [201, 237, 154]}, str(player.health))
+    player_level_info = style_text({'style': 'bold'}, '\n Your level: ') + style_text({'color': [201, 237, 154]}, str(player.level))
 
     # Set up the menu state
     menu_state.options = [style_text({'style': 'bold'}, 'No'), style_text({'style': 'bold'}, 'Yes')]
     menu_state.menu_type = 'basic'
     menu_state.selected = 0 
     menu_state.title = style_text({'style': 'bold'}, f"Are you sure you want to fight ", enemy_name, "?\n")
-    menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select | ESC to go back' if globals.display_controls else '')
+    menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select | ESC to go back' if player.display_controls else '')
     menu_state.info = health_info + enemy_level_info + player_level_info
 
     def handle_selection_change(new_selection):
@@ -340,11 +331,11 @@ def play_confirm_fight(enemy, enemy_name, enemy_id, old_selected=0):
     redraw_menu()
 
 def shop_menu(selected=0, old_selected=0):
-    menu_state.sort_type = globals.settings.get('shopSortType', 'price')
-    menu_state.sort_order = globals.settings.get('shopSortAscending', True)
+    menu_state.sort_type = player.settings.get('shopSortType', 'price')
+    menu_state.sort_order = player.settings.get('shopSortAscending', True)
 
-    sort_type_keybind = globals.settings['primarySortKeybind']
-    sort_order_keybind = globals.settings['secondarySortKeybind']
+    sort_type_keybind = player.settings['primarySortKeybind']
+    sort_order_keybind = player.settings['secondarySortKeybind']
 
     # Store old sort_type and sort_order
     sort_type = menu_state.sort_type
@@ -354,7 +345,7 @@ def shop_menu(selected=0, old_selected=0):
     # Set up the menu state for the shop menu
     menu_state.menu_type = 'paged'
     menu_state.selected = selected
-    menu_state.title = style_text({'style':'bold'}, 'Shop (Balance: ', style_text({'color':[201, 237, 154]}, f"${globals.player['money']}"), ')')
+    menu_state.title = style_text({'style':'bold'}, 'Shop | Balance: ', style_text({'color':[201, 237, 154]}, f"${player.balance}"), f" | Level: ") + Text(str(player.level))
     menu_state.tooltip = None # Will be updated dynamically
     menu_state.info = None 
     menu_state.page_size = 5 
@@ -368,7 +359,7 @@ def shop_menu(selected=0, old_selected=0):
         elif key == 'down':  # Right arrow
             update_selection(1)
         elif key == 'left' and menu_state.current_page > 0:
-            menu_state.selected = max(0, selected + menu_state.page_size)
+            menu_state.selected = max(0, selected - menu_state.page_size)
             redraw_menu()
         elif key == 'right' and menu_state.current_page < menu_state.total_pages - 1: 
             menu_state.selected = min(len(menu_state.options) - 1, selected + menu_state.page_size)
@@ -386,16 +377,14 @@ def shop_menu(selected=0, old_selected=0):
             menu_state.sort_type = keys[(keys.index(menu_state.sort_type) + 1) % len(keys)]
             update_menu_info() 
             redraw_menu()
-            globals.settings['shopSortType'] = sort_type
-            globals.player['settings'] = globals.settings
-            save_player(debug=False)
+            player.settings['shopSortType'] = sort_type
+            player.save(debugging=False)
         elif key == sort_order_keybind:
             menu_state.sort_order = not menu_state.sort_order
-            globals.settings['shopSortAscending'] = menu_state.sort_order
-            globals.player['settings'] = globals.settings
+            player.settings['shopSortAscending'] = menu_state.sort_order
             update_menu_info() 
             redraw_menu()
-            save_player(debug=False)
+            player.save(debugging=False)
 
     def update_selection(delta):
         valid_indices = list(range(menu_state.start_index, min(menu_state.start_index + menu_state.page_size, len(menu_state.options))))
@@ -429,11 +418,11 @@ def shop_menu(selected=0, old_selected=0):
             weapon = next((item for item in globals.weapons if item['id'] == weapon_id), None)
             if weapon:
                 option_text = style_text(weapon['title'], weapon['name'])
-                if weapon_id in globals.player['inventory']:
-                    owned_text = style_text({'style': 'italic'}, ' (Owned)') if globals.display_text else Text(" ✅")
+                if weapon_id in player.inventory:
+                    owned_text = style_text({'style': 'italic'}, ' (Owned)') if player.display_text else Text(" ✅")
                     option_text += owned_text
-                elif globals.player['level'] < weapon['levelRequirement']:
-                    locked_text = style_text({'style': 'italic'}, ' (Locked)') if globals.display_text else Text(" 🔒")
+                elif player.level < weapon['levelRequirement']:
+                    locked_text = style_text({'style': 'italic'}, ' (Locked)') if player.display_text else Text(" 🔒")
                     option_text += locked_text  
                 options.append((weapon_id, weapon, option_text))
             else:
@@ -444,9 +433,9 @@ def shop_menu(selected=0, old_selected=0):
         displayed_type = ""
         if sort_type == 'levelRequirement': displayed_type = "Level"
         elif sort_type == 'price': displayed_type = "Price"
-        sort_tooltip = f"Sorted by: {displayed_type}{f' ({sort_type_keybind.upper()})' if globals.display_controls else ''} | {displayed_order}{f' ({sort_order_keybind.upper()})' if globals.display_controls else ''}"
-        control_tooltip =  '\nArrow Keys ↑/↓ to navigate items | Arrow Keys ←/→ to navigate pages | ENTER to select | ESC to go back' if globals.display_controls else ''
-        extra_tooltip = '\n✅ = Purchased | 🔒 = Locked' if globals.display_extra else ''
+        sort_tooltip = f"Sorted by: {displayed_type}{f' ({sort_type_keybind.upper()})' if player.display_controls else ''} | {displayed_order}{f' ({sort_order_keybind.upper()})' if player.display_controls else ''}"
+        control_tooltip =  '\nArrow Keys ↑/↓ to navigate items | Arrow Keys ←/→ to navigate pages | ENTER to select | ESC to go back' if player.display_controls else ''
+        extra_tooltip = '\n✅ = Purchased | 🔒 = Locked' if player.display_extra else ''
 
         menu_state.tooltip = style_text({'style':'italic'}, sort_tooltip, control_tooltip, extra_tooltip)  
         menu_state.options = [option[2] for option in options]
@@ -460,20 +449,20 @@ def shop_view_weapon(weapon, weapon_name, weapon_id, selected=0, old_selected=0)
     # Set up the menu state for the weapon inspection menu for shop
     menu_state.menu_type = 'horizontal'
     menu_state.selected = selected 
-    menu_state.title = style_text({'style': 'bold'}, 'Inspeacting Weapon | Shop (Balance: ', style_text({'color':[201, 237, 154]}, f"${globals.player['money']}"), ')')
+    menu_state.title = style_text({'style': 'bold'}, 'Inspeacting Weapon | Shop | Balance: ', style_text({'color':[201, 237, 154]}, f"${player.balance}"), f" | Level: ") + Text(str(player.level))
     menu_state.tooltip = None  # Will be updated dynamically
     menu_state.info = None  # Will be updated dynamically
 
     # Checks player's balance and if player can afford
-    balance = globals.player['money']
+    balance = player.balance
     price = weapon['price']
     afford = balance >= price or price == 0 # If player has equal or more money than the price, or the weapon is free
     # Checks player's level and if it meets level requirement
-    level = globals.player['level']
+    level = player.level
     level_requirement = weapon['levelRequirement']
     correct_level = level >= level_requirement
     # If player has weapon in their inventory
-    owned = weapon_id in globals.player['inventory']
+    owned = weapon_id in player.inventory
 
     abilities = weapon['abilities']
 
@@ -516,7 +505,7 @@ def shop_view_weapon(weapon, weapon_name, weapon_id, selected=0, old_selected=0)
         level_info = style_text({'style': 'bold'}, 'Level required: ')
         level_color = [201, 237, 154] if correct_level else [227, 104, 104] # Green if meeting level requirement else red
         level_info += style_text({'color': level_color}, f"{level_requirement}")
-        locked_text = style_text({'style': 'italic'}, ' (Locked)') if globals.display_text else Text(" 🔒")
+        locked_text = style_text({'style': 'italic'}, ' (Locked)') if player.display_text else Text(" 🔒")
         level_info += Text() if correct_level else locked_text
         
         # ability: where the weapon's ability's stats are stored
@@ -536,7 +525,7 @@ def shop_view_weapon(weapon, weapon_name, weapon_id, selected=0, old_selected=0)
         weapon_info = Text(" ") + weapon_name + Text(f" \n  {weapon['description']}") + Text(f"\n  ") + price_info + Text(f"\n  ") + level_info
         ability_title = Text(f'\n == ABILITIES ({menu_state.selected + 1}/{len(abilities)}) ==\n')
         ability_name = style_text(attack['title'], f" {attack['name']}")
-        ability_description = attack['description'].format(minDamage = ability['minDamage'], maxDamage = ability['maxDamage'], hitChance = 100 - ability['hitChance'])
+        ability_description = attack['description'].format(minDamage = ability['minDamage'], maxDamage = ability['maxDamage'], missChance = 100 - ability['hitChance'])
         ability_info = ability_title + ability_name + Text(f"\n  {ability_description}")
 
         enter_string = '' 
@@ -548,10 +537,10 @@ def shop_view_weapon(weapon, weapon_name, weapon_id, selected=0, old_selected=0)
             enter_string = style_text({'style':'bold italic'}, 'You cannot afford this weapon yet!')
         else:
             enter_string = 'ENTER to purchase'
-        ability_tooltip = 'Arrow Keys ←/→ to navigate abilities\n' if len(abilities) > 1 and globals.display_controls else ''
+        ability_tooltip = 'Arrow Keys ←/→ to navigate abilities\n' if len(abilities) > 1 and player.display_controls else ''
 
         menu_state.info = weapon_info + ability_info
-        menu_state.tooltip =  style_text({'style':'italic'}, ability_tooltip, enter_string, ' | ESC to go back' if globals.display_controls else '')
+        menu_state.tooltip =  style_text({'style':'italic'}, ability_tooltip, enter_string, ' | ESC to go back' if player.display_controls else '')
 
     # Set the current menu handler
     keyboard_manager.set_handler(on_press)
@@ -563,8 +552,8 @@ def shop_buy_weapon(weapon, weapon_name, weapon_id, price, old_selected=0):
     menu_state.menu_type = 'basic'
     menu_state.selected = 0
     menu_state.title = style_text({'style': 'bold'}, f"Are you sure you want to purchase ", weapon_name, "?")
-    menu_state.info = style_text({'style': 'bold'}, ' Price: ') + style_text({'color': [201, 237, 154]}, f"${weapon['price']}") + style_text({'style': 'bold'}, '\n Your balance: ') + style_text({'color': [201, 237, 154]}, f"${globals.player['money']}")
-    menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select | ESC to go back' if globals.display_controls else '')
+    menu_state.info = style_text({'style': 'bold'}, ' Price: ') + style_text({'color': [201, 237, 154]}, f"${weapon['price']}") + style_text({'style': 'bold'}, '\n Your balance: ') + style_text({'color': [201, 237, 154]}, f"${player.balance}")
+    menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select | ESC to go back' if player.display_controls else '')
         
     def on_press(key):
         if key == 'up':  # Up arrow
@@ -577,10 +566,10 @@ def shop_buy_weapon(weapon, weapon_name, weapon_id, price, old_selected=0):
             if menu_state.selected == 0:
                 debug.info(f"Did not purchase {weapon_name}")
             elif menu_state.selected == 1: 
-                globals.player['inventory'].append(weapon_id)
-                globals.player['money'] -= price
+                player.inventory.append(weapon_id)
+                player.balance -= price
                 debug.info(f"Purchased {weapon_name}")
-                save_player()
+                player.save()
             # Go back to shop weapon inspection with the old_selected value
             shop_view_weapon(weapon, weapon_name, weapon_id, old_selected)
         elif key == 'esc':  # ESC key
@@ -592,31 +581,31 @@ def shop_buy_weapon(weapon, weapon_name, weapon_id, price, old_selected=0):
     redraw_menu()
 
 def inventory_menu(selected=0, old_selected=0):
-    menu_state.sort_type = globals.settings.get('invSortType', 'levelRequirement')
-    menu_state.sort_order = globals.settings.get('invSortAscending', True)
+    menu_state.sort_type = player.settings.get('invSortType', 'levelRequirement')
+    menu_state.sort_order = player.settings.get('invSortAscending', True)
 
-    sort_type_keybind = globals.settings['primarySortKeybind']
-    sort_order_keybind = globals.settings['secondarySortKeybind']
+    sort_type_keybind = player.settings['primarySortKeybind']
+    sort_order_keybind = player.settings['secondarySortKeybind']
 
     # Set up the menu state for the inventory menu
     menu_state.menu_type = 'paged'
     menu_state.selected = selected 
-    menu_state.title = style_text({'style':'bold'}, 'Inventory')
+    menu_state.title = style_text({'style':'bold'}, f"Inventory | Level ") + Text(str(player.level))
     menu_state.tooltip = None # Will be updated dynamically
     menu_state.info = None 
     menu_state.page_size = 5 
 
     current_option = None
 
-    globals.player['inventory'] = sorted(
-        globals.player['inventory'], 
+    player.inventory = sorted(
+        player.inventory, 
         key = lambda weapon_id: next((item['levelRequirement'] for item in globals.weapons if item['id'] == weapon_id), 0)
     )
 
     # Store old sort_type and sort_order
     sort_type = menu_state.sort_type
     sort_order = menu_state.sort_order
-    displayed_inventory = sort_displayed_weapons(sort_type, sort_order, globals.player['inventory'])
+    displayed_inventory = sort_displayed_weapons(sort_type, sort_order, player.inventory)
 
     def on_press(key):
         nonlocal current_option
@@ -625,7 +614,7 @@ def inventory_menu(selected=0, old_selected=0):
         elif key == 'down':  # Right arrow
             update_selection(1)
         elif key == 'left' and menu_state.current_page > 0:
-            menu_state.selected = max(0, selected + menu_state.page_size)
+            menu_state.selected = max(0, selected - menu_state.page_size)
             redraw_menu()
         elif key == 'right' and menu_state.current_page < menu_state.total_pages - 1: 
             menu_state.selected = min(len(menu_state.options) - 1, selected + menu_state.page_size)
@@ -643,16 +632,14 @@ def inventory_menu(selected=0, old_selected=0):
             menu_state.sort_type = keys[(keys.index(menu_state.sort_type) + 1) % len(keys)]
             update_menu_info() 
             redraw_menu()
-            globals.settings['shopSortType'] = sort_type
-            globals.player['settings'] = globals.settings
-            save_player(debug=False)
+            player.settings['shopSortType'] = sort_type
+            player.save(debugging=False)
         elif key == sort_order_keybind:
             menu_state.sort_order = not menu_state.sort_order
-            globals.settings['shopSortAscending'] = menu_state.sort_order
-            globals.player['settings'] = globals.settings
+            player.settings['shopSortAscending'] = menu_state.sort_order
             update_menu_info() 
             redraw_menu()
-            save_player(debug=False)
+            player.save(debugging=False)
 
     def update_selection(delta):
         valid_indices = list(range(menu_state.start_index, min(menu_state.start_index + menu_state.page_size, len(menu_state.options))))
@@ -679,30 +666,30 @@ def inventory_menu(selected=0, old_selected=0):
         if menu_state.sort_type != sort_type or menu_state.sort_order != sort_order:
             sort_type = menu_state.sort_type
             sort_order = menu_state.sort_order
-            displayed_inventory = sort_displayed_weapons(sort_type, sort_order, globals.player['inventory'])
+            displayed_inventory = sort_displayed_weapons(sort_type, sort_order, player.inventory)
 
         options = [] 
-        old_inventory = list(globals.player['inventory'])
+        old_inventory = list(player.inventory)
         for weapon_id in displayed_inventory:
             weapon = next((item for item in globals.weapons if item['id'] == weapon_id), None)
             if weapon:
                 option_text = style_text(weapon['title'], weapon['name'])
-                equipped_text = style_text({'style': 'italic'}, ' (Equipped)') if globals.display_text else Text(" ✅")
-                option_text += equipped_text if globals.player['equipped'] == weapon_id else Text()
+                equipped_text = style_text({'style': 'italic'}, ' (Equipped)') if player.display_text else Text(" ✅")
+                option_text += equipped_text if player.equipped == weapon_id else Text()
                 options.append((weapon_id, weapon, option_text))
             else:
                 debug.warning(f"Error trying to find weapon with ID: {weapon_id}, removing item off inventory.")
-                globals.player['inventory'].remove(weapon_id)
-        if len(old_inventory) != globals.player['inventory']: save_player()
+                player.inventory.remove(weapon_id)
+        if len(old_inventory) != player.inventory: player.save()
         current_option = options[menu_state.selected]  
         
         displayed_order = 'Ascending' if sort_order else "Descending"
         displayed_type = ""
         if sort_type == 'levelRequirement': displayed_type = "Level"
         elif sort_type == 'price': displayed_type = "Price"
-        sort_tooltip = f"Sorted by: {displayed_type}{f' ({sort_type_keybind.upper()})' if globals.display_controls else ''} | {displayed_order}{f' ({sort_order_keybind.upper()})' if globals.display_controls else ''}"
-        control_tooltip =  '\nArrow Keys ↑/↓ to navigate items | Arrow Keys ←/→ to navigate pages | ENTER to select | ESC to go back' if globals.display_controls else ''
-        extra_tooltip = '\n✅ = Equipped' if globals.display_extra else ''
+        sort_tooltip = f"Sorted by: {displayed_type}{f' ({sort_type_keybind.upper()})' if player.display_controls else ''} | {displayed_order}{f' ({sort_order_keybind.upper()})' if player.display_controls else ''}"
+        control_tooltip =  '\nArrow Keys ↑/↓ to navigate items | Arrow Keys ←/→ to navigate pages | ENTER to select | ESC to go back' if player.display_controls else ''
+        extra_tooltip = '\n✅ = Equipped' if player.display_extra else ''
 
         menu_state.tooltip = style_text({'style':'italic'}, sort_tooltip, control_tooltip, extra_tooltip)  
         menu_state.options = [option[2] for option in options]
@@ -716,16 +703,16 @@ def inv_view_weapon(weapon, weapon_name, weapon_id, old_selected=0):
     # Set up the menu state for the weapon inspection menu for inventory
     menu_state.menu_type = 'horizontal'
     menu_state.selected = 0 
-    menu_state.title = style_text({'style': 'bold'}, 'Inspeacting Weapon | Inventory')
+    menu_state.title = style_text({'style': 'bold'}, f"Inspeacting Weapon | Inventory | Level ") + Text(str(player.level))
     menu_state.tooltip = None  # Will be updated dynamically
     menu_state.info = None  # Will be updated dynamically
 
     # Checks player's level and if it meets this weapon's level requirement
-    level = globals.player['level']
+    level = player.level
     level_requirement = weapon['levelRequirement']
     correct_level = level >= level_requirement
     # Check if player has this weapon equipped
-    equipped = globals.player['equipped'] == weapon_id
+    equipped = player.equipped == weapon_id
 
     abilities = weapon['abilities']
 
@@ -740,8 +727,8 @@ def inv_view_weapon(weapon, weapon_name, weapon_id, old_selected=0):
         elif key == 'enter':  # Enter key
             if not equipped and correct_level:
 
-                globals.player['equipped'] = weapon_id
-                save_player(debug=False)
+                player.equipped = weapon_id
+                player.save(debugging=False)
                 debug.info(f"Equipped {weapon_name}")
 
                 equipped = True
@@ -764,20 +751,20 @@ def inv_view_weapon(weapon, weapon_name, weapon_id, old_selected=0):
         nonlocal equipped
         nonlocal abilities
         
-        equipped_text = style_text({'style': 'italic'}, ' (Equipped)') if globals.display_text else Text(" ✅")
+        equipped_text = style_text({'style': 'italic'}, ' (Equipped)') if player.display_text else Text(" ✅")
         equipped_string = equipped_text if equipped else Text()
 
         # Price
         price_info = Text()
         if weapon.get('price'):
             price = weapon['price']
-            price_info = style_text({'style': 'bold'}, '  Price from shop: ') + style_text({'color': [201, 237, 154]}, f"${price}\n")
+            price_info = style_text({'style': 'bold'}, '\n  Price from shop: ') + style_text({'color': [201, 237, 154]}, f"${price}\n")
 
         # Level
         level_info = style_text({'style': 'bold'}, 'Level required: ')
         level_color = [201, 237, 154] if correct_level else [227, 104, 104] # Green if meeting level requirement else red
         level_info += style_text({'color': level_color}, f"{level_requirement}")
-        locked_text = style_text({'style': 'italic'}, ' (Locked)') if globals.display_text else Text(" 🔒")
+        locked_text = style_text({'style': 'italic'}, ' (Locked)') if player.display_text else Text(" 🔒")
         level_info += Text() if correct_level else locked_text
         
         # ability: where the weapon's ability's stats are stored
@@ -795,10 +782,10 @@ def inv_view_weapon(weapon, weapon_name, weapon_id, old_selected=0):
         #  Ability name
         #   Ability description
 
-        weapon_info = Text(" ") + weapon_name + equipped_string + Text(f" \n  {weapon['description']}") + Text(f"\n  ") + price_info + Text(f"  ") + level_info
+        weapon_info = Text(" ") + weapon_name + equipped_string + Text(f" \n  {weapon['description']}") + price_info + Text(f"\n  ") + level_info
         ability_title = Text(f'\n == ABILITIES ({menu_state.selected + 1}/{len(abilities)}) ==\n')
         ability_name = style_text(attack['title'], f" {attack['name']}")
-        ability_description = attack['description'].format(minDamage = ability['minDamage'], maxDamage = ability['maxDamage'], hitChance = 100 - ability['hitChance'])
+        ability_description = attack['description'].format(minDamage = ability['minDamage'], maxDamage = ability['maxDamage'], missChance = 100 - ability['hitChance'])
         ability_info = ability_title + ability_name + Text(f"\n  {ability_description}")
 
         enter_string = '' 
@@ -808,10 +795,10 @@ def inv_view_weapon(weapon, weapon_name, weapon_id, old_selected=0):
             enter_string = style_text({'style':'bold italic'}, 'You cannot equip this weapon!')
         else:
             enter_string = 'ENTER to equip'
-        ability_tooltip = 'Arrow Keys ←/→ to navigate abilities\n' if len(abilities) > 1 and globals.display_controls else ''
+        ability_tooltip = 'Arrow Keys ←/→ to navigate abilities\n' if len(abilities) > 1 and player.display_controls else ''
 
         menu_state.info = weapon_info + ability_info
-        menu_state.tooltip =  style_text({'style':'italic'}, ability_tooltip, enter_string, ' | ESC to go back' if globals.display_controls else '')
+        menu_state.tooltip =  style_text({'style':'italic'}, ability_tooltip, enter_string, ' | ESC to go back' if player.display_controls else '')
 
     # Set the current menu handler
     keyboard_manager.set_handler(on_press)
@@ -820,11 +807,12 @@ def inv_view_weapon(weapon, weapon_name, weapon_id, old_selected=0):
 
 def settings_menu(selected=0, old_selected=0):
     options = [
-        # Options/globals.settings:
+        # Options/player.settings:
         # (Styled text for setting name, id of setting, ['what to display beside text if off', 'what to display beside text if on'], {setting(s) that this one depends on: what state it has to be})
         TwoStateSetting(style_text({'style': 'bold italic'}, 'Show keyboard controls on tooltips:'), 'displayControls'),
         TwoStateSetting(style_text({'style': 'bold italic'}, 'Show text instead of symbols for labels:'), 'displayTextTooltips'),
         TwoStateSetting(style_text({'style': 'bold italic'}, 'Show additional tooltips for symbols:'), 'displayExtraTooltips', None, {'displayTextTooltips': False}, False),
+        TwoStateSetting(style_text({'style': 'bold italic'}, 'Faster battle logs'), 'fasterBattleLogs'),
         KeyBindSetting(style_text({'style': 'bold italic'}, 'Set keybind for sort key:'), 'primarySortKeybind', ['secondarySortKeybind']),
         KeyBindSetting(style_text({'style': 'bold italic'}, 'Set keybind for sort order:'), 'secondarySortKeybind', ['primarySortKeybind']),
     ]
@@ -841,9 +829,10 @@ def settings_menu(selected=0, old_selected=0):
         if key == 'up':  # Left arrow
             update_selection(-1)
         elif key == 'down':  # Right arrow
+
             update_selection(1)
         elif key == 'left' and menu_state.current_page > 0:
-            menu_state.selected = max(0, selected + menu_state.page_size)
+            menu_state.selected = max(0, selected - menu_state.page_size)
             redraw_menu()
         elif key == 'right' and menu_state.current_page < menu_state.total_pages - 1: 
             menu_state.selected = min(len(menu_state.options) - 1, selected + menu_state.page_size)
@@ -873,14 +862,13 @@ def settings_menu(selected=0, old_selected=0):
         
         selected_option = options[menu_state.selected]
         id = selected_option.id
-        setting = globals.settings.get(id)
+        setting = player.settings.get(id)
 
         if setting is not None: # If setting exists
             if isinstance(selected_option, TwoStateSetting):
-                globals.settings[id] = not globals.settings[id]
-                globals.player['settings'] = globals.settings
-                save_player()
-                debug.info(f"{'Enabled' if globals.settings[id] is True else 'Disabled'} setting: {id}")
+                player.settings[id] = not player.settings[id]
+                player.save()
+                debug.info(f"{'Enabled' if player.settings[id] is True else 'Disabled'} setting: {id}")
 
                 update_menu_info() 
                 redraw_menu()
@@ -892,13 +880,12 @@ def settings_menu(selected=0, old_selected=0):
     def update_menu_info():
         nonlocal options
 
-        
         displayed_options = []
 
         for option in options:
             text = option.text
             id = option.id
-            setting = globals.settings[id] or None
+            setting = player.settings[id] or None
             
             # Checks if user prefers text than symbols to indicate something
 
@@ -907,30 +894,29 @@ def settings_menu(selected=0, old_selected=0):
             disabled = False
             if dependencies and isinstance(dependencies, dict):
                 for i,v in dependencies.items():
-                    if globals.settings[i] != v:
+                    if player.settings[i] != v:
                         disabled = True
                         break
             
             # This option is skipped and no longer displayed
             if disabled:
-                globals.settings[option.id] = option.disabled_value
-                globals.player['settings'] = globals.settings
-                save_player(debug=False)
+                player.settings[option.id] = option.disabled_value
+                player.save(debugging=False)
                 continue
 
             if isinstance(option, TwoStateSetting):
                 states = list(option.states)
-                if globals.display_text and option.states == ['', '✅']:
+                if player.display_text and option.states == ['', '✅']:
                     states[0] = style_text({'style': 'italic'}, 'Off')
                     states[1] = style_text({'style': 'italic'}, 'On')
                 displayed_options.append(text + Text(f" {states[1] if setting is True else states[0]}"))
             elif isinstance(option, KeyBindSetting):
                 setting = 'Unassigned' if setting is None else setting
                 displayed_options.append(text + Text(f" {setting.upper()}"))
-            # Placeholder for globals.settings with more than 3 options 
+            # Placeholder for player.settings with more than 3 options 
             # else:
 
-        menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate items | ←/→ to navigate pages | ENTER to select | ESC to go back') if globals.display_controls else None
+        menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate items | ←/→ to navigate pages | ENTER to select | ESC to go back') if player.display_controls else None
         menu_state.options = displayed_options
 
     # Set the current menu handler
@@ -949,16 +935,15 @@ def set_keybind_menu(selected_option, old_selected):
             blacklisted_keybind = key
             update_menu()
         # Keys cannot be binded to conflicting keybinds (inside dependencies)
-        elif key in [globals.settings[other_keybind] for other_keybind in selected_option.dependencies or [] if other_keybind in globals.settings]:
+        elif key in [player.settings[other_keybind] for other_keybind in selected_option.dependencies or [] if other_keybind in player.settings]:
             blacklisted_keybind = key
             update_menu()
         elif key == 'esc':  # ESC key
             settings_menu(old_selected)  # Go back to settings menu
         # Set keybind to key if no conflicts
         else:
-            globals.settings[selected_option.id] = key
-            globals.player['settings'] = globals.settings
-            save_player(debug=False)
+            player.settings[selected_option.id] = key
+            player.save(debugging=False)
 
             settings_menu(old_selected)  # Go back to settings menu
 
@@ -968,7 +953,7 @@ def set_keybind_menu(selected_option, old_selected):
 
         clear_terminal()
         console.print(style_text({'style':'bold'}, f"Settings | ", str(selected_option.text))) # title
-        if globals.display_controls:
+        if player.display_controls:
             console.print(style_text({'style':'italic'}, 'Press any key to set | ESC to cancel')) # tooltip
         if blacklisted_keybind:
             console.print(style_text({'style':'bold italic'}, f'You cannot set your keybind to {blacklisted_keybind}!'))
@@ -1015,7 +1000,7 @@ def redraw_menu(clear=True):
 def load_game_data():
     load_enemies()
     load_weapons()
-    load_player()
+    player.load()
 
 def main_loop():
     main_menu()
@@ -1049,8 +1034,4 @@ while True:
         globals.shop_weapons = []
 
         ## Player data
-        globals.player = []
-        globals.settings = []
-        globals.display_controls = True
-        globals.display_extra = True
-        globals.display_text = False
+        player.__init__()

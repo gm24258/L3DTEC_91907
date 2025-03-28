@@ -1,0 +1,38 @@
+{
+    "name": "Steel Sword",
+    "id": "steel",
+    "title": {"color": [122, 122, 122]},
+    "description": "A sword forged from steel alloy, built for reliable strikes.",
+    "inShop": true,
+    "price": 500,
+    "levelRequirement": 10,
+    "abilities": [
+        {
+            "id": "slash",
+            "minDamage": 10,
+            "maxDamage": 15,
+            "critMulti": 0.1,
+            "critChance": 5,
+            "hitChance": 100,
+            "cooldown": 0
+        },
+        {
+            "id": "swing",
+            "minDamage": 25,
+            "maxDamage": 30,
+            "critMulti": 0.2,
+            "critChance": 10,
+            "hitChance": 80,
+            "cooldown": 3
+        },
+        {
+            "id": "piercing_strike",
+            "minDamage": 50,
+            "maxDamage": 60,
+            "critMulti": 0.1,
+            "critChance": 20,
+            "hitChance": 55,
+            "cooldown": 5
+        }
+    ]
+}

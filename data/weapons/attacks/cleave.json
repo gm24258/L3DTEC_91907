@@ -1,0 +1,40 @@
+{
+    "name": "CLEAVE",
+    "id": "cleave",
+    "title": {"style": "bold", "color": [139, 173, 201]},
+    "description": "Dismantle your enemies and deal {minDamage}-{maxDamage} damage. Has a {missChance}% chance to miss.",
+    "messages": {
+        "start": [
+            "With a forceful grip, you prepare to strike through the enemy’s defenses with your {attack_name}.",
+            "You focus on the enemy’s weak spot, winding up your {attack_name} for a decisive blow.",
+            "The air crackles with tension as you raise your {attack_name}, aiming to pierce through their defenses.",
+            "Your muscles tense as you line up your {attack_name}, ready to break through any resistance.",
+            "You channel all your strength into your weapon, preparing for the mighty impact of your {attack_name}."
+        ],
+        "hit": [
+            "The blow lands, your {attack_name} cutting through their defense for {damage} damage!",
+            "You strike with precision, your {attack_name} landing with a resounding thud, dealing {damage} damage!",
+            "Your attack strikes true, piercing their defense and dealing {damage} damage with your {attack_name}!",
+            "You drive your weapon deep into the enemy’s defenses, landing {damage} damage with your {attack_name}!",
+            "With brutal force, you land your {attack_name}, causing {damage} damage as you breach their defenses!",
+            "You hit your {attack_name} and deal {damage}, no longer holding their head high."
+        ],
+        "crit": [
+            "A critical hit! Your {attack_name} lands with devastating force, dealing {damage} damage!",
+            "The blow is unstoppable, your {attack_name} lands perfectly for a critical strike, causing {damage} damage!",
+            "You pierce through their defenses with a critical strike, your {attack_name} dealing {damage} damage!",
+            "Your {attack_name} cuts through the enemy’s armor with precision, landing a critical hit for {damage} damage!",
+            "The critical strike shatters their defenses, dealing an overwhelming {damage} damage with your {attack_name}!",
+            "You dealt {damage} critical damage to the {enemy_name}, that'll tell the fool to know their place."
+        ],
+        "miss": [
+            "Your strike misses, and the {enemy_name} deftly avoids your {attack_name}!",
+            "You swing too wide, and your {attack_name} fails to land, missing the {enemy_name} entirely!",
+            "The {enemy_name} ducks beneath your swing, narrowly avoiding the {attack_name}!",
+            "Your attack swings through empty air as the {enemy_name} sidesteps the {attack_name}!",
+            "With a miscalculation, your {attack_name} goes wide, missing the {enemy_name}!",
+            "The {enemy_name} stares at you with malevolence as you openly miss your {attack_name}!",
+            "The {enemy_name} adapts to your {attack_name}, stopping the attack."
+        ]
+    }
+}

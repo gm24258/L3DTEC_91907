@@ -2,6 +2,7 @@ from libraries import *
 from menus import *
 from utils import *
 from keyboard_manager import keyboard_manager
+from globals import player
 import globals
 
 class Weapon:
@@ -15,6 +16,8 @@ class Player:
     def __init__(self):
         self.health = None
         self.max_health = None
+        self.faster_logs = False
+
         self.previous_attack_id = None
         self.previous_attack_type = None
         self.previous_hit_success = None
@@ -27,6 +30,8 @@ class Enemy:
         self.health = None
         self.max_health = None
         self.attacks = None
+        self.rewards = None
+        self.level = None
 
 
         self.previous_attack = None
@@ -110,22 +115,24 @@ def update_cooldown_timers():
 
 def get_timer():
     timer_color = [201, 237, 154]
-    if 5 < menu_state.timer <= 10:
+    if 3 < menu_state.timer <= 6:
         timer_color = [237, 198, 154]
-    elif menu_state.timer <= 5:
+    elif menu_state.timer <= 3:
         timer_color = [227, 104, 104]
 
     return style_text({'color': timer_color}, f'{menu_state.timer}s')
 
-def print_top_info(enemy_first=False):
-    first_name = fighting_enemy.name if enemy_first else 'You' 
+def print_top_info(enemy_first=False, victory=None):
+    first_name = fighting_enemy.name + Text(f' Lvl. {fighting_enemy.level}') if enemy_first else style_text({'style':'bold'}, 'You') + Text(f' Lvl. {player.level}')
     first_health = fighting_enemy.health if enemy_first else fighting_player.health
     first_max_health = fighting_enemy.max_health if enemy_first else fighting_player.max_health
-    second_name = 'You' if enemy_first else fighting_enemy.name
+
+    second_name = style_text({'style':'bold'}, 'You') + Text(f' Lvl. {player.level}') if enemy_first else fighting_enemy.name + Text(f' Lvl. {fighting_enemy.level}')
     second_health = fighting_player.health if enemy_first else fighting_enemy.health
     second_max_health = fighting_player.max_health if enemy_first else fighting_enemy.max_health
 
-    total_width = 50
+    
+    total_width = 60
     spaces = max(total_width - len(str(first_name)) - len(str(second_name)), 1)
 
     first_health_color = [201, 237, 154] # Green if greater than 2/3 of health or full
@@ -141,16 +148,16 @@ def print_top_info(enemy_first=False):
         second_health_color = [227, 104, 104] # Red if lesser than 1/3 of health
 
     first_min_health_string = style_text({'color': first_health_color}, str(first_health))
-    first_max_health_string = style_text({'color': [171, 201, 131]}, str(first_max_health))
+    first_max_health_string = style_text({'color': [201, 93, 93] if victory is False else [171, 201, 131]}, str(first_max_health))
     second_min_health_string = style_text({'color': second_health_color}, str(second_health))
-    second_max_health_string = style_text({'color': [171, 201, 131]}, str(second_max_health))
+    second_max_health_string = style_text({'color': [201, 93, 93] if victory else [171, 201, 131]}, str(second_max_health))
 
     first_health_string = first_min_health_string + Text("/") + first_max_health_string 
     second_health_string = second_min_health_string + Text("/") + second_max_health_string 
     health_spaces = max(total_width - len(str(first_health_string)) - len(str(second_health_string)), 1)
 
     clear_terminal()
-    console.print(style_text({'style':'bold'}, first_name, ' '*spaces) + second_name)
+    console.print(first_name + ' '*spaces + second_name)
     console.print(first_health_string + Text(' '*health_spaces) + second_health_string)
 
 def determine_attack(attack, player=True):
@@ -243,7 +250,7 @@ def flee_confirm(old_selected):
     menu_state.selected = 0 
     menu_state.title = style_text({'style': 'bold'}, f"Are you sure you want to flee from ", fighting_enemy.name, "?")
     menu_state.info = None
-    menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select | ESC to go back') if globals.display_controls else None
+    menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select | ESC to go back') if player.display_controls else None
 
     original_menu = menu_state.current_menu
 
@@ -255,7 +262,6 @@ def flee_confirm(old_selected):
             menu_state.selected = 1
             redraw_menu()
         elif key == 'enter':  # Enter key
-            debug.debug('Pressed ENTER key')
             if menu_state.selected == 0:
                 debug.info(f"Did not flee from {fighting_enemy.name}")
                 player_turn(old_selected)
@@ -305,9 +311,8 @@ def player_turn(selected=None):
         cooldown = attack_cooldowns.get(ability['id'])
         if cooldown and cooldown > 0:
             option_name = style_text({'color': [173, 173, 173]}, option_name) + Text(f' ({cooldown} turns left)')
-            debug.info(option_name)
         menu_state.options.append(Text(f'[{index}]: ') + option_name)
-    menu_state.options.append(f"{'[ESC]: ' if globals.display_controls else ''}Flee")
+    menu_state.options.append(f"{'[ESC]: ' if player.display_controls else ''}Flee")
 
     def on_press(key):
         key_int = int_str(key)
@@ -345,7 +350,7 @@ def player_turn(selected=None):
         print_top_info()
 
         menu_state.timer_tooltip = style_text({'style': 'bold'}, f'Time left: ', get_timer())
-        menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select | ESC to go back') if globals.display_controls else None
+        menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select | ESC to go back') if player.display_controls else None
 
     def player_turn_timer():
         old_timer = menu_state.timer
@@ -382,7 +387,7 @@ def battle():
     while fighting_enemy.health > 0 and fighting_player.health > 0:
         try:
             menu_state.chosen_attack = None
-            menu_state.timer = 15
+            menu_state.timer = 10
 
             timer_task = threading.Thread(target=timer, daemon=True)
             timer_task.start()
@@ -390,7 +395,7 @@ def battle():
 
             if not globals.in_combat: return
 
-            menu_state.current_menu = 'initiate_attack'
+            menu_state.current_menu = None
             keyboard_manager.set_handler(None)
 
             attack_output, damage = 'miss', 0
@@ -408,7 +413,7 @@ def battle():
                 start_message = get_random_message(messages['start'], {"attack_name": attack_name})
                 console.print(style_text({'style':'italic'}, " ", start_message))
 
-                time.sleep(2)  
+                time.sleep(0.5 if fighting_player.faster_logs else 2)  
                 clear_terminal()
 
                 # If attack missed
@@ -431,27 +436,61 @@ def battle():
                 idle_message = get_random_message(idle_messages, {"enemy_name": fighting_enemy.name, "weapon_name": equipped_weapon.name})
                 console.print(style_text({'style':'italic'}, " ", idle_message))
 
-            time.sleep(2)
+            if fighting_enemy.health > 0:
+                time.sleep(0.5 if fighting_player.faster_logs else 2)
 
-            enemy_attack = random.choices(fighting_enemy.attacks, weights=[att['attackChance'] for att in fighting_enemy.attacks], k=1)[0]
-            enemy_attack_output, enemy_damage = determine_attack(enemy_attack, player=False)
+                enemy_attack = random.choices(fighting_enemy.attacks, weights=[att['attackChance'] for att in fighting_enemy.attacks], k=1)[0]
+                enemy_attack_output, enemy_damage = determine_attack(enemy_attack, player=False)
 
-            fighting_player.health = max(fighting_player.health - enemy_damage, 0) # Subtract player health with enemy damage
+                fighting_player.health = max(fighting_player.health - enemy_damage, 0) # Subtract player health with enemy damage
 
-            print_top_info(enemy_first=True)
+                print_top_info(enemy_first=True)
 
-            # Get random message to print then format, and finally print it
-            attack_name =  style_text(enemy_attack['title'], enemy_attack['name'])
-            messages = menu_state.chosen_attack['messages']
-            is_crit = enemy_attack_output == 'crit'
-            styled_enemy_damage = style_text({'color': [252, 144, 3] if is_crit else [201, 237, 154]}, str(enemy_damage))  # Orange damage if critical damage else green
-            enemy_message = get_random_message(enemy_attack_messages['crit' if is_crit else 'hit'], {"attack_name": attack_name, "damage": styled_enemy_damage})
-            console.print(style_text({'style':'italic'}, " ", enemy_message))
+                # Get random message to print then format, and finally print it
+                attack_name =  style_text(enemy_attack['title'], enemy_attack['name'])
+                is_crit = enemy_attack_output == 'crit'
+                styled_enemy_damage = style_text({'color': [252, 144, 3] if is_crit else [201, 237, 154]}, str(enemy_damage))  # Orange damage if critical damage else green
+                enemy_message = get_random_message(enemy_attack_messages['crit' if is_crit else 'hit'], {"attack_name": attack_name, "damage": styled_enemy_damage})
+                console.print(style_text({'style':'italic'}, " ", enemy_message))
 
-            time.sleep(3)  
+            time.sleep(1 if fighting_player.faster_logs else 3)  
         except Exception as e:
             raise
-        
+
+    # Checks for loss/victory
+    if globals.in_combat:
+        menu_state.current_menu = None
+        keyboard_manager.set_handler(None)
+
+        victory = True if fighting_enemy.health <= 0 else False # Set victory to True if enemy is dead
+        victory = False if fighting_player.health <= 0 else victory # Set victory to False if player is dead
+
+        print_top_info(victory=victory)
+        if victory:
+            console.print(f'You defeated {fighting_enemy.name}! Victory is yours!')
+            rewards = fighting_enemy.rewards
+            xp_reward = random.randint(rewards['minXp'], rewards['maxXp'])
+            money_reward = random.randint(rewards['minMoney'], rewards['maxMoney'])
+
+            time.sleep(2)
+
+            player.balance += money_reward
+            player.xp += xp_reward
+            leveled_up = player.level_up()
+            player.save()
+            console.print(Text(f"You've gained ") + style_text({'color': [201, 237, 154]}, str(xp_reward)) + Text(f" XP and ") + style_text({'color': [201, 237, 154]}, f'${money_reward}'))
+            
+            if leveled_up: 
+                console.print(f"You leveled up to {player.level}!")
+        else:
+            console.print(f'You have been defeated. The {fighting_enemy.name} stands victorious.')
+
+        time.sleep(2)
+
+        console.print(Text(f'Extiing battle from ') + fighting_enemy.name + Text('...'))
+
+        time.sleep(1)
+
     globals.in_combat = False
         
 # ========================
@@ -475,28 +514,10 @@ def redraw_menu(clear=True):
             menu_state.title,
             menu_state.tooltip
         )
-    elif menu_state.menu_type == 'paged':
-        # Call print_paged_menu and store the returned values
-        current_page, total_pages, start_index = print_paged_menu(
-            menu_state.options,
-            menu_state.selected,
-            menu_state.title,
-            menu_state.tooltip,
-            menu_state.page_size
-        )
-        # Update the menu state with paging information
-        menu_state.current_page = current_page
-        menu_state.total_pages = total_pages
-        menu_state.start_index = start_index
 # ========================
 #       MAIN LOOP
 # ========================
 async def main_loop():
-    global menu_state
-    global fighting_player
-    global fighting_enemy
-    global equipped_weapon
-
     while True:
         if not globals.in_combat or globals.crashed:
             # Reset value
@@ -509,19 +530,26 @@ async def main_loop():
 
 # Function for game.py
 async def initiate_fight(enemy, enemy_name, enemy_id):
-    fighting_player.health = globals.player['health']
-    fighting_player.max_health = globals.player['health']
+    clear_terminal()
+    debug.info(f'Initiated fight for {enemy_name}...')
+    console.print(Text(f'Loading battle for ') + enemy_name + Text('...'))
+
+    fighting_player.health = player.health
+    fighting_player.max_health = player.health
+    fighting_player.faster_logs = player.settings['fasterBattleLogs']
 
     fighting_enemy.health = enemy['health']
     fighting_enemy.max_health = enemy['health']
     fighting_enemy.name = enemy_name
     fighting_enemy.id = enemy_id
+    fighting_enemy.level = enemy['level']
     fighting_enemy.attacks = enemy['attacks']
+    fighting_enemy.rewards = enemy['rewards']
 
-    weapon = next((item for item in globals.weapons if item['id'] == globals.player['equipped']), None)
+    weapon = next((item for item in globals.weapons if item['id'] == player.equipped), None)
         
     if (fighting_player.health or fighting_enemy.health or weapon) is None:
-        raise Exception(f"Error fighting {enemy_name}: Couldn't load data properly")
+        raise Exception(f"Error fighting {enemy_name}: Couldn't load data properly, player/enemy health or weapon data is missing")
     
     equipped_weapon.name = style_text(weapon['title'], weapon['name'])
     
@@ -529,7 +557,7 @@ async def initiate_fight(enemy, enemy_name, enemy_id):
         attack = next((att for att in globals.attacks if att['id'] == ability['id']), None)
 
         if attack is None:
-            raise Exception(f"Error fighting {enemy_name}: Couldn't load data properly")
+            raise Exception(f"Error fighting {enemy_name}: Couldn't load data properly, weapon ability is missing a corresponding attack")
         
         ability_info = {}
         for key, value in ability.items():
@@ -544,8 +572,7 @@ async def initiate_fight(enemy, enemy_name, enemy_id):
         important_keys = ['name', 'title', 'id', 'messages', 'minDamage', 'maxDamage', 'critMulti', 'critChance', 'hitChance', 'cooldown'] 
         for key in important_keys:
             if key not in ability_info:
-                raise Exception(f"Error fighting {enemy_name}: Couldn't load data properly")
-        debug.info(ability['id'])
+                raise Exception(f"Error fighting {enemy_name}: Couldn't load data properly, ability is missing key: {key}")
 
         # Store name as styled text and remove title because it's not needed
         ability_info['name'] = style_text(ability_info['title'], ability_info['name'])
