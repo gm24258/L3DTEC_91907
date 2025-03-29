@@ -1,0 +1,47 @@
+{
+    "name": "Excalibur",
+    "id": "excalibur",
+    "title": {"color": [237, 233, 123]},
+    "description": "Fallen from the heavens, this legendary sword is imbued with the power of the storm.",
+    "inShop": true,
+    "price": 5000,
+    "levelRequirement": 30,
+    "abilities": [
+        {
+            "id": "tornado",
+            "minDamage": 50,
+            "maxDamage": 60,
+            "critMulti": 0.7,
+            "critChance": 30,
+            "hitChance": 100,
+            "cooldown": 0
+        },
+        {
+            "id": "lightning_bolt",
+            "minDamage": 70,
+            "maxDamage": 90,
+            "critMulti": 0.7,
+            "critChance": 30,
+            "hitChance": 35,
+            "cooldown": 3
+        },
+        { 
+            "id": "storm",
+            "minDamage": 100,
+            "maxDamage": 125,
+            "critMulti": 0.75,
+            "critChance": 20,
+            "hitChance": 35,
+            "cooldown": 5
+        },
+        {
+            "id": "jacobs_ladder",
+            "minDamage": 125,
+            "maxDamage": 145,
+            "critMulti": 0.75,
+            "critChance": 35,
+            "hitChance": 40,
+            "cooldown": 7
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+{
+    "name": "STORM",
+    "id": "storm",
+    "title": {"color": [109, 118, 122]},
+    "description": "Unleash a storm above your enemies, dealing {minDamage}-{maxDamage} damage with gusts of wind and violent rain. Has a {missChance}% chance to miss.",
+    "messages": {
+        "start": [
+            "You summon the fury of the {attack_name}, dark clouds swirling overhead as it prepares to strike {enemy_name}.",
+            "The air grows heavy as {attack_name} begins, calling forth the power of the storm to strike {enemy_name}.",
+            "You raise your hand, summoning the tempest as {attack_name} builds, ready to unleash chaos on {enemy_name}.",
+            "{attack_name} conjures a violent storm, winds howling and lightning crackling as it targets {enemy_name}."
+        ],
+        "hit": [
+            "The (attack_name) rages ands strikes {enemy_name}, battering them with wind and rain.",
+            "The {attack_name} slams into {enemy_name}, its fury crashing down upon them.",
+            "As the winds howl, the {attack_name} hits {enemy_name}, drowning them in the power of the storm.",
+            "A torrential blast of wind and rain hits {enemy_name}, as {attack_name} unleashes its fury."
+        ],
+        "crit": [
+            "The {attack_name} intensifies and strikes {enemy_name} with a devastating blow, unleashing the full wrath of the tempest!",
+            "Explosions in the violent {attack_name}, hammering {enemy_name} with a critical blast of wind and rain!",
+            "A cataclysmic roar of thunder accompanies the critical hit of the {attack_name}, ripping through {enemy_name}!",
+            "The {attack_name} strikes with the full force, sending a critical shockwave through {enemy_name}!"
+        ],
+        "miss": [
+            "The {attack_name} whips around, but narrowly misses {enemy_name}, who dodges the furious winds.",
+            "The winds swirl, but the {attack_name} fails to hit {enemy_name}, the tempest unable to find its mark.",
+            "Lightning strikes nearby, but the {attack_name} misses {enemy_name} as it rages around them.",
+            "The {attack_name} howls, but it misses its target as {enemy_name} evades the wrath of the winds."
+        ]
+    }
+}

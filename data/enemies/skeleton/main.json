@@ -2,13 +2,13 @@
     "name": "Skeleton",
     "id": "skeleton",
     "title": {"style": "bold", "color": "white"},
-    "health": 200,
+    "health": 175,
     "level": 5,
     "boss": false,
     "rewards": {
-        "minMoney": 30,
-        "maxMoney": 50,
-        "minXp": 50,
-        "maxXp": 80
+        "minMoney": 25,
+        "maxMoney": 35,
+        "minXp": 175,
+        "maxXp": 350
     }
 }

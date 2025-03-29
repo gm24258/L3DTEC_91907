@@ -10,7 +10,7 @@
 
 ## Installation 
 - Recommended to use Python 3.11+
-- Recommmended to use VSC
+- It is recommended that you use Windows Terminal or Visual Studio Code's integrated terminal because they have limited font style, color and emoji support.
 ### Dependencies
 - PyGetWindow: `0.0.9`
 - pynput: `1.8.1`
@@ -18,4 +18,5 @@
 - Run the following command to install required libraries: `pip install -r requirements.txt`
 
 ## How to Play
-The game has instructions but if you still don't know how to navigate the game, I'll put something here later.
+- Run `game.py` from the src folder.
+- Once you start the game, it has instructions but if you still don't know how to navigate the game, I'll put something here later.

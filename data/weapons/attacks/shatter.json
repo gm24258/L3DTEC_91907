@@ -1,0 +1,36 @@
+{
+    "name": "SHATTER",
+    "id": "shatter",
+    "title": {"style": "bold", "color": [223, 230, 235]},
+    "description": "Unleash a flurry of jagged shards, and deal {minDamage}-{maxDamage} damage.",
+    "messages": {
+        "start": [
+            "Shards glimmer ominously as you prepare your {attack_name}, ready to pierce your foe.",
+            "You gather volatile energy, poised to unleash a deadly {attack_name}.",
+            "The air hums with tension as sharp fragments align for your {attack_name}.",
+            "You steady your focus, preparing to rain shards with your {attack_name}.",
+            "A chilling aura surrounds you as you ready your {attack_name}."
+        ],
+        "hit": [
+            "Shards slice through the air, your {attack_name} dealing {damage} damage!",
+            "A storm of fragments strikes true, your {attack_name} inflicting {damage} damage!",
+            "Your {attack_name} lands with brutal force, scattering shards for {damage} damage!",
+            "The shards pierce through, your {attack_name} dealing {damage} damage!",
+            "Your {attack_name} carves through the enemy, causing {damage} damage!"
+        ],
+        "crit": [
+            "Shards rain down in a deadly barrage, your {attack_name} delivering a critical {damage} damage!",
+            "A lethal cascade of fragments strikes with precision, your {attack_name} causing {damage} damage!",
+            "Your {attack_name} lands a devastating blow, shards tearing through for {damage} critical damage!",
+            "A swarm of razor-sharp shards erupts, your {attack_name} dealing {damage} critical damage!",
+            "Your {attack_name} lands with unrelenting force, shards embedding deep for {damage} critical damage!"
+        ],
+        "miss": [
+            "The shards scatter wildly, your {attack_name} missing the mark!",
+            "You unleash shards, but the {enemy_name} evades your {attack_name}!",
+            "Fragments fly, but the {enemy_name} skillfully dodges your {attack_name}!",
+            "Your {attack_name} misses as shards shatter harmlessly against the ground!",
+            "The shards whizz past, your {attack_name} failing to connect!"
+        ]
+    }
+}

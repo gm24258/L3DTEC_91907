@@ -1,0 +1,32 @@
+{
+    "name": "DRACONIC STRIKE",
+    "id": "draconic_strike",
+    "title": {"color": [114, 50, 201]},
+    "description": "A strike imbued with the fierce power of a dragon, dealing {minDamage}-{maxDamage} damage.",
+    "messages": {
+        "start": [
+            "{attack_name} charges with the fury of ancient dragons, gathering power for a devastating blow.",
+            "The air trembles as {attack_name} takes form, its force akin to a dragon’s wrath.",
+            "A deep, rumbling sound precedes {attack_name}, the energy of dragons building for the strike.",
+            "With the fury of ages, {attack_name} is unleashed, the power of dragons coursing through the strike."
+        ],
+        "hit": [
+            "{attack_name} hits {enemy_name} with the ferocity of a dragon’s breath, leaving them staggered.",
+            "A powerful blow lands as {attack_name} connects, the strength of a dragon overwhelming {enemy_name}.",
+            "With a roar, {attack_name} strikes {enemy_name}, the sheer force knocking them back.",
+            "{attack_name} crashes into {enemy_name}, a dragon’s fury embodied in the strike."
+        ],
+        "crit": [
+            "A thunderous roar erupts as {attack_name} lands a critical hit, the power of dragons overwhelming {enemy_name}!",
+            "With the might of an ancient dragon, {attack_name} strikes {enemy_name}, sending them flying.",
+            "{attack_name} delivers a critical blow with the force of a dragon’s claw, devastating {enemy_name}!",
+            "The ground shakes as {attack_name} lands, the overwhelming force of a dragon’s strike crushing {enemy_name}!"
+        ],
+        "miss": [
+            "{attack_name} swings with the force of a dragon, but {enemy_name} narrowly avoids the blow.",
+            "The air crackles with power as {attack_name} strikes, but {enemy_name} deftly dodges the attack.",
+            "{attack_name} rips through the air, but {enemy_name} manages to evade the strike just in time.",
+            "{attack_name} surges forward with the strength of a dragon, but {enemy_name} sidesteps the blow."
+        ]
+    }
+}

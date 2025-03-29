@@ -1,0 +1,26 @@
+{
+    "name": "LIGHTNING BOLT",
+    "id": "lightning_bolt",
+    "title": {"color": [247, 234, 82]},
+    "description": "A surge of electrical power, striking enemies with a bolt of lightning. Deals damage between {minDamage} and {maxDamage}.",
+    "messages": {
+        "start": [
+            "{attack_name} charges the air with raw electrical energy, preparing to strike {enemy_name}.",
+            "The air crackles with power as {attack_name} forms a lightning bolt ready to be unleashed upon {enemy_name}.",
+            "{attack_name} surges with energy, crackling and glowing with electric fury as it targets {enemy_name}.",
+            "You focus your energy, a bolt of lightning beginning to form, aimed at {enemy_name}."
+        ],
+        "hit": [
+            "{attack_name} strikes {enemy_name}, the lightning crackling with force and lighting up the surroundings.",
+            "The bolt of lightning from {attack_name} hits {enemy_name}, surging with electric power.",
+            "With a blinding flash, {attack_name} strikes {enemy_name}, the electric energy coursing through them.",
+            "{attack_name} hits {enemy_name}, sending a surge of electricity coursing through their body."
+        ],
+        "crit": [
+            "A mighty crack of thunder accompanies the critical hit of {attack_name}, sending a powerful jolt through {enemy_name}!",
+            "The lightning intensifies as {attack_name} strikes with critical force, overwhelming {enemy_name}!",
+            "{attack_name} blasts {enemy_name} with a devastating surge of electricity, causing a critical strike!",
+            "The lightning from {attack_name} strikes with tremendous power, delivering a shocking blow to {enemy_name}!"
+        ]
+    }
+}

@@ -2,13 +2,13 @@
     "name": "Wolf",
     "id": "wolf",
     "title": {"color": [188, 226, 227]},
-    "health": 700,
+    "health": 500,
     "level": 10,
     "boss": false,
     "rewards": {
-        "minMoney": 100,
-        "maxMoney": 250,
-        "minXp": 20,
-        "maxXp": 50
+        "minMoney": 50,
+        "maxMoney": 75,
+        "minXp": 500,
+        "maxXp": 800
     }
 }

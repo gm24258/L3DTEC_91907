@@ -4,25 +4,25 @@
     "title": {"color": [235, 193, 162]},
     "description": "A sword forged from low-quality copper, it's oxidizing but it still packs a punch.",
     "inShop": true,
-    "price": 200,
+    "price": 250,
     "levelRequirement": 5,
     "abilities": [
         {
             "id": "slash",
-            "minDamage": 7,
-            "maxDamage": 10,
-            "critMulti": 0.05,
-            "critChance": 5,
+            "minDamage": 18,  
+            "maxDamage": 22,
+            "critMulti": 0.6,
+            "critChance": 12,
             "hitChance": 100,
             "cooldown": 0
         },
         {
             "id": "swing",
-            "minDamage": 15,
-            "maxDamage": 20,
-            "critMulti": 0.1,
-            "critChance": 10,
-            "hitChance": 85,
+            "minDamage": 18,
+            "maxDamage": 24, 
+            "critMulti": 0.8,
+            "critChance": 25,
+            "hitChance": 90, 
             "cooldown": 3
         }
     ]

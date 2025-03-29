@@ -1,8 +1,8 @@
 {
     "name": "SWIFTER SLASHES",
     "id": "swifter_slashes",
-    "title": {"color": [135, 116, 181]},
-    "description": "Swiftly attack your enemies with good precision and deal {minDamage}-{maxDamage} damage.",
+    "title": {"color": [223, 230, 235]},
+    "description": "Swiftly attack your enemies and deal {minDamage}-{maxDamage} guaranteed damage.",
     "messages": {
         "start": [
             "You prepare for a rapid strike, your {attack_name} moving faster than the eye can follow.",
@@ -24,13 +24,6 @@
             "Your {attack_name} cuts through the air with unmatched speed, landing a critical hit for {damage} damage!",
             "In the blink of an eye, your {attack_name} strikes with critical precision, dealing {damage} damage!",
             "With blinding speed, you land a critical blow, your {attack_name} causing {damage} damage!"
-        ],
-        "miss": [
-            "Your {attack_name} misses as your target slips just out of the way!",
-            "You swing with speed, but the {enemy_name} dodges your attack, narrowly avoiding your {attack_name}!",
-            "Your rapid swing goes wide, the {enemy_name} evading your {attack_name} at the last moment!",
-            "You attempt a swift strike, but your {attack_name} misses as the {enemy_name} evades it!",
-            "Your strike is a blur, but the {enemy_name} manages to dodge it at the last second!"
         ]
     }
 }

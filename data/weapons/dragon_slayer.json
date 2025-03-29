@@ -1,0 +1,46 @@
+{
+    "name": "Dragon Slayer",
+    "id": "dragon_slayer",
+    "title": {"color": [114, 50, 201]},
+    "description": "A trophy borne from the slain beast, infused with the primordial fire and the unyielding strength of dragons.",
+    "inShop": false,
+    "levelRequirement": 30,
+    "abilities": [
+        {
+            "id": "claw",
+            "minDamage": 60,
+            "maxDamage": 75,
+            "critMulti": 0.7,
+            "critChance": 30,
+            "hitChance": 100,
+            "cooldown": 0
+        },
+        {
+            "id": "draconic_strike",
+            "minDamage": 75,
+            "maxDamage": 100,
+            "critMulti": 0.75,
+            "critChance": 35,
+            "hitChance": 80,
+            "cooldown": 3
+        },
+        {
+            "id": "ember_whip",
+            "minDamage": 105,
+            "maxDamage": 130,
+            "critMulti": 0.75,
+            "critChance": 35,
+            "hitChance": 60,
+            "cooldown": 5
+        },
+        {
+            "id": "vengeance",
+            "minDamage": 130,
+            "maxDamage": 150,
+            "critMulti": 0.8,
+            "critChance": 40,
+            "hitChance": 42,
+            "cooldown": 7
+        }
+    ]
+}

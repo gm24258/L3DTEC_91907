@@ -1,0 +1,20 @@
+{
+    "name": "Rusted Blade",
+    "id": "rusted",
+    "title": {"color": [66, 49, 46]},
+    "description": "A rusted sword, dull and fragile, somewhat capable of cutting.",
+    "inShop": true,
+    "levelRequirement": 2,
+    "price": 100,
+    "abilities": [
+        {
+            "id": "slash",
+            "minDamage": 12,
+            "maxDamage": 15,
+            "critMulti": 0.6,
+            "critChance": 12,
+            "hitChance": 100,
+            "cooldown": 0
+        }
+    ]
+}

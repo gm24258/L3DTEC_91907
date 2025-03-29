@@ -1,0 +1,29 @@
+{
+    "name": "SCORCH",
+    "id": "scorch",
+    "title": {"color": [158, 39, 3]},
+    "description": "Set your heart ablaze, and scorch your enemies with a slice, dealing {minDamage}-{maxDamage} guaranteed damage.",
+    "messages": {
+        "start": [
+            "With a fiery resolve, you prepare to unleash your {attack_name}.",
+            "You gather your strength, preparing to scorch your foe with {attack_name}.",
+            "Your weapon hums with intensity as you get ready to strike with {attack_name}.",
+            "The air around you heats up as you focus on delivering a searing {attack_name}.",
+            "A rush of heat surges through you as you brace for the {attack_name} strike."
+        ],
+        "hit": [
+            "You strike with fierce heat, dealing {damage} damage with {attack_name}!",
+            "Your {attack_name} hits with a fiery burst, inflicting {damage} damage!",
+            "With intense precision, your {attack_name} scorches the enemy for {damage} damage!",
+            "The flames of your {attack_name} sear your opponent, causing {damage} damage!",
+            "Your {attack_name} lands with a fiery explosion, dealing {damage} damage!"
+        ],
+        "crit": [
+            "A critical hit! Your {attack_name} burns through your target, dealing {damage} damage!",
+            "You strike with blinding force! A critical hit for {damage} damage!",
+            "The fire of your {attack_name} erupts, delivering a critical hit for {damage} damage!",
+            "Your {attack_name} hits like a furnace, a critical blow for {damage} damage!",
+            "A fiery critical strike lands, scorching your target for {damage} damage!"
+        ]
+    }
+}

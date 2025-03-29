@@ -1,0 +1,26 @@
+{
+    "name": "TORNADO",
+    "id": "tornado",
+    "title": {"color": [227, 245, 255]},
+    "description": "A quick slash, summoning a gust of wind that cuts through the air, dealing {minDamage}-{maxDamage} guaranteed damage.",
+    "messages": {
+        "start": [
+            "{attack_name} begins with a swift swing of Excalibur, gathering wind around the blade.",
+            "A gentle breeze forms around your weapon as {attack_name} begins.",
+            "The air stirs as {attack_name} swings with the force of a breeze.",
+            "The blade hums as you swing it, the winds ready to obey your command for {attack_name}."
+        ],
+        "hit": [
+            "{attack_name} strikes {enemy_name}, the wind cutting through their defenses.",
+            "The air swirls around {enemy_name} as {attack_name} lands a clean blow.",
+            "The gust from {attack_name} catches {enemy_name}, sending them reeling.",
+            "The wind cuts through {enemy_name}'s guard, leaving a mark with {attack_name}."
+        ],
+        "crit": [
+            "A sharp gust erupts from Excalibur, delivering a crushing blow to {enemy_name}!",
+            "With the force of a gale, {attack_name} hits {enemy_name} with incredible power!",
+            "The wind turns fierce as {attack_name} delivers a devastating strike to {enemy_name}.",
+            "The wind howls as {attack_name} delivers a blow so strong it knocks {enemy_name} back."
+        ]
+    }
+}

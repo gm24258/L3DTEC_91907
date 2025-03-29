@@ -1,14 +1,14 @@
-# Saturday March 1 10:07AM
-
 from formatting import *
 
 def print_basic_menu(options, selected, title=None, info=None, tooltip_before=None, tooltip=None):
-    # Displays a vertical menu with options that can be navigated using UP/DOWN arrow keys.
+    """
+    Displays a vertical menu with options that can be navigated using UP/DOWN arrow keys.
     
-    # Parameters:
-    # title (str): Title of the menu.
-    # options (list): List of menu options.
-    # selected (int): Index of the currently selected option.
+    Parameters:
+    title (str): Title of the menu.
+    options (list): List of menu options.
+    selected (int): Index of the currently selected option.
+    """
     if title: console.print(title)
     if info: console.print(info)
     for i, option in enumerate(options):
@@ -18,26 +18,30 @@ def print_basic_menu(options, selected, title=None, info=None, tooltip_before=No
     if tooltip: console.print(Text('\n') + tooltip)
 
 def print_horizontal_menu(info, title=None, tooltip=None):
-    # Displays a horizontal menu, where the player can navigate between previous and next options.
+    """
+    Displays a horizontal menu, where the player can navigate between previous and next options.
     
-    # Parameters:
-    # title (str): Title of the menu.
-    # info (str): Information about the selected item.
-    # prev (str): Name of the previous option.
-    # next (str): Name of the next option.
+    Parameters:
+    title (str): Title of the menu.
+    info (str): Information about the selected item.
+    prev (str): Name of the previous option.
+    next (str): Name of the next option.
+    """
     console.print(title)
     console.print(info)
     if len(tooltip) > 0:
         console.print(Text('\n') + tooltip)
 
 def print_paged_menu(options, selected, title=None, tooltip=None, page_size=5):
-    # Displays a vertical paged menu, where options can be navigated using UP/DOWN keys.
-    # Pages can be navigated using LEFT/RIGHT keys.
+    """
+    Displays a vertical paged menu, where options can be navigated using UP/DOWN keys.
+    Pages can be navigated using LEFT/RIGHT keys.
     
-    # Parameters:
-    # title (str): Title of the menu.
-    # options (list): List of menu options.
-    # selected (int): Index of the currently selected option.
+    Parameters:
+    title (str): Title of the menu.
+    options (list): List of menu options.
+    selected (int): Index of the currently selected option.
+    """
 
     total_pages = (len(options) + page_size - 1) // page_size
     current_page = selected // page_size

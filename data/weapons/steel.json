@@ -9,10 +9,10 @@
     "abilities": [
         {
             "id": "slash",
-            "minDamage": 10,
-            "maxDamage": 15,
-            "critMulti": 0.1,
-            "critChance": 5,
+            "minDamage": 20,
+            "maxDamage": 30,
+            "critMulti": 0.6,
+            "critChance": 10,
             "hitChance": 100,
             "cooldown": 0
         },
@@ -20,8 +20,8 @@
             "id": "swing",
             "minDamage": 25,
             "maxDamage": 30,
-            "critMulti": 0.2,
-            "critChance": 10,
+            "critMulti": 0.75,
+            "critChance": 15,
             "hitChance": 80,
             "cooldown": 3
         },
@@ -29,7 +29,7 @@
             "id": "piercing_strike",
             "minDamage": 50,
             "maxDamage": 60,
-            "critMulti": 0.1,
+            "critMulti": 0.8,
             "critChance": 20,
             "hitChance": 55,
             "cooldown": 5

@@ -1,0 +1,36 @@
+{
+    "name": "ERUPTION",
+    "id": "eruption",
+    "title": {"style": "bold", "color": [158, 39, 3]},
+    "description": "The blade heats up, unleashing a powerful eruption that deals {minDamage}-{maxDamage} damage. Has a {missChance}% chance to miss.",
+    "messages": {
+        "start": [
+            "You brace yourself as the blade heats up, preparing for a devastating eruption.",
+            "The air around the blade grows hotter as you focus, ready to unleash a powerful eruption.",
+            "With heat building in the blade, you prepare for a strike that will release a fiery eruption.",
+            "The blade glows as you line up the attack, ready to unleash its fiery power.",
+            "A wave of heat surges through the blade as you prepare for the eruption to come."
+        ],
+        "hit": [
+            "The blade erupts with intense force, dealing {damage} damage!",
+            "The heat bursts forth, causing {damage} damage with an explosive eruption!",
+            "The strike releases a fiery eruption, hitting for {damage} damage!",
+            "A searing eruption erupts from the blade, causing {damage} damage!",
+            "The blade's power erupts, dealing {damage} damage with overwhelming force!"
+        ],
+        "crit": [
+            "A critical eruption! The strike lands with intense force, causing {damage} damage!",
+            "The blade releases an explosive eruption, dealing a critical {damage} damage!",
+            "The eruption hits with immense power, causing a critical strike for {damage} damage!",
+            "A fiery eruption lands with devastating force, dealing {damage} damage!",
+            "The blade erupts with force, landing a critical hit for {damage} damage!"
+        ],
+        "miss": [
+            "The eruption fizzles out as your attack misses, the {enemy_name} dodging the strike!",
+            "You swing, but the eruption fails to connect, missing the {enemy_name}!",
+            "The {enemy_name} sidesteps just in time, avoiding the eruption completely!",
+            "Your strike falters, and the eruption misses its mark!",
+            "With a miscalculation, the eruption misses, and the {enemy_name} evades!"
+        ]
+    }
+}

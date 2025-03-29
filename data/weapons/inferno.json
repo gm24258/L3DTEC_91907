@@ -1,0 +1,38 @@
+{
+    "name": "Inferno",
+    "id": "inferno",
+    "title": {"color": [255, 64, 0]},
+    "description": "Pulled from the depths of hell, this weapon is imbued in flames and fury.",
+    "inShop": true,
+    "price": 2000,
+    "levelRequirement": 25,
+    "abilities": [
+        {
+            "id": "scorch",
+            "minDamage": 40,
+            "maxDamage": 50,
+            "critMulti": 0.65,
+            "critChance": 25,
+            "hitChance": 100,
+            "cooldown": 0
+        },
+        {
+            "id": "eruption",
+            "minDamage": 50,
+            "maxDamage": 70,
+            "critMulti": 0.7,
+            "critChance": 30,
+            "hitChance": 70,
+            "cooldown": 5
+        },
+        {
+            "id": "incineration",
+            "minDamage": 80,
+            "maxDamage": 90,
+            "critMulti": 0.75,
+            "critChance": 35,
+            "hitChance": 40,
+            "cooldown": 7
+        }
+    ]
+}

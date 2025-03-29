@@ -3,7 +3,7 @@
         {
             "name": "Fire Breath",
             "id": "fire_breath",
-            "title": {"color": [255, 191, 82]},
+            "title": {"style": "bold", "color": [255, 191, 82]},
             "minDamage": 150,
             "maxDamage": 250,
             "critMulti": 2,

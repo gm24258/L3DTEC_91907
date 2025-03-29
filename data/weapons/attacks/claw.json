@@ -1,0 +1,26 @@
+{
+    "name": "CLAW",
+    "id": "claw",
+    "title": {"color": [208, 200, 219]},
+    "description": "Strike your enemies with a fierce scratch, dealing {minDamage}-{maxDamage} guaranteed damage.",
+    "messages": {
+        "start": [
+            "{attack_name} begins with a swift, animalistic swing, gathering ferocity around the blade.",
+            "The air thickens as {attack_name} surges forward, the weapon moving with the viciousness of a beast.",
+            "A primal roar echoes as {attack_name} swings, its speed and force reflecting the wild nature of a beast.",
+            "The blade moves like the strike of a wild creature as {attack_name} prepares to tear through {enemy_name}."
+        ],
+        "hit": [
+            "{attack_name} strikes {enemy_name} with the viciousness of a beast’s claw, tearing through their defenses.",
+            "With a savage swipe, {attack_name} hits {enemy_name}, leaving a brutal mark behind.",
+            "The blow from {attack_name} connects, sending {enemy_name} reeling, as if struck by a beast’s talon.",
+            "A ferocious strike lands as {attack_name} cuts into {enemy_name}, tearing at their guard like a beast’s attack."
+        ],
+        "crit": [
+            "A brutal strike erupts as {attack_name} lands with the force of a beast’s fury, overwhelming {enemy_name}!",
+            "With the speed and force of a wild creature, {attack_name} critically hits {enemy_name}, leaving them no chance to defend.",
+            "{attack_name} strikes like the swipe of a clawed beast, tearing through {enemy_name} with overwhelming force!",
+            "A savage blow lands as {attack_name} strikes, the force of a beast’s fury knocking {enemy_name} back."
+        ]
+    }
+}

@@ -1,0 +1,36 @@
+{
+    "name": "INCINERATION",
+    "id": "incineration",
+    "title": {"style": "bold", "color": [255, 64, 0]},
+    "description": "Draw power from the underworld, and deal a fiery {minDamage}-{maxDamage} damage. Has a {missChance}% chance to miss.",
+    "messages": {
+        "start": [
+            "The heat of hell surges through your blade as you prepare to unleash {attack_name}.",
+            "Flames from the underworld flicker around you as you focus on the {attack_name}.",
+            "With a fierce growl, you channel the fury of hell, ready to strike with the {attack_name}.",
+            "The very air around you grows hot as you draw from the inferno, preparing the {attack_name}.",
+            "A wave of hellfire ignites within you as you ready the {attack_name} for a devastating strike."
+        ],
+        "hit": [
+            "Hellfire bursts from your strike, searing your target for {damage} damage!",
+            "Your blade unleashes the fury of the underworld, dealing {damage} damage!",
+            "The flames of hell engulf the target, burning them for {damage} damage!",
+            "A torrent of hellfire explodes from your strike, scorching the enemy for {damage} damage!",
+            "The infernal flames from your blade scorch your enemy, causing {damage} damage!"
+        ],
+        "crit": [
+            "A critical blast of hellfire erupts, causing {damage} damage!",
+            "The power of hell bursts forth with a critical strike, dealing {damage} damage!",
+            "With the force of the underworld, your strike lands critically, dealing {damage} damage!",
+            "Infernal flames tear through the target, delivering a critical hit for {damage} damage!",
+            "The fury of hell ignites your strike, dealing a devastating {damage} damage!"
+        ],
+        "miss": [
+            "Hellfire falters as your strike misses, the {enemy_name} evading your attack!",
+            "The flames of the underworld fail to hit their mark, and the {enemy_name} dodges your strike!",
+            "Your attack is thwarted as the {enemy_name} sidesteps, avoiding the hellfire!",
+            "The flames of hell flicker and fade, missing the {enemy_name} completely!",
+            "The hellish flames sputter out as the {enemy_name} escapes the strike!"
+        ]
+    }
+}

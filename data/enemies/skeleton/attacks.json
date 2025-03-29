@@ -4,31 +4,31 @@
                 "name": "Sword Slash",
                 "id": "sword_slash",
                 "title": {"color": [255, 191, 82]},
-                "minDamage": 12,
-                "maxDamage": 22,
-                "critMulti": 1.5,
-                "critChance": 0.1,
+                "minDamage": 9,
+                "maxDamage": 12,
+                "critMulti": 0.4,
+                "critChance": 10,
                 "attackChance": 70
             },
             {
                 "name": "Sword Thrust",
                 "id": "sword_thrust",
                 "title": {"color": [200, 150, 0]},
-                "minDamage": 15,
-                "maxDamage": 25,
-                "critMulti": 1.6,
-                "critChance": 0.15,
+                "minDamage": 10,
+                "maxDamage": 14,
+                "critMulti": 0.5,
+                "critChance": 12,
                 "attackChance": 60
             },
             {
                 "name": "Bow Shot",
                 "id": "bow_shot",
                 "title": {"color": [255, 120, 0]},
-                "minDamage": 10,
-                "maxDamage": 20,
-                "critMulti": 1.7,
-                "critChance": 0.2,
-                "attackChance": 50
+                "minDamage": 12,
+                "maxDamage": 15,
+                "critMulti": 0.7,
+                "critChance": 15,
+                "attackChance": 40
             }
         ]
     }

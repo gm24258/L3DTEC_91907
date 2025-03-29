@@ -1,0 +1,32 @@
+{
+    "name": "VENGEANCE.",
+    "id": "vengeance",
+    "title": {"style": "bold italic", "color": [21, 1, 66]},
+    "description": "I AM VENGEANCE. Imbue your weapon in dragon flames and strike with a staggering {minDamage}-{maxDamage} damage, with a {missChance}% chance to miss.",
+    "messages": {
+        "start": [
+            "{attack_name} cracks through the air, a streak of fiery energy trailing behind it.",
+            "A wave of intense heat surrounds the whip as {attack_name} is unleashed.",
+            "The air grows warm as {attack_name} ignites, ready to lash at {enemy_name}.",
+            "With a burst of flame, {attack_name} is unleashed, crackling with fiery energy."
+        ],
+        "hit": [
+            "{attack_name} strikes {enemy_name}, the whip searing their flesh with fiery force.",
+            "The flames from {attack_name} scorch {enemy_name}, leaving a burn across their body.",
+            "A fiery lash from {attack_name} finds its mark, leaving {enemy_name} scorched.",
+            "The ember lash of {attack_name} hits {enemy_name}, setting them alight with pain."
+        ],
+        "crit": [
+            "A massive burst of flame erupts from {attack_name}, engulfing {enemy_name} in fiery wrath!",
+            "With explosive fury, {attack_name} lashes out, causing {enemy_name} to burn with intense heat.",
+            "The whip crackles with fiery power, sending a wave of fire crashing into {enemy_name}.",
+            "A fiery torrent explodes as {attack_name} strikes with devastating force, overwhelming {enemy_name}."
+        ],
+        "miss": [
+            "{attack_name} whips through the air, but {enemy_name} narrowly avoids the fiery lash.",
+            "The flames from {attack_name} lash out, but {enemy_name} dodges just in time.",
+            "{attack_name} strikes the air with a fiery crack, but {enemy_name} evades the flames.",
+            "The ember whip misses as {enemy_name} nimbly steps out of its fiery path."
+        ]
+    }
+}

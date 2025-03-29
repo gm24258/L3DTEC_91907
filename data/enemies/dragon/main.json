@@ -4,5 +4,12 @@
     "title": {"color": [140, 0, 153]},
     "health": 5000,
     "level": 30,
-    "boss": true
+    "boss": true,
+    "rewards": {
+        "minMoney": 300,
+        "maxMoney": 500,
+        "minXp": 2000,
+        "maxXp": 2500,
+        "weapons": {"dragon_slayer": 0.25}
+    }
 }

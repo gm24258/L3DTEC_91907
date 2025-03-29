@@ -1,0 +1,32 @@
+{
+    "name": "JACOB'S LADDER",
+    "id": "jacobs_ladder",
+    "title": {"style": "bold", "color": [255, 251, 207]},
+    "description": "Summon a pillar of light from the heavens and deal an astonishing {minDamage}-{maxDamage} damage, with a {missChance}% chance to miss.",
+    "messages": {
+        "start": [
+            "A pillar of radiant light begins to form as {attack_name} prepares to strike {enemy_name}.",
+            "A blinding light gathers in the sky as {attack_name} charges toward {enemy_name}.",
+            "A beam of intense light emerges, ready to strike with the force of divine judgment.",
+            "The heavens themselves open as {attack_name} surges toward {enemy_name}."
+        ],
+        "hit": [
+            "{attack_name} strikes {enemy_name} with a blast of searing light, burning through their defenses.",
+            "{attack_name} hits {enemy_name}, the light scorching them with divine fury.",
+            "The beam of light crashes down on {enemy_name}, searing them with righteous power.",
+            "{attack_name} strikes true, enveloping {enemy_name} in a radiant glow of blinding force."
+        ],
+        "crit": [
+            "{attack_name} erupts in a surge of light, overwhelming {enemy_name} with divine judgment.",
+            "A brilliant flash of light from {attack_name} overwhelms {enemy_name}, causing an explosion of power.",
+            "The heavens roar as {attack_name} critically strikes {enemy_name}, burning them with divine wrath.",
+            "{attack_name} hits with a blinding flash, causing {enemy_name} to be utterly consumed by the light."
+        ],
+        "miss": [
+            "The pillar of light falters, missing {enemy_name} by mere inches as they narrowly dodge.",
+            "{attack_name} fails to strike, as {enemy_name} evades the divine light with swift movement.",
+            "The beam of light streaks past {enemy_name}, missing by a hair's breadth.",
+            "{attack_name} fizzles out as {enemy_name} escapes the blinding light just in time."
+        ]
+    }
+}

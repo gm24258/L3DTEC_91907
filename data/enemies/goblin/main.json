@@ -8,7 +8,7 @@
     "rewards": {
         "minMoney": 10,
         "maxMoney": 20,
-        "minXp": 50,
-        "maxXp": 80
+        "minXp": 100,
+        "maxXp": 150
     }
 }
