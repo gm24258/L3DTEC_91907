@@ -1,9 +1,8 @@
-from libraries import *
-from menus import *
-from utils import *
-from keyboard_manager import keyboard_manager
-from globals import player
-import globals
+from .menus import *
+from .utils import *
+from .keyboard_manager import keyboard_manager
+from .globals import player
+from . import globals
 
 # ========================
 # CLASSES AND GLOBAL STATE

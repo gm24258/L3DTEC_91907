@@ -1,4 +1,4 @@
-from formatting import *
+from .formatting import *
 
 def print_basic_menu(options, selected, title=None, info=None, tooltip_before=None, tooltip=None):
     """

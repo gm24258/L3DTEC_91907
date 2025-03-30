@@ -10,7 +10,10 @@
 
 ## Installation 
 - Recommended to use Python 3.11+
-- It is recommended that you use Windows Terminal or Visual Studio Code's integrated terminal because they have limited font style, color and emoji support.
+- It is recommended that you use Windows Terminal or Visual Studio Code's integrated terminal because other terminals have limited font style, color and emoji support.
+- Go to the latest [release](https://github.com/gm24258/L3DTEC_91907/releases) and install the `generic_terminal_rpg.zip`
+- Extract the zip somewhere like Documents, and ensure the only thing extracted is the "generic terminal rpg" folder.
+
 ### Dependencies
 - PyGetWindow: `0.0.9`
 - pynput: `1.8.1`
@@ -18,5 +21,10 @@
 - Run the following command to install required libraries: `pip install -r requirements.txt`
 
 ## How to Play
-- Run `game.py` from the src folder.
-- Once you start the game, it has instructions but if you still don't know how to navigate the game, I'll put something here later.
+- Run `main.py` in the folder.
+- Control instructions are shown in tooltips to help you navigate the game.
+- 'Play' leads you to the play menu, where you can select and choose to fight enemies. These enemies have level requirements so while you can view the stats of them, if you don't meet the level requirement, you cannot fight them.
+- 'Shop' leads you to a menu where you can view available weapons and their stats and abilities. If you meet their price and level requirements, you can purchase them.
+- 'Inventory' leads you to a menu where you can view your owned/purchased weapons and equip them.
+- 'Settings' leads you to a menu where you can toggle and change setttings and keybinds for customisation and preference.
+- 'Exit' makes you exit to the game once you confirm.

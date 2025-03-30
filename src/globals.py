@@ -1,5 +1,5 @@
-from utils import *
-from libraries import *
+from .utils import *
+from .libraries import *
 
 # Data loaded from game
 enemies = []

@@ -1,9 +1,9 @@
-from menus import *
-from utils import *
-from fight import initiate_fight
-from keyboard_manager import keyboard_manager
-from globals import player
-import globals
+from .menus import *
+from .utils import *
+from .fight import initiate_fight
+from .keyboard_manager import keyboard_manager
+from .globals import player
+from . import globals
 
 # ========================
 #        GAME DATA
@@ -1535,28 +1535,29 @@ def main_loop():
     while not menu_state.should_exit:
         time.sleep(0.1)  # Prevent CPU overload
 
-keyboard_manager.start()  # Start keyboard listener
-while True:
-    """Main game loop with crash handling and restart"""
-    try:
-        globals.in_combat = False
+def start_game():
+    keyboard_manager.start()  # Start keyboard listener
+    while True:
+        """Main game loop with crash handling and restart"""
+        try:
+            globals.in_combat = False
 
-        load_game_data() # Load game data
-        main_loop() # Start the game
+            load_game_data() # Load game data
+            main_loop() # Start the game
 
-        break # If the game exits normally, break the loop
-    except Exception as e:
-        crash_handling(e) # Handle crash
+            break # If the game exits normally, break the loop
+        except Exception as e:
+            crash_handling(e) # Handle crash
 
-        # ==========
-        # Reset data
-        # ==========
+            # ==========
+            # Reset data
+            # ==========
 
-        # Reset global data
-        globals.enemies = []
-        globals.weapons = []
-        globals.attacks = []
-        globals.shop_weapons = []
+            # Reset global data
+            globals.enemies = []
+            globals.weapons = []
+            globals.attacks = []
+            globals.shop_weapons = []
 
-        # Re-initialize player to reset player values to default
-        player.__init__()
+            # Re-initialize player to reset player values to default
+            player.__init__()

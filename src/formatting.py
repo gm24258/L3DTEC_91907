@@ -1,4 +1,4 @@
-from libraries import *
+from .libraries import *
 from rich.console import Console
 from rich.text import Text
 

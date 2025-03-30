@@ -1,5 +1,5 @@
-from libraries import *
-from utils import *
+from .libraries import *
+from .utils import *
 
 from pynput import keyboard
 from threading import Lock, Thread

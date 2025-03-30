@@ -1,4 +1,4 @@
-from libraries import *
+from .libraries import *
 
 # Constants: Directory paths for various project assets
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
