@@ -123,6 +123,8 @@ class MenuState:
 
         # Menu option state
         self.selected = 0                      # Index of the currently selected option
+        self.main_menu_selected = 0            # Last selected for the main menu
+        self.shop_selected = 0                 # Last selected for the shop
         self.options = []                      # List of menu options
         self.title = None                      # Title displayed at the top of the menu
         self.info = None                       # Additional information displayed in the menu
@@ -175,7 +177,7 @@ def crash_handling(error):
 #       MENU FUNCTIONS
 # ========================
 
-def main_menu(selected=0):
+def main_menu():
     """
     Displays the nain menu at the start of the game where the player can select the main options of the game
 
@@ -188,10 +190,11 @@ def main_menu(selected=0):
     # Set up menu state for main menu
     menu_state.options = ['Play', 'Shop', 'Inventory', 'Settings', 'Exit']
     menu_state.menu_type = 'basic'
-    menu_state.selected = selected
+    menu_state.selected = menu_state.main_menu_selected
     menu_state.title = style_text({'style': 'bold'}, f'Main Menu | Lvl. ') + Text(str(player.level)) + style_text({'style': 'italic'}, f' ({player.xp}/{player.xp_goal})')
     menu_state.info = None
-    menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select') if player.display_controls else None
+    arrow_keys_tooltip = 'Arrow Keys ↑/↓ to navigate' if player.use_arrow_keys else 'W/S to navigate'
+    menu_state.tooltip = style_text({'style': 'italic'}, f' {arrow_keys_tooltip} | ENTER to select') if player.display_controls else None
 
     def on_press(key):
         """
@@ -216,26 +219,27 @@ def main_menu(selected=0):
         delta (int): The change in selection (either +1 or -1 to move up or down).
         """
         menu_state.selected = (menu_state.selected + delta) % len(menu_state.options) # Allows wrap-around
+        menu_state.main_menu_selected = menu_state.selected
         redraw_menu()
 
     def handle_enter():
         """Handle menu item selection"""
         if menu_state.selected == 0:  # Play
-            play_selection_menu(old_selected=0)
+            play_selection_menu()
         elif menu_state.selected == 1:  # Shop
-            shop_menu(old_selected=1)
+            shop_menu()
         elif menu_state.selected == 2:  # Inventory
-            inventory_menu(old_selected=2)
+            inventory_menu()
         elif menu_state.selected == 3:  # Settings
-            settings_menu(old_selected=3)
+            settings_menu()
         elif menu_state.selected == 4:  # Exit
-            exit_confirmation(4)
+            exit_confirmation()
 
     # Set the keyboard handler to this menu's key-input handler
     keyboard_manager.set_handler(on_press)
     redraw_menu()
 
-def exit_confirmation(old_selected):
+def exit_confirmation():
     """
     Displays the exit confirmation menu when player selects 'Exit' from the main menu
 
@@ -251,7 +255,8 @@ def exit_confirmation(old_selected):
     menu_state.selected = 0
     menu_state.title = style_text({'style': 'bold'}, 'Are you sure you want to exit?')
     menu_state.info = None
-    menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select') if player.display_controls else None
+    arrow_keys_tooltip = 'Arrow Keys ↑/↓ to navigate' if player.use_arrow_keys else 'W/S to navigate'
+    menu_state.tooltip = style_text({'style': 'italic'}, f' {arrow_keys_tooltip} | ENTER to select') if player.display_controls else None
 
     def update_selection(new_selection):
         """
@@ -278,19 +283,19 @@ def exit_confirmation(old_selected):
             update_selection(1)
         elif key == 'enter':  # Enter key
             if menu_state.selected == 0:
-                main_menu(old_selected) # Go back to main menu with the old_selected value
+                main_menu() # Go back to main menu with the old_selected value
             elif menu_state.selected == 1: 
                 player.save()
                 print('\nExiting game...')
                 menu_state.should_exit = True
         elif key == 'esc':  # Escape key
-            main_menu(old_selected) # Go back to main menu with the old_selected value
+            main_menu() # Go back to main menu with the old_selected value
 
     # Set the keyboard handler to this menu's key-input handler
     keyboard_manager.set_handler(on_press)
     redraw_menu()
 
-def play_selection_menu(selected=0, old_selected=0):
+def play_selection_menu(selected=0):
     """
     Displays the play selection menu when player selects 'Play' from the main menu.
     Players can navigate enemies for information and prompt to fight them if they meet requirements.
@@ -325,7 +330,7 @@ def play_selection_menu(selected=0, old_selected=0):
         elif key == 'enter':
             handle_enter()
         elif key == 'esc': # Escape key
-            main_menu(old_selected) # Go back to main menu with the old_selected value
+            main_menu() # Go back to main menu with the old_selected value
 
     def update_selection(delta):
         """
@@ -413,7 +418,8 @@ def play_selection_menu(selected=0, old_selected=0):
             enter_string = style_text({'style': 'bold italic'}, 'You cannot fight this enemy yet!')
 
         # If control toolips are enabled, display navigation controls
-        controls_tooltip = '\nArrow Keys ←/→ to navigate | ESC to go back' if player.display_controls else ''
+        arrow_keys_tooltip = 'Arrow Keys ←/→ to navigate' if player.use_arrow_keys else 'A/D to navigate'
+        controls_tooltip = f'\n{arrow_keys_tooltip} | ESC to go back' if player.display_controls else ''
         # Finalize and display tooltip
         menu_state.tooltip = style_text({'style': 'italic'}, enter_string, ' | ', prev_enemy_name, ' ← | → ', next_enemy_name, controls_tooltip)
         
@@ -443,7 +449,8 @@ def play_confirm_fight(enemy, enemy_name, enemy_id, old_selected=0):
     menu_state.menu_type = 'basic'
     menu_state.selected = 0 
     menu_state.title = style_text({'style': 'bold'}, f"Are you sure you want to fight ", enemy_name, "?\n")
-    menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select | ESC to go back' if player.display_controls else '')
+    arrow_keys_tooltip = 'Arrow Keys ↑/↓ to navigate' if player.use_arrow_keys else 'W/S to navigate'
+    menu_state.tooltip = style_text({'style': 'italic'}, f' {arrow_keys_tooltip} | ENTER to select | ESC to go back') if player.display_controls else None
 
     # =====================================
     # Enemy and player comparison info setup
@@ -475,13 +482,13 @@ def play_confirm_fight(enemy, enemy_name, enemy_id, old_selected=0):
         debug.info(Text(f"Did not fight ") + enemy_name)
         play_selection_menu(selected=old_selected)
 
-    async def handle_yes():
+    def handle_yes():
         """Initiate combat sequence"""
         debug.info(Text(f"Fighting ") + enemy_name)
         globals.in_combat = True # Set global combat variable to true
         try:
             # Initiate fight handled in fight.py
-            await initiate_fight(enemy, enemy_name, enemy_id)
+            initiate_fight(enemy, enemy_name, enemy_id)
         except Exception as e:
             # If a crash occurs in fight.py, it is handled here
             crash_handling(e)
@@ -505,7 +512,7 @@ def play_confirm_fight(enemy, enemy_name, enemy_id, old_selected=0):
             if menu_state.selected == 0: # Selects 'No'
                 handle_exit()
             else: # Selects 'Yes'
-                asyncio.run(handle_yes())
+                handle_yes()
         elif key == 'esc':
             handle_exit()
             
@@ -513,7 +520,7 @@ def play_confirm_fight(enemy, enemy_name, enemy_id, old_selected=0):
     keyboard_manager.set_handler(on_press)
     redraw_menu()
 
-def shop_menu(selected=0, old_selected=0):
+def shop_menu():
     """
     Displays the shop menu when player selects 'Shop' from the main menu.
     Shows the player's balance, level, and available weapons' names with labels indicating level requirement eligibility.
@@ -545,7 +552,7 @@ def shop_menu(selected=0, old_selected=0):
 
     # Set up the menu state for the shop menu
     menu_state.menu_type = 'paged'
-    menu_state.selected = selected
+    menu_state.selected = menu_state.shop_selected
     menu_state.title = style_text({'style':'bold'}, 'Shop | Balance: ', style_text({'color':[201, 237, 154]}, f"${player.balance}"), f" | Level: ") + Text(str(player.level))
     menu_state.info = None 
     menu_state.page_size = 5
@@ -569,32 +576,34 @@ def shop_menu(selected=0, old_selected=0):
         # Left arrow / A key
         elif key == ('left' if player.use_arrow_keys else 'a') and menu_state.current_page > 0:
             # Switch to previous page if current page isn't the first one
-            menu_state.current_page -= 1  # Move to the previous page
-            menu_state.selected = menu_state.current_page * menu_state.page_size  # Set selected to the first item of the page
-            redraw_menu()
+            menu_state.selected = (menu_state.current_page - 1) * menu_state.page_size  # Set selected to the first item of the page
+            menu_state.shop_selected = menu_state.selected
+            update_menu_info()
         # Right arrow / D key
         elif key == ('right' if player.use_arrow_keys else 'd') and menu_state.current_page < menu_state.total_pages - 1: 
             # Switch to next page if current page isn't the last one
-            menu_state.current_page += 1  # Move to the next page
-            menu_state.selected = menu_state.current_page * menu_state.page_size  # Set selected to the first item of the page
-            redraw_menu()
+            menu_state.selected = (menu_state.current_page + 1) * menu_state.page_size  # Set selected to the first item of the page
+            menu_state.shop_selected = menu_state.selected
+            update_menu_info()
         elif key == 'enter': 
             if current_option:
                 current_weapon_id = current_option[0] # Get ID of selected weapon
                 current_weapon = current_option[1] # Get data of selected weapon
                 current_weapon_name = style_text(current_weapon['title'], current_weapon['name']) # Get and style name of selected weapon
                 # Sends player to the shop weapon inspection menu of the selected weapon
-                shop_view_weapon(current_weapon, current_weapon_name, current_weapon_id, old_selected=menu_state.selected)
+                shop_view_weapon(current_weapon, current_weapon_name, current_weapon_id)
         elif key == 'esc':  # Escape key
-            main_menu(old_selected) # Go back to the main menu with old selected value
+            main_menu() # Go back to the main menu with old selected value
         elif key == sort_type_keybind: # Key set for the sort type keybind
             keys = ['levelRequirement', 'price'] # Existing types to sort
-            player.settings['shopSortType'] = keys[(keys.index(menu_state.sort_type) + 1) % len(keys)] # Set the sort type to the next key
+            menu_state.sort_type = keys[(keys.index(menu_state.sort_type) + 1) % len(keys)] # Set the sort type to the next key
             update_menu_info() # Update displayed menu
+            player.settings['shopSortType'] = menu_state.sort_type # Save to settings
             player.save(debugging=False) # Save player data to save file
         elif key == sort_order_keybind: # Key set for the sort order keybind
-            player.settings['shopSortAscending'] = not player.settings['shopSortAscending'] # Set to opposite sort type
+            menu_state.sort_order = not menu_state.sort_order # Set to opposite sort type
             update_menu_info()
+            player.settings['shopSortAscending'] = menu_state.sort_order
             player.save(debugging=False)
 
     def update_selection(delta):
@@ -615,6 +624,7 @@ def shop_menu(selected=0, old_selected=0):
                 menu_state.selected = valid_indices[0]
             else:
                 menu_state.selected = valid_indices[valid_indices.index(menu_state.selected) + delta]
+        menu_state.shop_selected = menu_state.selected
         update_menu_info()
 
     def update_menu_info():
@@ -681,7 +691,8 @@ def shop_menu(selected=0, old_selected=0):
         sort_tooltip = f"Sorted by: {displayed_type}{f' ({sort_type_keybind.upper()})' if player.display_controls else ''} | {displayed_order}{f' ({sort_order_keybind.upper()})' if player.display_controls else ''}"
         # Create the control tooltip for navigation instructions
         # These will only appear if the player is configured to see controls
-        control_tooltip =  '\nArrow Keys ↑/↓ to navigate items | Arrow Keys ←/→ to navigate pages | ENTER to select | ESC to go back' if player.display_controls else ''
+        arrow_keys_tooltip = 'Arrow Keys: ↑/↓ to navigate items, ←/→ to navigate pages' if player.use_arrow_keys else 'W/S to navigate items, A/D to navigate pages'
+        control_tooltip =  f'\n{arrow_keys_tooltip}  | ENTER to select | ESC to go back' if player.display_controls else ''
         # Create the extra tooltip for item statuses (Purchased or Locked)
         # It will show "✅" for purchased items and "🔒" for locked items, based on player settings
         extra_tooltip = '\n✅ = Purchased | 🔒 = Locked' if player.display_extra else ''
@@ -694,7 +705,7 @@ def shop_menu(selected=0, old_selected=0):
     keyboard_manager.set_handler(on_press)
     update_menu_info() 
 
-def shop_view_weapon(weapon, weapon_name, weapon_id, selected=0, old_selected=0):
+def shop_view_weapon(weapon, weapon_name, weapon_id, selected=0):
     """
     Displays the shop weapon inspection menu when player selects a weapon from the shop menu.
     Shows the player's balance and level at the title.
@@ -758,7 +769,7 @@ def shop_view_weapon(weapon, weapon_name, weapon_id, selected=0, old_selected=0)
                 # Sends player to weapon purchase confirmation menu
                 shop_buy_weapon(weapon, weapon_name, weapon_id, price, menu_state.selected)
         elif key == 'esc':
-            shop_menu(old_selected)  # Go back to the shop menu with old_selected 
+            shop_menu()  # Go back to the shop menu with old_selected 
 
     def update_selection(delta):
         """
@@ -805,7 +816,7 @@ def shop_view_weapon(weapon, weapon_name, weapon_id, selected=0, old_selected=0)
         level_info += Text() if correct_level else locked_text
 
         # Combine weapon name, description, price, and level info
-        weapon_info = Text(" ") + weapon_name + Text(f" \n{wrap_text(weapon['description'], indent="  ")}") + Text(f"\n  ") + price_info + Text(f"\n  ") + level_info
+        weapon_info = Text(" ") + weapon_name + Text(f" \n{wrap_text(weapon['description'], indent='  ')}") + Text(f"\n  ") + price_info + Text(f"\n  ") + level_info
 
         # ===================
         # Set up ability info:
@@ -823,7 +834,7 @@ def shop_view_weapon(weapon, weapon_name, weapon_id, selected=0, old_selected=0)
         # Format the ability description, replacing placeholders with actual values for damage and hit chance
         ability_description = ability_info['description'].format(minDamage = ability_stats['minDamage'], maxDamage = ability_stats['maxDamage'], missChance = 100 - ability_stats['hitChance'])
         # Combine the title, name, and formatted description into the full ability info display
-        ability_info = ability_title + ability_name + Text(f"\n{wrap_text(ability_description, indent="  ")}")
+        ability_info = ability_title + ability_name + Text(f"\n{wrap_text(ability_description, indent='  ')}")
         
         # Combine the weapon info and ability info into the full menu information for display
         menu_state.info = weapon_info + ability_info
@@ -833,7 +844,8 @@ def shop_view_weapon(weapon, weapon_name, weapon_id, selected=0, old_selected=0)
         # ====================
 
         # Prepare the tooltip for navigating abilities, displayed only if there are multiple abilities and if the player has controls enabled
-        ability_tooltip = 'Arrow Keys ←/→ to navigate abilities\n' if len(abilities) > 1 and player.display_controls else ''
+        arrow_keys_tooltip = 'Arrow Keys ←/→ to navigate' if player.use_arrow_keys else 'A/D to navigate'
+        ability_tooltip = f'{arrow_keys_tooltip}\n' if len(abilities) > 1 and player.display_controls else ''
 
         # Prepare the text for the 'enter' action based on the player's status with the weapon
         enter_string = '' 
@@ -880,7 +892,8 @@ def shop_buy_weapon(weapon, weapon_name, weapon_id, price, old_selected=0):
     menu_state.selected = 0
     menu_state.title = style_text({'style': 'bold'}, f"Are you sure you want to purchase ", weapon_name, "?")
     menu_state.info = style_text({'style': 'bold'}, ' Price: ') + style_text({'color': [201, 237, 154]}, f"${weapon['price']}") + style_text({'style': 'bold'}, '\n Your balance: ') + style_text({'color': [201, 237, 154]}, f"${player.balance}")
-    menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select | ESC to go back' if player.display_controls else '')
+    arrow_keys_tooltip = 'Arrow Keys ↑/↓ to navigate' if player.use_arrow_keys else 'W/S to navigate'
+    menu_state.tooltip = style_text({'style': 'italic'}, f' {arrow_keys_tooltip} | ENTER to select | ESC to go back') if player.display_controls else None
     
     def update_selection(new_selection):
         """Update selection and redraw menu"""
@@ -918,7 +931,7 @@ def shop_buy_weapon(weapon, weapon_name, weapon_id, price, old_selected=0):
     keyboard_manager.set_handler(on_press)
     redraw_menu()
 
-def inventory_menu(selected=0, old_selected=0):
+def inventory_menu(selected=0):
     """
     Displays the inventory menu when player selects 'Inventory' from the main menu.
     Shows the player's balance, level, and available weapons' names with labels indicating level requirement eligibility.
@@ -982,13 +995,13 @@ def inventory_menu(selected=0, old_selected=0):
             # Switch to previous page if current page isn't the first one
             menu_state.current_page -= 1  # Move to the previous page
             menu_state.selected = menu_state.current_page * menu_state.page_size  # Set selected to the first item of the page
-            redraw_menu()
+            update_menu_info()
         # Right arrow / D key
         elif key == ('right' if player.use_arrow_keys else 'd') and menu_state.current_page < menu_state.total_pages - 1: 
             # Switch to next page if current page isn't the last one
             menu_state.current_page += 1  # Move to the next page
             menu_state.selected = menu_state.current_page * menu_state.page_size  # Set selected to the first item of the page
-            redraw_menu()
+            update_menu_info()
         elif key == 'enter': 
             if current_option:
                 current_weapon_id = current_option[0] # Get ID of selected weapon
@@ -997,15 +1010,17 @@ def inventory_menu(selected=0, old_selected=0):
                 # Sends player to the inventory weapon inspection menu of the selected weapon
                 inv_view_weapon(current_weapon, current_weapon_name, current_weapon_id, menu_state.selected)
         elif key == 'esc': 
-            main_menu(old_selected)  # Go back to the main menu
+            main_menu()  # Go back to the main menu
         elif key == sort_type_keybind: # Key set for the sort type keybind
             keys = ['levelRequirement', 'price'] # Existing types to sort
-            player.settings['invSortType'] = keys[(keys.index(menu_state.sort_type) + 1) % len(keys)] # Set the sort type to the next key
+            menu_state.sort_type = keys[(keys.index(menu_state.sort_type) + 1) % len(keys)] # Set the sort type to the next key
             update_menu_info() # Update displayed menu
+            player.settings['invSortType'] = menu_state.sort_type # Save to settings
             player.save(debugging=False) # Save player data to save file
         elif key == sort_order_keybind: # Key set for the sort order keybind
-            player.settings['invSortAscending'] = not player.settings['invSortAscending'] # Set to opposite sort type
+            menu_state.sort_order = not menu_state.sort_order # Set to opposite sort type
             update_menu_info()
+            player.settings['invSortAscending'] = menu_state.sort_order
             player.save(debugging=False)
 
     def update_selection(delta):
@@ -1096,7 +1111,8 @@ def inventory_menu(selected=0, old_selected=0):
         sort_tooltip = f"Sorted by: {displayed_type}{f' ({sort_type_keybind.upper()})' if player.display_controls else ''} | {displayed_order}{f' ({sort_order_keybind.upper()})' if player.display_controls else ''}"
         # Create the control tooltip for navigation instructions
         # These will only appear if the player is configured to see controls
-        control_tooltip =  '\nArrow Keys ↑/↓ to navigate items | Arrow Keys ←/→ to navigate pages | ENTER to select | ESC to go back' if player.display_controls else ''
+        arrow_keys_tooltip = 'Arrow Keys: ↑/↓ to navigate items, ←/→ to navigate pages' if player.use_arrow_keys else 'W/S to navigate items, A/D to navigate pages'
+        control_tooltip =  f'\n{arrow_keys_tooltip}  | ENTER to select | ESC to go back' if player.display_controls else ''
         # Create the extra tooltip for item status, it will show "✅" for equipped items
         extra_tooltip = '\n✅ = Equipped' if player.display_extra else ''
         # Combine all the tooltips into one, with italic styling applied
@@ -1212,7 +1228,7 @@ def inv_view_weapon(weapon, weapon_name, weapon_id, old_selected=0):
         level_info += Text() if correct_level else locked_text
 
         # Combine weapon name, description, price, and level info
-        weapon_info = Text(" ") + weapon_name + equipped_string + Text(f" \n{wrap_text(weapon['description'], indent="  ")}") + price_info + Text(f"\n  ") + level_info
+        weapon_info = Text(" ") + weapon_name + equipped_string + Text(f" \n{wrap_text(weapon['description'], indent='  ')}") + price_info + Text(f"\n  ") + level_info
 
         # ===================
         # Set up ability info:
@@ -1230,7 +1246,7 @@ def inv_view_weapon(weapon, weapon_name, weapon_id, old_selected=0):
         # Format the ability description, replacing placeholders with actual values for damage and hit chance
         ability_description = ability_info['description'].format(minDamage = ability_stats['minDamage'], maxDamage = ability_stats['maxDamage'], missChance = 100 - ability_stats['hitChance'])
         # Combine the title, name, and formatted description into the full ability info display
-        ability_info = ability_title + ability_name + Text(f"\n{wrap_text(ability_description, indent="  ")}")
+        ability_info = ability_title + ability_name + Text(f"\n{wrap_text(ability_description, indent='  ')}")
         
         # Combine the weapon info and ability info into the full menu information for display
         menu_state.info = weapon_info + ability_info
@@ -1240,7 +1256,8 @@ def inv_view_weapon(weapon, weapon_name, weapon_id, old_selected=0):
         # ====================
 
         # Prepare the tooltip for navigating abilities, displayed only if there are multiple abilities and if the player has controls enabled
-        ability_tooltip = 'Arrow Keys ←/→ to navigate abilities\n' if len(abilities) > 1 and player.display_controls else ''
+        arrow_keys_tooltip = 'Arrow Keys ←/→ to navigate' if player.use_arrow_keys else 'A/D to navigate'
+        ability_tooltip = f'{arrow_keys_tooltip}\n' if len(abilities) > 1 and player.display_controls else ''
 
         # Prepare the text for the 'enter' action based on the player's status with the weapon
         enter_string = '' 
@@ -1262,7 +1279,7 @@ def inv_view_weapon(weapon, weapon_name, weapon_id, old_selected=0):
     keyboard_manager.set_handler(on_press)
     update_menu_info() 
 
-def settings_menu(selected=0, old_selected=0):
+def settings_menu(selected=0):
     """
     Displays the settings menu when player selects 'Settings' from the main menu.
     Shows the settings...
@@ -1285,6 +1302,8 @@ def settings_menu(selected=0, old_selected=0):
         KeyBindSetting(style_text({'style': 'bold italic'}, 'Set keybind for sort key:'), 'primarySortKeybind', ['secondarySortKeybind']),
         KeyBindSetting(style_text({'style': 'bold italic'}, 'Set keybind for sort order:'), 'secondarySortKeybind', ['primarySortKeybind']),
     ]
+
+    new_options = []
 
     # Set up the menu state for the settings menu
     menu_state.menu_type = 'paged'
@@ -1321,7 +1340,7 @@ def settings_menu(selected=0, old_selected=0):
         elif key == 'enter':
             handle_enter()
         elif key == 'esc':  
-            main_menu(old_selected)  # Go back to the main menu with old_selected value
+            main_menu()  # Go back to the main menu with old_selected value
 
     def update_selection(delta):
         """
@@ -1350,10 +1369,11 @@ def settings_menu(selected=0, old_selected=0):
         If the selected option is a two-state setting, it toggles its state.
         If the selected option is a keybind setting, it opens the keybind configuration menu.
         """
-        nonlocal options
+        nonlocal new_options
         
         # Get the selected option and its ID
-        selected_option = options[menu_state.selected]
+        debug.info(menu_state.selected)
+        selected_option = new_options[menu_state.selected]
         id = selected_option.id
         setting = player.settings.get(id)
 
@@ -1362,7 +1382,7 @@ def settings_menu(selected=0, old_selected=0):
             if isinstance(selected_option, TwoStateSetting):
             # Toggle the setting value (True/False)
                 player.settings[id] = not player.settings[id]
-                player.save()
+                player.save(debugging=False)
                 debug.info(f"{'Enabled' if player.settings[id] is True else 'Disabled'} setting: {id}")
 
                 update_menu_info() 
@@ -1379,7 +1399,9 @@ def settings_menu(selected=0, old_selected=0):
         Updates the display text to reflect the state of each setting.
         """
         nonlocal options
+        nonlocal new_options
 
+        new_options = []
         displayed_options = []
 
         # Iterate over each option in the menu
@@ -1404,6 +1426,8 @@ def settings_menu(selected=0, old_selected=0):
                 player.settings[option.id] = option.disabled_value
                 player.save(debugging=False)
                 continue
+            else:
+                new_options.append(option)
 
             # If the option is a TwoStateSetting, display it with On/Off states
             if isinstance(option, TwoStateSetting):
@@ -1422,7 +1446,8 @@ def settings_menu(selected=0, old_selected=0):
         menu_state.options = displayed_options
 
         # Tooltip instructing controls (if enabled)
-        menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate items | ←/→ to navigate pages | ENTER to select | ESC to go back') if player.display_controls else None
+        arrow_keys_tooltip = 'Arrow Keys: ↑/↓ to navigate items, ←/→ to navigate pages' if player.use_arrow_keys else 'W/S to navigate items, A/D to navigate pages'
+        menu_state.tooltip = style_text({'style': 'italic'}, f'{arrow_keys_tooltip} | ENTER to select | ESC to go back') if player.display_controls else None
         
         redraw_menu()
 

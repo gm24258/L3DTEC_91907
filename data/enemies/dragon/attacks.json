@@ -3,7 +3,7 @@
         {
             "name": "Fire Breath",
             "id": "fire_breath",
-            "title": {"style": "bold", "color": [255, 191, 82]},
+            "title": {"style": "bold", "color": [98, 0, 255]},
             "minDamage": 150,
             "maxDamage": 250,
             "critMulti": 2,
@@ -13,7 +13,7 @@
         {
             "name": "Claw Swipe",
             "id": "claw_swipe",
-            "title": {"color": [255, 150, 0]},
+            "title": {"style": "bold", "color": [208, 200, 219]},
             "minDamage": 120,
             "maxDamage": 200,
             "critMulti": 1.5,
@@ -23,7 +23,7 @@
         {
             "name": "Tail Whip",
             "id": "tail_whip",
-            "title": {"color": [255, 120, 0]},
+            "title": {"color": [208, 200, 219]},
             "minDamage": 80,
             "maxDamage": 120,
             "critMulti": 1.3,
@@ -33,7 +33,7 @@
         {
             "name": "Ground Stomp",
             "id": "ground_stomp",
-            "title": {"color": [255, 82, 82]},
+            "title": {"color": [208, 200, 219]},
             "minDamage": 60,
             "maxDamage": 100,
             "critMulti": 1.05,

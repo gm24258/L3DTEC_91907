@@ -111,7 +111,7 @@ class Player():
             self.save(debugging=False)
 
     def save(self, debugging=True):
-        self.update_saved_settings()
+        self.update_self_settings()
 
 
         data = {

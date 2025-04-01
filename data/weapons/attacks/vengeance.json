@@ -1,7 +1,7 @@
 {
     "name": "VENGEANCE.",
     "id": "vengeance",
-    "title": {"style": "bold italic", "color": [21, 1, 66]},
+    "title": {"style": "bold italic", "color": [47, 0, 255]},
     "description": "I AM VENGEANCE. Imbue your weapon in dragon flames and strike with a staggering {minDamage}-{maxDamage} damage, with a {missChance}% chance to miss.",
     "messages": {
         "start": [

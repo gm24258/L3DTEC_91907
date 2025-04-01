@@ -1,7 +1,7 @@
 {
     "name": "EMBER WHIP",
     "id": "ember_whip",
-    "title": {"color": [61, 38, 92]},
+    "title": {"color": [80, 50, 117]},
     "description": "Unleashes a fiery lash, scorching everything in its path, dealing {minDamage}-{maxDamage} damage.",
     "messages": {
         "start": [

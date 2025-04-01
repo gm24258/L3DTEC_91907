@@ -1,7 +1,7 @@
 {
     "name": "Dragon",
     "id": "dragon",
-    "title": {"color": [140, 0, 153]},
+    "title": {"color": [98, 0, 255]},
     "health": 5000,
     "level": 30,
     "boss": true,

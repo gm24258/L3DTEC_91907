@@ -4,8 +4,9 @@
 ## Features
 - Menu system: Navigate through game options and menus using
 - Turn based combat: Engage in battles using weapons with different stats and abilities.
-- Level progression: Gain experience from your battles to unlock new weapons and more challenging but rewarding enemies.
+- Level progression: Gain experience and rewards from your battles to unlock new weapons and more challenging but rewarding enemies.
 - Inventory & shop: View, purchase and manage weapons which get better stats the higher level requirements they need.
+- Settings: Customize UI and key-input preferences for this game
 - Text-based UI: Uses the terminal and uses `rich` module to display colors.
 
 ## Installation 
@@ -28,3 +29,6 @@
 - 'Inventory' leads you to a menu where you can view your owned/purchased weapons and equip them.
 - 'Settings' leads you to a menu where you can toggle and change setttings and keybinds for customisation and preference.
 - 'Exit' makes you exit to the game once you confirm.
+
+## Feedback
+ You can give feedback on this game by going to the `Issues` tab of this repository and creating a new issue.

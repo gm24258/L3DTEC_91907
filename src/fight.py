@@ -568,7 +568,7 @@ def battle():
                 # Handle missed attack
                 if attack_output == 'miss':
                     print_top_info()  # Print top info again for miss
-                    miss_message = get_random_message(messages['miss'], {"enemy_name": fighting_enemy.name})
+                    miss_message = get_random_message(messages['miss'], {"attack_name": attack_name, "enemy_name": fighting_enemy.name})
                     console.print(style_text({'style':'italic'}, " ", miss_message))
                 else:
                     # Handle successful or critical hit
@@ -577,7 +577,7 @@ def battle():
 
                     is_crit = attack_output == 'crit'
                     styled_damage = style_text({'color': [252, 144, 3] if is_crit else [201, 237, 154]}, str(damage))  # Style damage based on crit or normal hit
-                    hit_message = get_random_message(messages['crit' if is_crit else 'hit'], {"attack_name": attack_name, "damage": styled_damage})
+                    hit_message = get_random_message(messages['crit' if is_crit else 'hit'], {"attack_name": attack_name, "enemy_name": fighting_enemy.name, "damage": styled_damage})
                     console.print(style_text({'style':'italic'}, " ", hit_message))  # Print the hit message
             else:
                 idle_message = get_random_message(idle_messages, {"enemy_name": fighting_enemy.name, "weapon_name": equipped_weapon.name})
@@ -599,7 +599,7 @@ def battle():
                 attack_name =  style_text(enemy_attack['title'], enemy_attack['name'])
                 is_crit = enemy_attack_output == 'crit'
                 styled_enemy_damage = style_text({'color': [252, 144, 3] if is_crit else [201, 237, 154]}, str(enemy_damage))
-                enemy_message = get_random_message(enemy_attack_messages['crit' if is_crit else 'hit'], {"attack_name": attack_name, "damage": styled_enemy_damage})
+                enemy_message = get_random_message(enemy_attack_messages['crit' if is_crit else 'hit'], {"attack_name": attack_name, "enemy_name": fighting_enemy.name, "damage": styled_enemy_damage})
                 console.print(style_text({'style':'italic'}, " ", enemy_message))
 
             time.sleep(1 if fighting_player.faster_logs else 3)  # Adjust log speed between turns
@@ -687,21 +687,17 @@ def redraw_menu(clear=True):
 #    INITIALIZE BATTLE
 # ========================
 
-async def main_loop():
-    while True:
-        if not globals.in_combat or globals.crashed:
-            global attack_cooldowns
-            # Reset values
-            attack_cooldowns = {}
-            menu_state.__init__()
-            fighting_player.__init__()
-            fighting_enemy.__init__()
-            equipped_weapon.__init__()
-            return True
-        await asyncio.sleep(0.01)
-
 # Function for game.py
-async def initiate_fight(enemy, enemy_name, enemy_id):
+def initiate_fight(enemy, enemy_name, enemy_id):
+    global attack_cooldowns
+
+    # Reset values from previous battle
+    attack_cooldowns = {}
+    menu_state.__init__()
+    fighting_player.__init__()
+    fighting_enemy.__init__()
+    equipped_weapon.__init__()
+
     clear_terminal()
     debug.info(f'Initiated fight for {enemy_name}...')
     console.print(Text(f'Loading battle for ') + enemy_name + Text('...'))
@@ -753,7 +749,5 @@ async def initiate_fight(enemy, enemy_name, enemy_id):
         equipped_weapon.abilities.append(ability_info)
 
     debug.info(f'Initiated fight for {enemy_name}')
-
-    asyncio.create_task(main_loop())
 
     battle()

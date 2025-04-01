@@ -1,7 +1,7 @@
 {
     "name": "DRACONIC STRIKE",
     "id": "draconic_strike",
-    "title": {"color": [114, 50, 201]},
+    "title": {"color": [98, 0, 255]},
     "description": "A strike imbued with the fierce power of a dragon, dealing {minDamage}-{maxDamage} damage.",
     "messages": {
         "start": [

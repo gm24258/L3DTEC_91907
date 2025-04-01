@@ -21,6 +21,14 @@
             "The lightning intensifies as {attack_name} strikes with critical force, overwhelming {enemy_name}!",
             "{attack_name} blasts {enemy_name} with a devastating surge of electricity, causing a critical strike!",
             "The lightning from {attack_name} strikes with tremendous power, delivering a shocking blow to {enemy_name}!"
+        ],
+        "miss": [
+            "{attack_name} crackles through the air but {enemy_name} dodges at the last second, leaving only ozone behind.",
+            "The lightning bolt from {attack_name} strikes the ground where {enemy_name} just stood, sending sparks flying.",
+            "{enemy_name} nimbly leaps aside as {attack_name} discharges harmlessly into the air.",
+            "A blinding flash of {attack_name} illuminates the area, but {enemy_name} manages to evade the strike.",
+            "{attack_name} arcs wildly through the air, completely missing {enemy_name}.",
+            "The electrical charge of {attack_name} dissipates harmlessly as {enemy_name} avoids the attack."
         ]
     }
 }

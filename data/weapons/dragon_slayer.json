@@ -1,7 +1,7 @@
 {
     "name": "Dragon Slayer",
     "id": "dragon_slayer",
-    "title": {"color": [114, 50, 201]},
+    "title": {"color": [98, 0, 255]},
     "description": "A trophy borne from the slain beast, infused with the primordial fire and the unyielding strength of dragons.",
     "inShop": false,
     "levelRequirement": 30,
@@ -39,7 +39,7 @@
             "maxDamage": 150,
             "critMulti": 0.8,
             "critChance": 40,
-            "hitChance": 42,
+            "hitChance": 50,
             "cooldown": 7
         }
     ]

@@ -1,7 +1,7 @@
 {
     "name": "Obsidian Dagger",
     "id": "obsidian",
-    "title": {"color": [20, 0, 64]},
+    "title": {"color": [89, 47, 168]},
     "description": "Volcanic rock scraped to the shape of a blade. Capable of delivering swift and lethal strikes.",
     "inShop": true,
     "price": 1200,
@@ -22,7 +22,7 @@
             "maxDamage": 50,
             "critMulti": 0.7,
             "critChance": 25,
-            "hitChance": 90,
+            "hitChance": 85,
             "cooldown": 4
         },
         {
@@ -31,7 +31,7 @@
             "maxDamage": 75,
             "critMulti": 0.75,
             "critChance": 30,
-            "hitChance": 35,
+            "hitChance": 50,
             "cooldown": 6
         }
     ]
