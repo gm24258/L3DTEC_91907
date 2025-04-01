@@ -2,7 +2,7 @@
     "name": "DRACONIC STRIKE",
     "id": "draconic_strike",
     "title": {"color": [98, 0, 255]},
-    "description": "A strike imbued with the fierce power of a dragon, dealing {minDamage}-{maxDamage} damage.",
+    "description": "A strike imbued with the fierce power of a dragon, dealing {minDamage}-{maxDamage} damage. Has a (missChance)% to miss.",
     "messages": {
         "start": [
             "{attack_name} charges with the fury of ancient dragons, gathering power for a devastating blow.",
@@ -11,16 +11,16 @@
             "With the fury of ages, {attack_name} is unleashed, the power of dragons coursing through the strike."
         ],
         "hit": [
-            "{attack_name} hits {enemy_name} with the ferocity of a dragon’s breath, leaving them staggered.",
-            "A powerful blow lands as {attack_name} connects, the strength of a dragon overwhelming {enemy_name}.",
-            "With a roar, {attack_name} strikes {enemy_name}, the sheer force knocking them back.",
-            "{attack_name} crashes into {enemy_name}, a dragon’s fury embodied in the strike."
+            "{attack_name} hits {enemy_name} with the ferocity of a dragon’s breath, leaving them staggered for {damage}.",
+            "A powerful blow lands as {attack_name} connects, the strength of a dragon overwhelming {enemy_name} for {damage}.",
+            "With a roar, {attack_name} strikes {enemy_name}, the sheer force knocking them back for {damage}.",
+            "{attack_name} crashes into {enemy_name}, a dragon’s fury embodied in the strike, dealing {damage}."
         ],
         "crit": [
-            "A thunderous roar erupts as {attack_name} lands a critical hit, the power of dragons overwhelming {enemy_name}!",
-            "With the might of an ancient dragon, {attack_name} strikes {enemy_name}, sending them flying.",
-            "{attack_name} delivers a critical blow with the force of a dragon’s claw, devastating {enemy_name}!",
-            "The ground shakes as {attack_name} lands, the overwhelming force of a dragon’s strike crushing {enemy_name}!"
+            "A thunderous roar erupts as {attack_name} lands a critical hit, the power of dragons overwhelming {enemy_name} for {damage}!",
+            "With the might of an ancient dragon, {attack_name} strikes {enemy_name}, sending them flying for {damage}!",
+            "{attack_name} delivers a critical blow with the force of a dragon’s claw, devastating {enemy_name} for {damage}!",
+            "The ground shakes as {attack_name} lands, the overwhelming force of a dragon’s strike crushing {enemy_name} for {damage}!"
         ],
         "miss": [
             "{attack_name} swings with the force of a dragon, but {enemy_name} narrowly avoids the blow.",

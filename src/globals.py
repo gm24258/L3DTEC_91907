@@ -42,7 +42,7 @@ class Player():
 
     def level_up(self):
         """Scale and update health and XP goal based on level. Uses exponential formula"""
-        scale_factor = 1.1
+        scale_factor = 1.095
         base = 100
         
         leveled_up = False # Flag to indicate if player has leveled up

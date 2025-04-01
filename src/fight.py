@@ -354,7 +354,6 @@ def flee_confirm(old_selected):
         if menu_state.current_menu == original_menu:  # If the menu is still active
             menu_state.timer_tooltip = style_text({'style': 'bold'}, f'Time left: ', get_timer())  # Update the timer tooltip with the current time left
             redraw_menu()  # Redraw the menu with updated timer display
-
     def flee_confirm_timer():
         """
         Handles the countdown timer for the flee confirm menu, which reflects the current combat timer.
@@ -363,10 +362,13 @@ def flee_confirm(old_selected):
         The loop will exit once the timer reaches 0 or the combat ends.
         """
         old_timer = menu_state.timer  # Store the current timer value
-        while menu_state.timer > 0 and globals.in_combat and menu_state.current_menu == original_menu:  # While the timer is active and combat continues
+        while globals.in_combat and menu_state.current_menu == original_menu and menu_state.timer >= 0:  # While the timer is active and combat continues
             if menu_state.timer != old_timer:  # If the timer has changed
                 old_timer = menu_state.timer  # Update the old timer value
                 update_timer_display()  # Update the timer display
+
+            if menu_state.timer < 0: break # If the timer runs out
+
             time.sleep(0.1)  # Sleep for a short time to avoid using too much CPU
 
     # Set the current menu handler for key presses
@@ -431,7 +433,6 @@ def player_turn(selected=0):
             if menu_state.selected == len(menu_state.options) - 1:  # Last option is always flee
                 exit = flee_confirm(menu_state.selected)  # Confirm flee action
                 if exit: globals.in_combat = False  # Exit combat if confirmed
-                return False
             else:
                 # Select an attack from the weapon abilities
                 chosen_attack = equipped_weapon.abilities[menu_state.selected]
@@ -440,7 +441,6 @@ def player_turn(selected=0):
         elif key == 'esc':  # ESC key to flee
             exit = flee_confirm(menu_state.selected)  # Confirm flee action
             if exit: globals.in_combat = False  # Exit combat if confirmed
-            return False
         elif key_int and key_int < len(menu_state.options):  # If a valid number key is pressed
             debug.debug(f'Pressed {key_int} key')
             chosen_attack = equipped_weapon.abilities[key_int - 1]  # Select the attack based on key
@@ -457,7 +457,6 @@ def player_turn(selected=0):
         """
         menu_state.selected = (menu_state.selected + delta) % len(menu_state.options)  # Adjust the selected option
         update_menu_info()  # Update the menu info with the new selection
-        redraw_menu(clear=False)  # Redraw the menu without clearing the screen
 
     def update_menu_info():
         """
@@ -469,6 +468,8 @@ def player_turn(selected=0):
         menu_state.timer_tooltip = style_text({'style': 'bold'}, f'Time left: ', get_timer())  # Display the remaining time in the combat timer
         menu_state.tooltip = style_text({'style': 'italic'}, 'Arrow Keys ↑/↓ to navigate | ENTER to select | ESC to go back') if player.display_controls else None  # Display controls
 
+        redraw_menu(clear=False)  # Redraw the menu 
+    
     def player_turn_timer():
         """
         Handles the countdown for the player's turn timer. While the player's turn is active,
@@ -478,30 +479,24 @@ def player_turn(selected=0):
         This function runs in a separate thread to avoid blocking the main game loop.
         """
         old_timer = menu_state.timer  # Store the current timer value
-        while globals.in_combat and menu_state.current_menu == original_menu:  # Continue while combat is ongoing
-            if menu_state.timer != old_timer and menu_state.timer >= 0:  # If the timer changes
+        while globals.in_combat and menu_state.current_menu == original_menu and menu_state.timer >= 0:  # Continue while combat is ongoing
+            if menu_state.timer != old_timer:  # If the timer changes
                 old_timer = menu_state.timer  # Update the old timer value
                 update_menu_info()  # Update the menu info (timer, controls)
-                redraw_menu(clear=False)  # Redraw the menu with updated info
 
-            if menu_state.timer <= 0:  # If the timer runs out
-                time.sleep(1)  # Wait briefly to ensure the timer is fully handled
+            if menu_state.timer < 0:  # If the timer runs out
                 menu_state.current_menu = None  # Close the menu
                 menu_state.title = None  # Remove the title
                 menu_state.info = None  # Clear the info section
                 menu_state.timer_tooltip = None  # Remove the timer tooltip
                 menu_state.tooltip = None  # Remove the control tooltip
+                break
             time.sleep(0.1)  # Sleep briefly to avoid using excessive CPU
 
     # Set the current menu handler for key presses
     keyboard_manager.set_handler(on_press)
     update_menu_info()  # Update the menu info initially
-    redraw_menu(clear=False)  # Redraw the menu initially
     threading.Thread(target=player_turn_timer, daemon=True).start()  # Start the timer in a separate thread
-
-    while globals.in_combat and menu_state.current_menu is not None and not menu_state.chosen_attack:  
-        # Wait for the player to make a selection or for the combat to end
-        time.sleep(0.1)
 
 def battle():
     """
@@ -519,7 +514,7 @@ def battle():
 
         The timer is used to limit how long the player has to make a move during their turn.
         """
-        while globals.in_combat and menu_state.timer > 0 and not menu_state.chosen_attack:
+        while globals.in_combat and menu_state.timer >= 0 and not menu_state.chosen_attack:
             time.sleep(1)  # Wait for 1 second
             menu_state.timer -= 1  # Decrease the timer by 1 second
 
@@ -540,6 +535,12 @@ def battle():
 
             # Run the player's turn (choose an attack or flee)
             player_turn()
+
+            # Loop until the timer is over and the player is at player's turn
+            while globals.in_combat and not menu_state.chosen_attack:
+                if menu_state.current_menu == 'player_turn' and menu_state.timer < 0: break
+                # Wait for the player to make a selection or for the combat to end
+                time.sleep(0.1)
 
             if not globals.in_combat: return  # Exit if combat has ended
 
@@ -562,8 +563,8 @@ def battle():
                 messages = menu_state.chosen_attack['messages']
                 start_message = get_random_message(messages['start'], {"attack_name": attack_name})  # Get attack start message
                 console.print(style_text({'style':'italic'}, " ", start_message))
-
-                time.sleep(0.5 if fighting_player.faster_logs else 2)  # Adjust log speed
+    
+                time.sleep(0.5 if fighting_player.faster_logs else 1.5)  # Adjust log speed
 
                 # Handle missed attack
                 if attack_output == 'miss':
@@ -584,7 +585,7 @@ def battle():
                 console.print(style_text({'style':'italic'}, " ", idle_message))  # If the player didn't attack, show idle message
 
             if fighting_enemy.health > 0:  # If the enemy is still alive, take its turn
-                time.sleep(0.5 if fighting_player.faster_logs else 2)  # Adjust log speed
+                time.sleep(0.5 if fighting_player.faster_logs else 1.5)  # Adjust log speed
 
                 # Determine the enemy's attack
                 enemy_attack = random.choices(fighting_enemy.attacks, weights=[att['attackChance'] for att in fighting_enemy.attacks], k=1)[0]
@@ -602,7 +603,7 @@ def battle():
                 enemy_message = get_random_message(enemy_attack_messages['crit' if is_crit else 'hit'], {"attack_name": attack_name, "enemy_name": fighting_enemy.name, "damage": styled_enemy_damage})
                 console.print(style_text({'style':'italic'}, " ", enemy_message))
 
-            time.sleep(1 if fighting_player.faster_logs else 3)  # Adjust log speed between turns
+            time.sleep(1.5 if fighting_player.faster_logs else 2.5)  # Adjust log speed between turns
         except Exception as e:
             raise
 
@@ -622,7 +623,7 @@ def battle():
             xp_reward = random.randint(rewards['minXp'], rewards['maxXp'])  # Random XP reward
             money_reward = random.randint(rewards['minMoney'], rewards['maxMoney'])  # Random money reward
 
-            time.sleep(2)
+            time.sleep(0.5 if fighting_player.faster_logs else 2)
 
             player.balance += money_reward  # Add money to player's balance
             player.xp += xp_reward  # Add XP to player's total
@@ -652,11 +653,11 @@ def battle():
         else:
             console.print(f'You have been defeated. The {fighting_enemy.name} stands victorious.')  # Defeat message
 
-        time.sleep(2)
+        time.sleep(1.5 if fighting_player.faster_logs else 2)
 
         console.print(Text(f'Exiting battle from ') + fighting_enemy.name + Text('...'))
 
-        time.sleep(1)
+        time.sleep(0 if fighting_player.faster_logs else 0.5)
 
     globals.in_combat = False  # End the combat
 

@@ -9,19 +9,19 @@
     "abilities": [
         {
             "id": "slash",
-            "minDamage": 18,  
-            "maxDamage": 22,
+            "minDamage": 14,  
+            "maxDamage": 18,
             "critMulti": 0.6,
-            "critChance": 12,
+            "critChance": 10,
             "hitChance": 100,
             "cooldown": 0
         },
         {
             "id": "swing",
             "minDamage": 18,
-            "maxDamage": 24, 
-            "critMulti": 0.8,
-            "critChance": 25,
+            "maxDamage": 22, 
+            "critMulti": 0.75,
+            "critChance": 15,
             "hitChance": 90, 
             "cooldown": 3
         }

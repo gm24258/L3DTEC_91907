@@ -12,7 +12,7 @@
             "minDamage": 50,
             "maxDamage": 60,
             "critMulti": 0.7,
-            "critChance": 30,
+            "critChance": 45,
             "hitChance": 100,
             "cooldown": 0
         },
@@ -20,8 +20,8 @@
             "id": "lightning_bolt",
             "minDamage": 70,
             "maxDamage": 90,
-            "critMulti": 0.7,
-            "critChance": 30,
+            "critMulti": 0.75,
+            "critChance": 50,
             "hitChance": 75,
             "cooldown": 3
         },
@@ -29,18 +29,18 @@
             "id": "storm",
             "minDamage": 100,
             "maxDamage": 125,
-            "critMulti": 0.75,
-            "critChance": 20,
-            "hitChance": 60,
+            "critMulti": 0.8,
+            "critChance": 55,
+            "hitChance": 70,
             "cooldown": 5
         },
         {
             "id": "jacobs_ladder",
             "minDamage": 125,
             "maxDamage": 145,
-            "critMulti": 0.75,
-            "critChance": 35,
-            "hitChance": 50,
+            "critMulti": 0.9,
+            "critChance": 60,
+            "hitChance": 60,
             "cooldown": 7
         }
     ]

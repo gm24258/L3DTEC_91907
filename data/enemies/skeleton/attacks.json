@@ -6,7 +6,7 @@
                 "title": {"color": [255, 191, 82]},
                 "minDamage": 9,
                 "maxDamage": 12,
-                "critMulti": 0.4,
+                "critMulti": 0.5,
                 "critChance": 10,
                 "attackChance": 70
             },
@@ -16,7 +16,7 @@
                 "title": {"color": [200, 150, 0]},
                 "minDamage": 10,
                 "maxDamage": 14,
-                "critMulti": 0.5,
+                "critMulti": 0.75,
                 "critChance": 12,
                 "attackChance": 60
             },
@@ -26,7 +26,7 @@
                 "title": {"color": [255, 120, 0]},
                 "minDamage": 12,
                 "maxDamage": 15,
-                "critMulti": 0.7,
+                "critMulti": 0.8,
                 "critChance": 15,
                 "attackChance": 40
             }

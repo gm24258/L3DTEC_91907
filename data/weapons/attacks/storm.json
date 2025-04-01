@@ -11,16 +11,16 @@
             "{attack_name} conjures a violent storm, winds howling and lightning crackling as it targets {enemy_name}."
         ],
         "hit": [
-            "The (attack_name) rages ands strikes {enemy_name}, battering them with wind and rain.",
-            "The {attack_name} slams into {enemy_name}, its fury crashing down upon them.",
-            "As the winds howl, the {attack_name} hits {enemy_name}, drowning them in the power of the storm.",
-            "A torrential blast of wind and rain hits {enemy_name}, as {attack_name} unleashes its fury."
+            "The {attack_name} rages and strikes {enemy_name}, battering them with wind and rain for {damage}.",
+            "The {attack_name} slams into {enemy_name}, its fury crashing down upon them for {damage}.",
+            "As the winds howl, the {attack_name} hits {enemy_name}, drowning them in the power of the storm for {damage}.",
+            "A torrential blast of wind and rain hits {enemy_name}, as {attack_name} unleashes its fury for {damage}."
         ],
         "crit": [
-            "The {attack_name} intensifies and strikes {enemy_name} with a devastating blow, unleashing the full wrath of the tempest!",
-            "Explosions in the violent {attack_name}, hammering {enemy_name} with a critical blast of wind and rain!",
-            "A cataclysmic roar of thunder accompanies the critical hit of the {attack_name}, ripping through {enemy_name}!",
-            "The {attack_name} strikes with the full force, sending a critical shockwave through {enemy_name}!"
+            "The {attack_name} intensifies and strikes {enemy_name} with a devastating blow, unleashing the full wrath of the tempest for {damage}!",
+            "Explosions in the violent {attack_name}, hammering {enemy_name} with a critical blast of wind and rain for {damage}!",
+            "A cataclysmic roar of thunder accompanies the critical hit of the {attack_name}, ripping through {enemy_name} for {damage}!",
+            "The {attack_name} strikes with the full force, sending a critical shockwave through {enemy_name} for {damage}!"
         ],
         "miss": [
             "The {attack_name} whips around, but narrowly misses {enemy_name}, who dodges the furious winds.",

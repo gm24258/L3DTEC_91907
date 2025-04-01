@@ -10,8 +10,8 @@
             "id": "claw",
             "minDamage": 60,
             "maxDamage": 75,
-            "critMulti": 0.7,
-            "critChance": 30,
+            "critMulti": 0.75,
+            "critChance": 50,
             "hitChance": 100,
             "cooldown": 0
         },
@@ -19,27 +19,27 @@
             "id": "draconic_strike",
             "minDamage": 75,
             "maxDamage": 100,
-            "critMulti": 0.75,
-            "critChance": 35,
-            "hitChance": 80,
+            "critMulti": 0.8,
+            "critChance": 55,
+            "hitChance": 75,
             "cooldown": 3
         },
         {
             "id": "ember_whip",
             "minDamage": 105,
             "maxDamage": 130,
-            "critMulti": 0.75,
-            "critChance": 35,
-            "hitChance": 60,
+            "critMulti": 0.85,
+            "critChance": 60,
+            "hitChance": 70,
             "cooldown": 5
         },
         {
             "id": "vengeance",
             "minDamage": 130,
             "maxDamage": 150,
-            "critMulti": 0.8,
-            "critChance": 40,
-            "hitChance": 50,
+            "critMulti": 1,
+            "critChance": 75,
+            "hitChance": 75,
             "cooldown": 7
         }
     ]

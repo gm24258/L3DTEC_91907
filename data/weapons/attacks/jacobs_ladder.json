@@ -11,16 +11,16 @@
             "The heavens themselves open as {attack_name} surges toward {enemy_name}."
         ],
         "hit": [
-            "{attack_name} strikes {enemy_name} with a blast of searing light, burning through their defenses.",
-            "{attack_name} hits {enemy_name}, the light scorching them with divine fury.",
-            "The beam of light crashes down on {enemy_name}, searing them with righteous power.",
-            "{attack_name} strikes true, enveloping {enemy_name} in a radiant glow of blinding force."
+            "{attack_name} strikes {enemy_name} with a blast of searing light, burning through their defenses for {damage}.",
+            "{attack_name} hits {enemy_name}, the light scorching them with divine fury, dealing {damage}.",
+            "The beam of light crashes down on {enemy_name}, searing them with righteous power for {damage}.",
+            "{attack_name} strikes true, enveloping {enemy_name} in a radiant glow of blinding force, inflicting {damage}."
         ],
         "crit": [
-            "{attack_name} erupts in a surge of light, overwhelming {enemy_name} with divine judgment.",
-            "A brilliant flash of light from {attack_name} overwhelms {enemy_name}, causing an explosion of power.",
-            "The heavens roar as {attack_name} critically strikes {enemy_name}, burning them with divine wrath.",
-            "{attack_name} hits with a blinding flash, causing {enemy_name} to be utterly consumed by the light."
+            "{attack_name} erupts in a surge of light, overwhelming {enemy_name} with divine judgment for {damage}!",
+            "A brilliant flash of light from {attack_name} overwhelms {enemy_name}, causing an explosion of power for {damage}!",
+            "The heavens roar as {attack_name} critically strikes {enemy_name}, burning them with divine wrath for {damage}!",
+            "{attack_name} hits with a blinding flash, causing {enemy_name} to be utterly consumed by the light for {damage}!"
         ],
         "miss": [
             "The pillar of light falters, missing {enemy_name} by mere inches as they narrowly dodge.",

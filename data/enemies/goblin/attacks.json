@@ -4,9 +4,9 @@
             "name": "Punch",
             "id": "punch",
             "title": {"color": "white"},
-            "minDamage": 3,
-            "maxDamage": 5,
-            "critMulti": 1.5,
+            "minDamage": 5,
+            "maxDamage": 8,
+            "critMulti": 0.5,
             "critChance": 10,
             "attackChance": 50  
         },
@@ -14,8 +14,8 @@
             "name": "Kick",
             "id": "kick",
             "title": {"color": "white"},
-            "minDamage": 4,
-            "maxDamage": 6,
+            "minDamage": 6,
+            "maxDamage": 9,
             "critMulti": 0.6,
             "critChance": 10,
             "attackChance": 40  

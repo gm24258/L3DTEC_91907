@@ -7,39 +7,39 @@
             "title": {"color": [188, 226, 227]},
             "minDamage": 12,
             "maxDamage": 18,
-            "critMulti": 1.5,
-            "critChance": 0.1,
+            "critMulti": 0.5,
+            "critChance": 15,
             "attackChance": 70
         },
         {
             "name": "Claw Swipe",
             "id": "claw_swipe",
             "title": {"color": [188, 226, 227]},
-            "minDamage": 10,
-            "maxDamage": 15,
-            "critMulti": 1.3,
-            "critChance": 0.15,
-            "attackChance": 60
+            "minDamage": 14,
+            "maxDamage": 20,
+            "critMulti": 0.6,
+            "critChance": 20,
+            "attackChance": 45
         },
         {
             "name": "Howl",
             "id": "howl",
             "title": {"color": [255, 200, 0]},
-            "minDamage": 0,
-            "maxDamage": 0,
-            "critMulti": 0,
-            "critChance": 0,
-            "attackChance": 50
+            "minDamage": 16,
+            "maxDamage": 24,
+            "critMulti": 0.7,
+            "critChance": 25,
+            "attackChance": 35
         },
         {
             "name": "Pounce",
             "id": "pounce",
             "title": {"color": [255, 120, 0]},
-            "minDamage": 15,
-            "maxDamage": 25,
-            "critMulti": 2,
-            "critChance": 0.2,
-            "attackChance": 40
+            "minDamage": 20,
+            "maxDamage": 28,
+            "critMulti": 0.8,
+            "critChance": 30,
+            "attackChance": 15
         }
     ]
 }

@@ -4,34 +4,34 @@
     "title": {"color": [174, 196, 173]},
     "description": "Forged from damascus steel. The outstanding sharpness of this blade is the point of damascus.",
     "inShop": true,
-    "price": 700,
+    "price": 800,
     "levelRequirement": 15,
     "abilities": [
         {
             "id": "slash",
-            "minDamage": 25,
-            "maxDamage": 35,
+            "minDamage": 28,
+            "maxDamage": 30,
             "critMulti": 0.6,
-            "critChance": 15,
+            "critChance": 25,
             "hitChance": 100,
             "cooldown": 0
         },
         {
             "id": "cleave",
-            "minDamage": 30,
-            "maxDamage": 40,
+            "minDamage": 32,
+            "maxDamage": 36,
             "critMulti": 0.75,
-            "critChance": 20,
+            "critChance": 30,
             "hitChance": 85,
             "cooldown": 3
         },
         {
             "id": "piercing_strike",
-            "minDamage": 50,
-            "maxDamage": 60,
+            "minDamage": 36,
+            "maxDamage": 42,
             "critMulti": 0.8,
-            "critChance": 25,
-            "hitChance": 65,
+            "critChance": 35,
+            "hitChance": 75,
             "cooldown": 5
         }
     ]

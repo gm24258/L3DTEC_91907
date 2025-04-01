@@ -9,10 +9,10 @@
     "abilities": [
         {
             "id": "slash",
-            "minDamage": 12,
-            "maxDamage": 15,
+            "minDamage": 9,
+            "maxDamage": 12,
             "critMulti": 0.6,
-            "critChance": 12,
+            "critChance": 15,
             "hitChance": 100,
             "cooldown": 0
         }

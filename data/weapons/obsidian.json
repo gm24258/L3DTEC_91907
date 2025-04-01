@@ -9,10 +9,10 @@
     "abilities": [
         {
             "id": "swifter_slashes",
-            "minDamage": 30,
+            "minDamage": 36,
             "maxDamage": 40,
             "critMulti": 0.65,
-            "critChance": 20,
+            "critChance": 30,
             "hitChance": 100,
             "cooldown": 0
         },
@@ -21,18 +21,18 @@
             "minDamage": 40,
             "maxDamage": 50,
             "critMulti": 0.7,
-            "critChance": 25,
+            "critChance": 35,
             "hitChance": 85,
-            "cooldown": 4
+            "cooldown": 3
         },
         {
             "id": "eruption",
-            "minDamage": 65,
-            "maxDamage": 75,
+            "minDamage": 45,
+            "maxDamage": 60,
             "critMulti": 0.75,
-            "critChance": 30,
-            "hitChance": 50,
-            "cooldown": 6
+            "critChance": 40,
+            "hitChance": 65,
+            "cooldown": 5
         }
     ]
 }

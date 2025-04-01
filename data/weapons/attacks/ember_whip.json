@@ -2,7 +2,7 @@
     "name": "EMBER WHIP",
     "id": "ember_whip",
     "title": {"color": [80, 50, 117]},
-    "description": "Unleashes a fiery lash, scorching everything in its path, dealing {minDamage}-{maxDamage} damage.",
+    "description": "Unleashes a fiery lash, scorching everything in its path, dealing {minDamage}-{maxDamage} damage. Has a {missChance}% to miss.",
     "messages": {
         "start": [
             "{attack_name} cracks through the air, a streak of fiery energy trailing behind it.",
@@ -11,16 +11,16 @@
             "With a burst of flame, {attack_name} is unleashed, crackling with fiery energy."
         ],
         "hit": [
-            "{attack_name} strikes {enemy_name}, the whip searing their flesh with fiery force.",
-            "The flames from {attack_name} scorch {enemy_name}, leaving a burn across their body.",
-            "A fiery lash from {attack_name} finds its mark, leaving {enemy_name} scorched.",
-            "The ember lash of {attack_name} hits {enemy_name}, setting them alight with pain."
+            "{attack_name} strikes {enemy_name} for {damage} damage, the whip searing their flesh with fiery force.",
+            "The flames from {attack_name} scorch {enemy_name} for {damage} damage, leaving a burn across their body.",
+            "A fiery lash from {attack_name} finds its mark, dealing {damage} damage and leaving {enemy_name} scorched.",
+            "The ember lash of {attack_name} hits {enemy_name} for {damage} damage, setting them alight with pain."
         ],
         "crit": [
-            "A massive burst of flame erupts from {attack_name}, engulfing {enemy_name} in fiery wrath!",
-            "With explosive fury, {attack_name} lashes out, causing {enemy_name} to burn with intense heat.",
-            "The whip crackles with fiery power, sending a wave of fire crashing into {enemy_name}.",
-            "A fiery torrent explodes as {attack_name} strikes with devastating force, overwhelming {enemy_name}."
+            "A massive burst of flame erupts from {attack_name}, engulfing {enemy_name} in {damage} damage of fiery wrath!",
+            "With explosive fury, {attack_name} lashes out, dealing {damage} critical damage as {enemy_name} burns with intense heat!",
+            "The whip crackles with fiery power, sending a wave of fire crashing into {enemy_name} for {damage} devastating damage!",
+            "A fiery torrent explodes as {attack_name} strikes with {damage} damage, overwhelming {enemy_name} completely!"
         ],
         "miss": [
             "{attack_name} whips through the air, but {enemy_name} narrowly avoids the fiery lash.",

@@ -5,28 +5,28 @@
     "description": "I AM VENGEANCE. Imbue your weapon in dragon flames and strike with a staggering {minDamage}-{maxDamage} damage, with a {missChance}% chance to miss.",
     "messages": {
         "start": [
-            "{attack_name} cracks through the air, a streak of fiery energy trailing behind it.",
-            "A wave of intense heat surrounds the whip as {attack_name} is unleashed.",
-            "The air grows warm as {attack_name} ignites, ready to lash at {enemy_name}.",
-            "With a burst of flame, {attack_name} is unleashed, crackling with fiery energy."
+            "Your weapon erupts in azure dragonfire as you prepare to deliver {attack_name} upon {enemy_name}.",
+            "The air shimmers with heat as draconic power coalesces around your weapon - {enemy_name} will know {attack_name}",
+            "A deep roar echoes as your blade ignites with primordial flames. {enemy_name} stands between you and {attack_name}",
+            "The ground trembles as you channel ancient dragon wrath into your weapon. {enemy_name} will pay."
         ],
         "hit": [
-            "{attack_name} strikes {enemy_name}, the whip searing their flesh with fiery force.",
-            "The flames from {attack_name} scorch {enemy_name}, leaving a burn across their body.",
-            "A fiery lash from {attack_name} finds its mark, leaving {enemy_name} scorched.",
-            "The ember lash of {attack_name} hits {enemy_name}, setting them alight with pain."
+            "{attack_name} strikes true! Your dragonfire-wreathed weapon crashes into {enemy_name} for {damage} catastrophic damage!",
+            "The azure flames of {attack_name} consume {enemy_name}, dealing {damage} searing damage as they scream in agony!",
+            "Like a dragon's wrath made manifest, your attack engulfs {enemy_name} in {damage} points of purifying flame!",
+            "{enemy_name} is bathed in dragonfire as {attack_name} claims its due, dealing {damage} devastating damage!"
         ],
         "crit": [
-            "A massive burst of flame erupts from {attack_name}, engulfing {enemy_name} in fiery wrath!",
-            "With explosive fury, {attack_name} lashes out, causing {enemy_name} to burn with intense heat.",
-            "The whip crackles with fiery power, sending a wave of fire crashing into {enemy_name}.",
-            "A fiery torrent explodes as {attack_name} strikes with devastating force, overwhelming {enemy_name}."
+            "THE DRAGON'S WRATH IS COMPLETE! {attack_name} detonates against {enemy_name} for {damage} CRUSHING DAMAGE!",
+            "A cataclysmic explosion of azure fire erupts as {attack_name} critically annihilates {enemy_name} for {damage} DAMAGE!",
+            "The very air ignites as your {attack_name} becomes absolute, incinerating {enemy_name} for {damage} UNHOLY DAMAGE!",
+            "REPENTANCE COMES IN FLAMES! {attack_name} delivers a {damage} DAMAGE CRITICAL STRIKE that shakes the earth!"
         ],
         "miss": [
-            "{attack_name} whips through the air, but {enemy_name} narrowly avoids the fiery lash.",
-            "The flames from {attack_name} lash out, but {enemy_name} dodges just in time.",
-            "{attack_name} strikes the air with a fiery crack, but {enemy_name} evades the flames.",
-            "The ember whip misses as {enemy_name} nimbly steps out of its fiery path."
+            "{attack_name} SLIPS THROUGH YOUR FINGERS! The dragonfire dissipates harmlessly past {enemy_name}!",
+            "The flames of {attack_name} roar past {enemy_name}, leaving only scorched earth where justice should have been!",
+            "{enemy_name} narrowly escapes the dragon's wrath as {attack_name} fails to find its mark!",
+            "The azure fire sputters and dies - {attack_name} has been denied this time against {enemy_name}!"
         ]
     }
 }

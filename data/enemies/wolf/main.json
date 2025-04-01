@@ -2,7 +2,7 @@
     "name": "Wolf",
     "id": "wolf",
     "title": {"color": [188, 226, 227]},
-    "health": 500,
+    "health": 550,
     "level": 10,
     "boss": false,
     "rewards": {

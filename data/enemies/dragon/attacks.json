@@ -4,41 +4,41 @@
             "name": "Fire Breath",
             "id": "fire_breath",
             "title": {"style": "bold", "color": [98, 0, 255]},
-            "minDamage": 150,
-            "maxDamage": 250,
-            "critMulti": 2,
-            "critChance": 0.2,
-            "attackChance": 20
+            "minDamage": 78,
+            "maxDamage": 92,
+            "critMulti": 0.66,
+            "critChance": 25,
+            "attackChance": 10
         },
         {
             "name": "Claw Swipe",
             "id": "claw_swipe",
             "title": {"style": "bold", "color": [208, 200, 219]},
-            "minDamage": 120,
-            "maxDamage": 200,
-            "critMulti": 1.5,
-            "critChance": 0.15,
-            "attackChance": 30
+            "minDamage": 56,
+            "maxDamage": 68,
+            "critMulti": 0.57,
+            "critChance": 20,
+            "attackChance": 20
         },
         {
             "name": "Tail Whip",
             "id": "tail_whip",
             "title": {"color": [208, 200, 219]},
-            "minDamage": 80,
-            "maxDamage": 120,
-            "critMulti": 1.3,
-            "critChance": 0.1,
-            "attackChance": 40
+            "minDamage": 45,
+            "maxDamage": 54,
+            "critMulti": 0.46,
+            "critChance": 15,
+            "attackChance": 25
         },
         {
             "name": "Ground Stomp",
             "id": "ground_stomp",
             "title": {"color": [208, 200, 219]},
-            "minDamage": 60,
-            "maxDamage": 100,
-            "critMulti": 1.05,
-            "critChance": 0.05,
-            "attackChance": 80
+            "minDamage": 36,
+            "maxDamage": 48,
+            "critMulti": 0.32,
+            "critChance": 10,
+            "attackChance": 60
         }
     ]
 }
