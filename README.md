@@ -23,7 +23,7 @@
 
 ## How to Play
 - Run `main.py` in the folder.
-- Control instructions are shown in tooltips to help you navigate the game.
+- Control instructions are shown in tooltips to help you navigate the game. The basic of them all is using arrow keys to navigate through menu options.
 - 'Play' leads you to the play menu, where you can select and choose to fight enemies. These enemies have level requirements so while you can view the stats of them, if you don't meet the level requirement, you cannot fight them.
 - 'Shop' leads you to a menu where you can view available weapons and their stats and abilities. If you meet their price and level requirements, you can purchase them.
 - 'Inventory' leads you to a menu where you can view your owned/purchased weapons and equip them.
