@@ -22,7 +22,17 @@
 - Run the following command to install required libraries: `pip install -r requirements.txt`
 
 ## How to Play
-- Run `main.py` in the folder.
+### In Visual Studio Code
+Open the file with Visual Studio Code and then click the Play button (outlined in red). It should open up the integrated terminal.
+Click on the terminal so you don't accidentally modify the code.
+
+<img src="./images/vsc_run_instruction.png" alt="Visual Studio Code running instructions" width="600">
+
+### In Windows Terminal
+If Windows Terminal is your default terminal app, open the file using Python and it should open up the Windows Terminal.
+
+<img src="./images/windows_run_instruction.png" alt="Windows Terminal running instructions" width="600">
+
 - Control instructions are shown in tooltips to help you navigate the game. The basic one of them all is using arrow keys to navigate through menu options.
 - 'Play' leads you to the play menu, where you can select and choose to fight enemies. These enemies have level requirements so while you can view the stats of them, if you don't meet the level requirement, you cannot fight them.
 - 'Shop' leads you to a menu where you can view available weapons and their stats and abilities. If you meet their price and level requirements, you can purchase them.
